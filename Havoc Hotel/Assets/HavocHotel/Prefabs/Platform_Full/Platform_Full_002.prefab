@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013016067598}
   - 65: {fileID: 65000011427038186}
+  - 65: {fileID: 65000011045985120}
   m_Layer: 0
   m_Name: Platform_Full_002
   m_TagString: Untagged
@@ -316,6 +317,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010720246294}
   m_Mesh: {fileID: 0}
+--- !u!65 &65000011045985120
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010884324200}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 0.01, z: 1}
+  m_Center: {x: 2, y: 0.005, z: 0.5}
 --- !u!65 &65000011427038186
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -327,7 +340,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4, y: 0.2, z: 1}
-  m_Center: {x: 2, y: 1, z: 0.5}
+  m_Center: {x: 2, y: 0.1, z: 0.5}
 --- !u!114 &114000010034531112
 MonoBehaviour:
   m_ObjectHideFlags: 1

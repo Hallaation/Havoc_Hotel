@@ -96,6 +96,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012691181906}
   - 65: {fileID: 65000011922805576}
+  - 65: {fileID: 65000013121073030}
   m_Layer: 0
   m_Name: Platform_Full_010
   m_TagString: Untagged
@@ -880,6 +881,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 12, y: 0.2, z: 1}
   m_Center: {x: 6, y: 0.1, z: 0.5}
+--- !u!65 &65000013121073030
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010813241656}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12, y: 0.01, z: 1}
+  m_Center: {x: 6, y: 0.005, z: 0.5}
 --- !u!114 &114000010174677014
 MonoBehaviour:
   m_ObjectHideFlags: 1
