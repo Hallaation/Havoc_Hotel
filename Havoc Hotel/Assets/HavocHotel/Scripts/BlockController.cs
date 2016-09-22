@@ -21,7 +21,7 @@ public class BlockController : MonoBehaviour
     // public GameObject Prefab2;
     // public GameObject Prefab3;
 
-    public GameObject prefab;
+  //  public GameObject prefab;
 
 
     // Use this for initialization
@@ -36,8 +36,8 @@ public class BlockController : MonoBehaviour
         // Instantiate(prefabList[prefabIndex]);
 
 
-        for (int i = 0; i < 10; i++)
-            Instantiate(prefab, new Vector3(i * 2.0f, 0, 0), Quaternion.identity);
+     //   for (int i = 0; i < 10; i++)
+      //      Instantiate(prefab, new Vector3(i * 2.0f, 0, 0), Quaternion.identity);
     }
 
     void Update()
