@@ -23,7 +23,6 @@ GameObject:
   - 23: {fileID: 23000013847183978}
   - 33: {fileID: 33000013055312666}
   - 114: {fileID: 114000010190939646}
-  - 64: {fileID: 64000010745494046}
   m_Layer: 0
   m_Name: Platform_001_Left_001
   m_TagString: Untagged
@@ -39,6 +38,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000014086241120}
+  - 65: {fileID: 65000011979840032}
+  - 65: {fileID: 65000013429815646}
   m_Layer: 0
   m_Name: Platform_Full_000
   m_TagString: Untagged
@@ -58,7 +59,6 @@ GameObject:
   - 23: {fileID: 23000013028206964}
   - 33: {fileID: 33000010925272722}
   - 114: {fileID: 114000013851748346}
-  - 64: {fileID: 64000012025966656}
   m_Layer: 0
   m_Name: Platform_002_Right_001
   m_TagString: Untagged
@@ -99,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010620840568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -179,30 +179,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010121256894}
   m_Mesh: {fileID: 0}
---- !u!64 &64000010745494046
-MeshCollider:
+--- !u!65 &65000011979840032
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010121256894}
+  m_GameObject: {fileID: 1000010620840568}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 0}
---- !u!64 &64000012025966656
-MeshCollider:
+  m_Size: {x: 2, y: 0.2, z: 1}
+  m_Center: {x: 1, y: 0.1, z: 0.5}
+--- !u!65 &65000013429815646
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011658418520}
+  m_GameObject: {fileID: 1000010620840568}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 0}
+  m_Size: {x: 2, y: 0.2, z: 1}
+  m_Center: {x: 1, y: -0.1, z: 0.5}
 --- !u!114 &114000010190939646
 MonoBehaviour:
   m_ObjectHideFlags: 1
