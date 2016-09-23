@@ -1,42 +1,66 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public class States
+{
+    public enum CharacterState
+    {
+        Ground,
+        Wall
+    }
+}
+
 public class MovementTest : MonoBehaviour
 {
-    const float _SPEED = 10.0f;
-    const int _ROTATION_SPEED = 20;
 
-    const float _JUMP_SPEED = 20.0f;
+    public float m_fMoveSpeed = 1.0f;
+    const int _ROTATION_SPEED = 20; // Not used yet.
 
-    const float _GRAVITY = 100.0f;
+    public float m_fJumpSpeed = 20.0f;
+    public float m_fDoublem_fMoveSpeed = 10;
+    public float m_fGravity = 2.0f;
+    public float m_fWallSlideSpeed = 0.5f;
     public Transform lookAt;
-    bool wentThrough = false;
-    bool disable = true;
+    CharacterController CharacetrController;
+    float timer = 0.0f;
+    private Vector3 movementDirection;
+    private float m_fJumpTimer;
+    bool HasJumped;
+    bool m_bJumpKeyReleased;
+    public bool HasDoubleJumped;
+    public int playerNumber;
+
+    private bool m_bHitWall = false;
+    public States.CharacterState m_cState = States.CharacterState.Ground;
 
     //private Vector3 movementDirection = Vector3.zero;
 
     public GameObject platformController;
 
+    void Start()
+    {
+        CharacetrController = GetComponent<CharacterController>();
+    }
     //update every frame
     //void Update()
     //{
     //    CharacterController temp = GetComponent<CharacterController>();
     //    if (temp.isGrounded || disable)
     //    {
-    //        this.transform.position -= new Vector3(Input.GetAxis(PlayerNumber +"_Horizontal") * Time.deltaTime * _SPEED , 0);
+    //        this.transform.position -= new Vector3(Input.GetAxis(PlayerNumber +"_Horizontal") * Time.deltaTime * m_fm_fMoveSpeed , 0);
     //        if (temp.isGrounded)
     //        {
-    //            if (Input.GetButton(PlayerNumber + "_Fire") && Input.GetAxis(PlayerNumber + "_Vertical") >= 0)
+    //            if (Input.GetButton(PlayerNumber + "_Fire") && Input.GetAxis(PlayerNumber + "_Fire") >= 0)
     //            {
-    //                transform.position += new Vector3(0 , _JUMP_SPEED * Time.deltaTime);
-    //                //movementDirection.y = _JUMP_SPEED;
+    //                transform.position += new Vector3(0 , m_fJumpSpeed * Time.deltaTime);
+    //                //movementDirection.y = m_fJumpSpeed;
     //                //Debug.Log("Jumping");
     //            }
     //        }
     //    }
     //    //timer += Time.deltaTime;
     //    
-    //    movementDirection.y -= _GRAVITY * Time.deltaTime;
+    //    movementDirection.y -= m_fGravity * Time.deltaTime;
     //    temp.Move(movementDirection * Time.deltaTime);
     //
     //    //if (wentThrough)
@@ -48,7 +72,7 @@ public class MovementTest : MonoBehaviour
     //    //    }
     //    //}
     //
-    //    if (Input.GetButton(PlayerNumber + "_Fire") && Input.GetAxis(PlayerNumber + "_Vertical") < 0)
+    //    if (Input.GetButton(PlayerNumber + "_Fire") && Input.GetAxis(PlayerNumber + "_Fire") < 0)
     //    {
     //        //JumpDown();
     //    }
@@ -58,50 +82,105 @@ public class MovementTest : MonoBehaviour
     {
         CharacterController temp = GetComponent<CharacterController>();
 
-        Debug.Log("TRIGGERED");
         Physics.IgnoreCollision(temp , other.GetComponentInParent<Collider>());
-        Debug.Log(other.name);
-        Debug.Log(GetComponent<Collider>().name);
+
 
     }
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
         CharacterController temp = GetComponent<CharacterController>();
-        Physics.IgnoreCollision(temp , other.GetComponentInParent<Collider>(), false);
+        Physics.IgnoreCollision(temp , other.GetComponentInParent<Collider>() , false);
     }
 
 
-    private bool m_bFlag = false;
-    float timer = 0.0f;
-    private Vector3 movementDirection;
-    private float m_fJumpTimer = 0.0f;
-    bool HasJumped;
-    public int playerNumber;
+
     //update every frame
 
     void Update()
     {
 
         CharacterController temp = GetComponent<CharacterController>();
-        if (temp.isGrounded || disable)
+        if (temp.isGrounded)
         {
-            this.transform.position += new Vector3(Input.GetAxis(playerNumber + "_Horizontal") * Time.deltaTime * _SPEED , 0);       // This is the Left/Right movement for X. always set Y to 0.
-            HasJumped = false;
+            OnGround();
+        }
+        switch (m_cState)
+        {
+            case States.CharacterState.Ground:
+                OnGround();
+                break;
+            case (States.CharacterState.Wall):
+                if (!temp.isGrounded)
+                {
+                    m_bHitWall = true;
+                    WallSlide();
+                }
+                movementDirection.x = 0;
+                
+                break;
+            default:
+                OnGround();
+                break;
+        }
 
+
+    }
+
+
+    void OnGround()
+    {
+        if (Input.GetAxis(playerNumber + ("_Horizontal")) > 0)
+        {
+            this.transform.rotation = Quaternion.Euler(0,-90,0);
+        }
+        else if (Input.GetAxis(playerNumber + ("_Horizontal")) < 0)
+        {
+            this.transform.rotation = Quaternion.Euler(0 , 90 , 0);
+        }
+        CharacterController temp = GetComponent<CharacterController>();
+        if (temp.isGrounded)
+        {
+            // This is the Left/Right movement for X. always set Y to 0.
+            HasJumped = false;
+            HasDoubleJumped = false;
 
 
             if (temp.isGrounded)
             {
                 m_fJumpTimer = 0.0f;
-                if (Input.GetButton("5_Vertical"))
-                {
 
-                    movementDirection.y = _JUMP_SPEED;
-                    UnityEngine.Debug.Log("Jumping");
+
+                if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
+                {
+                    //Debug.Break();
+                    movementDirection.y = m_fJumpSpeed;
                     HasJumped = true;
                 }
             }
+        }
+
+        if (HasJumped)
+        {
+            m_fJumpTimer += Time.deltaTime;
+            //UnityEngine.Debug.Log(m_fJumpTimer.ToString());
+            if (m_fJumpTimer > 0.300)
+            {
+                if (Input.GetButtonUp(playerNumber + "_Fire"))
+                {
+                    m_bJumpKeyReleased = true;
+                }
+                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
+                {
+                    movementDirection.y = m_fJumpSpeed;
+                    HasDoubleJumped = true;
+                }
+            }
+        }
+
+        if (!HasDoubleJumped)
+        {
+
         }
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
@@ -111,19 +190,21 @@ public class MovementTest : MonoBehaviour
 
         //}
 
-
+        temp.Move(new Vector3(Input.GetAxis(playerNumber + "_Horizontal") * -Time.deltaTime * m_fMoveSpeed , 0));
         temp.Move(movementDirection * Time.deltaTime);
+        movementDirection.y -= m_fGravity;
+        //if (movementDirection.y > 0.0f)
+        //{
+        //    UnityEngine.Debug.Log("movement dir y > 0");
+        //    this.transform.position += new Vector3(0 , m_fm_fMoveSpeed * Time.deltaTime);
 
-        if (movementDirection.y > 0)
-        {
-            UnityEngine.Debug.Log("movement dir y > 0");
-            this.transform.position += new Vector3(0 , _SPEED * Time.deltaTime);
-        }
-        if (movementDirection.y == 0.0f)
-        {
-            this.transform.position += new Vector3(0 , _SPEED * Time.deltaTime);
-            UnityEngine.Debug.Log("movement dir y == 0");
-        }
+        //}
+        //if (movementDirection.y == 0.0f && temp.isGrounded)    // Is always true. Does not work not sure why.
+        //{
+        //    this.transform.position += new Vector3(0 , m_fm_fMoveSpeed * Time.deltaTime);
+        //    UnityEngine.Debug.Log("movement dir y == 0");
+
+        //}
         //if (wentThrough)
         //{
         //    foreach (Collider i in platformController.GetComponentsInChildren<Collider>())
@@ -133,18 +214,40 @@ public class MovementTest : MonoBehaviour
         //    }
         //}
     }
-    
-    //this is where the collision is ignored. once the player hits a platform with the name "platform" in it the collisions for the player and this collider are ignored. which are re enabled later after the trigger exit
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        CharacterController temp = GetComponent<CharacterController>();
 
+    void WallSlide()
+    {
+        m_bHitWall = true;
+        if (m_bHitWall)
+        {
+            float tempGravity = m_fWallSlideSpeed;
+            CharacterController temp = GetComponent<CharacterController>();
+            Debug.Log("Trying to wall slide");
+            movementDirection.y = -tempGravity;
+            temp.Move(movementDirection * Time.deltaTime);
+
+            if (Input.GetButtonDown(playerNumber + "_Fire"))
+            {
+
+                WallJump();
+            }
+
+        }
+        else
+        {
+            movementDirection.y = 0;
+        }
     }
 
 
-    void JumpDown()
+    void WallJump()
     {
-        Debug.Log("Jumped down");
-
+        Debug.Log("Trying to jump");
+        //movementDirection.y = m_fJumpSpeed;
+        //HasJumped = true;
+        movementDirection.x = 10;
+        movementDirection.y += 20;
+        CharacetrController.Move(Vector3.up * Time.deltaTime * m_fJumpSpeed);
     }
+
 }
