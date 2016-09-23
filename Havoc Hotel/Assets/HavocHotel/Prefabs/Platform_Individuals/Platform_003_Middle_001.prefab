@@ -23,7 +23,6 @@ GameObject:
   - 23: {fileID: 23000011773155900}
   - 33: {fileID: 33000010951242806}
   - 114: {fileID: 114000010320408258}
-  - 64: {fileID: 64000011018208582}
   m_Layer: 0
   m_Name: Platform_003_Middle_001
   m_TagString: Untagged
@@ -38,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011471553276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -80,18 +79,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011471553276}
   m_Mesh: {fileID: 0}
---- !u!64 &64000011018208582
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011471553276}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 0}
 --- !u!114 &114000010320408258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,8 +113,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      localPivot: {x: 0.5, y: 0.1}
-      localSize: {x: 1, y: 0.2}
+      localPivot: {x: 0.5, y: 0.030790903}
+      localSize: {x: 1, y: 0.061581805}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     manualUV: 0
     elementGroup: -1
@@ -154,8 +141,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      localPivot: {x: 0.5, y: 0.1}
-      localSize: {x: 1, y: 0.2}
+      localPivot: {x: 0.5, y: 0.030790903}
+      localSize: {x: 1, y: 0.061581805}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     manualUV: 0
     elementGroup: -1
@@ -182,8 +169,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      localPivot: {x: 0.5, y: 0.1}
-      localSize: {x: 1, y: 0.2}
+      localPivot: {x: 0.5, y: 0.030790903}
+      localSize: {x: 1, y: 0.061581805}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     manualUV: 0
     elementGroup: -1
@@ -210,8 +197,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      localPivot: {x: 0.5, y: 0.1}
-      localSize: {x: 1, y: 0.2}
+      localPivot: {x: 0.5, y: 0.030790903}
+      localSize: {x: 1, y: 0.061581805}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     manualUV: 0
     elementGroup: -1
@@ -284,24 +271,24 @@ MonoBehaviour:
   _vertices:
   - {x: 0, y: 0, z: 0}
   - {x: 1, y: 0, z: 0}
-  - {x: 0, y: 0.2, z: 0}
-  - {x: 1, y: 0.2, z: 0}
+  - {x: 0, y: 0.061581805, z: 0}
+  - {x: 1, y: 0.061581805, z: 0}
   - {x: 1, y: 0, z: 0}
   - {x: 1, y: 0, z: -1}
-  - {x: 1, y: 0.2, z: 0}
-  - {x: 1, y: 0.2, z: -1}
+  - {x: 1, y: 0.061581805, z: 0}
+  - {x: 1, y: 0.061581805, z: -1}
   - {x: 1, y: 0, z: -1}
   - {x: 0, y: 0, z: -1}
-  - {x: 1, y: 0.2, z: -1}
-  - {x: 0, y: 0.2, z: -1}
+  - {x: 1, y: 0.061581805, z: -1}
+  - {x: 0, y: 0.061581805, z: -1}
   - {x: 0, y: 0, z: -1}
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0.2, z: -1}
-  - {x: 0, y: 0.2, z: 0}
-  - {x: 0, y: 0.2, z: 0}
-  - {x: 1, y: 0.2, z: 0}
-  - {x: 0, y: 0.2, z: -1}
-  - {x: 1, y: 0.2, z: -1}
+  - {x: 0, y: 0.061581805, z: -1}
+  - {x: 0, y: 0.061581805, z: 0}
+  - {x: 0, y: 0.061581805, z: 0}
+  - {x: 1, y: 0.061581805, z: 0}
+  - {x: 0, y: 0.061581805, z: -1}
+  - {x: 1, y: 0.061581805, z: -1}
   - {x: 0, y: 0, z: -1}
   - {x: 1, y: 0, z: -1}
   - {x: 0, y: 0, z: 0}
@@ -309,20 +296,20 @@ MonoBehaviour:
   _uv:
   - {x: 1, y: 0}
   - {x: 0, y: 0}
-  - {x: 1, y: 0.2}
-  - {x: 0, y: 0.2}
+  - {x: 1, y: 0.061581805}
+  - {x: 0, y: 0.061581805}
   - {x: 1, y: 0}
   - {x: 0, y: 0}
-  - {x: 1, y: 0.2}
-  - {x: 0, y: 0.2}
+  - {x: 1, y: 0.061581805}
+  - {x: 0, y: 0.061581805}
   - {x: 1, y: 0}
   - {x: 0, y: 0}
-  - {x: 1, y: 0.2}
-  - {x: 0, y: 0.2}
+  - {x: 1, y: 0.061581805}
+  - {x: 0, y: 0.061581805}
   - {x: 1, y: 0}
   - {x: 0, y: 0}
-  - {x: 1, y: 0.2}
-  - {x: 0, y: 0.2}
+  - {x: 1, y: 0.061581805}
+  - {x: 0, y: 0.061581805}
   - {x: 0, y: 1}
   - {x: 1, y: 1}
   - {x: 0, y: 0}
