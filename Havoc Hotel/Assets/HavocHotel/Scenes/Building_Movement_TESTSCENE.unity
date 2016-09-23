@@ -152,6 +152,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 201911074}
   - 114: {fileID: 201911075}
+  - 114: {fileID: 201911076}
   m_Layer: 0
   m_Name: Level_Section_Spawner
   m_TagString: Untagged
@@ -184,7 +185,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fOverworldSpeed: 0
-  prefab: {fileID: 0}
+--- !u!114 &201911076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 201911073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fLevelSpeed: 1
+  m_fSpeedIncrease: 1.1
+  refController: {fileID: 0}
 --- !u!1 &1298048779
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,11 +278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f76684416760f45a263dd6dbb3f6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fDown: 5
-  fSpeed: 50
-  fStartLoc: 16
-  fAngle: -45
-  toDegrees: 0.017453292
 --- !u!114 &1351410398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +373,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1732553908}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 6, z: 12.49}
+  m_LocalPosition: {x: 0, y: 6, z: 9.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children: []
@@ -375,7 +384,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-31708
+  m_Name: pb_Mesh9782
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
