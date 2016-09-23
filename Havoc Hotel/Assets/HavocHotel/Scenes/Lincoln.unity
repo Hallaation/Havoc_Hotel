@@ -795,7 +795,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-11112
+  m_Name: pb_Mesh-1468
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -2402,7 +2402,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-126668
+  m_Name: pb_Mesh-1808
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -3384,6 +3384,51 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
+--- !u!1 &890131299 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010277411102, guid: e95f0347379baa24584537374e7c861c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2001702003}
+--- !u!114 &890131301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 890131299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12807cd2bcacb8241b511e5b0c1aafa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fMoveSpeed: 2
+  m_fJumpForce: 25
+  m_fDoubleJumpMoveForce: 20
+  m_fGravity: 2
+  lookAt: {fileID: 0}
+  movementDirection: {x: 0, y: 0, z: 0}
+  HasDoubleJumped: 0
+  playerNumber: 0
+  m_fGroundedTime: 0
+  m_bAllowDoubleJumpAlways: 0
+  m_fMaxFallSpeed: 25
+  platformController: {fileID: 0}
+--- !u!143 &890131305
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 890131299}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1
+  m_Radius: 0.3554885
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &960681489
 Prefab:
   m_ObjectHideFlags: 0
@@ -3397,7 +3442,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000013760989492, guid: bae43a96b732f974a86d7e79fc054f4c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4000013760989492, guid: bae43a96b732f974a86d7e79fc054f4c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -5918,7 +5963,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-126102
+  m_Name: pb_Mesh-980
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -6334,7 +6379,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000013598247464, guid: 72bfda6db806c74418486aaa7ba66ea6, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 33000010622568106, guid: 72bfda6db806c74418486aaa7ba66ea6,
         type: 2}
@@ -6397,50 +6442,24 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4000011313457230, guid: e95f0347379baa24584537374e7c861c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 2.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000014230531946, guid: e95f0347379baa24584537374e7c861c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.011
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 65000012417588150, guid: e95f0347379baa24584537374e7c861c, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &2096615486 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013626247066, guid: e95f0347379baa24584537374e7c861c,
-    type: 2}
-  m_PrefabInternal: {fileID: 2001702003}
---- !u!143 &2096615491
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2096615486}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2096615492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2096615486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12807cd2bcacb8241b511e5b0c1aafa2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lookAt: {fileID: 0}
-  platformController: {fileID: 0}
 --- !u!43 &2098128753
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh-126352
+  m_Name: pb_Mesh-1212
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
