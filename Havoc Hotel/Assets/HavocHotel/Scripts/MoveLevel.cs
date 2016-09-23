@@ -8,16 +8,32 @@ public class MoveLevel : MonoBehaviour
 
     public BlockController refController;
 
+
     // Use this for initialization
     void Start()
     {
 
     }
-
     // Update is called once per frame
     void Update()
     {
+        //transform.position = new Vector3(Mathf.Clamp(Time.time, 0.0F, 3.0F), 0, 0);
 
-        transform.Translate(Vector3.down * refController.m_fOverworldSpeed * Time.deltaTime / 25);
+        m_fLevelSpeed += Time.deltaTime;
+
+        transform.Translate(Vector3.down * refController.m_fOverworldSpeed * Time.deltaTime);
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Finish")
+        {
+            Debug.Log("triggered");
+            Destroy(this.gameObject);
+            //refController.Spawn();
+        }
+    }
+
+   
+
 }

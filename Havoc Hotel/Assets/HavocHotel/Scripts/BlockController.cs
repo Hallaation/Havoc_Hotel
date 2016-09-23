@@ -3,49 +3,49 @@ using System.Collections;
 
 public class BlockController : MonoBehaviour
 {
+    public float m_fOtherSpeed;
     public float m_fOverworldSpeed;
+    float m_fTimer = 0;
+    public float m_fSpawnTimer = 1.0f;
 
-    //  public static Object prefab = Resources.Load("HavocHotel/Prefabs/Levels/Level_001");
-    //  public static BlockController Create()
-    //  {
-    //      GameObject newObject = Instantiate(prefab) as GameObject;
-    //      BlockController yourObject = newObject.GetComponent<BlockController>();
-    //      //do additional initialization steps here
-    //      return yourObject;
-    //  }
-    //
-
-
-    // List<GameObject> prefabList = new List<GameObject>();
-    // public GameObject Prefab1;
-    // public GameObject Prefab2;
-    // public GameObject Prefab3;
-
-  //  public GameObject prefab;
-
+    public BlockController refBlockDestroyer;
+    public GameObject[] m_LevelChunk;
 
     // Use this for initialization
     void Start()
     {
-        m_fOverworldSpeed = 0.0f;
-        // prefabList.Add(Prefab1);
-        // prefabList.Add(Prefab2);
-        // prefabList.Add(Prefab3);
-        //
-        // int prefabIndex = UnityEngine.Random.Range(0, 3);
-        // Instantiate(prefabList[prefabIndex]);
 
+        //m_fOverworldSpeed = 0.0f;
 
-     //   for (int i = 0; i < 10; i++)
-      //      Instantiate(prefab, new Vector3(i * 2.0f, 0, 0), Quaternion.identity);
+        //transform.position = transform.position - Vector3.up * /*fSpeed*/m_fOverworldSpeed;
     }
 
+    // Update is called once per frame
     void Update()
     {
+
         m_fOverworldSpeed += Time.deltaTime;
+        //m_fSpawnTimer /= 1.59f;
+    //m_fTimer has to account for level speed change
+    m_fTimer += Time.deltaTime;
+
+        if (m_fTimer >= m_fSpawnTimer)
+        {
+            m_fTimer -= m_fSpawnTimer;
+
+        int iRandIndex = Random.Range(0, m_LevelChunk.Length);
+        GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject;
+        //m_fOverworldSpeed += go.GetComponent<MoveLevel>().m_fSpeedIncrease;
+        go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOtherSpeed;
+        go.GetComponent<MoveLevel>().refController = this;
+        }
     }
+
+    
+
+
 }
 
-// Update is called once per frame
+
 
 
