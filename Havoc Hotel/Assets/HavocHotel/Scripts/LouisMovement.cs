@@ -25,34 +25,38 @@ public class LouisMovement : MonoBehaviour {
     public float m_fMaxFallSpeed = 25.0f; //maximum downfall momentum
 
     public CStates m_cState;
-    private float m_fWallSlideSpeed; //wall sliding speed
+    public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     private bool m_bHitWall; //checks to see if the wall was hit or not.
+
+    /// <summary>
+    /// Wall jumping forces, higher value for bigger push force, lower for less
+    /// </summary>
+    public float m_fHorizontalWallJumpForce;
+    public float m_fVerticalWallJumpForce;
 
     private CharacterController m_cCharacterController; //character controller reference
 
     public GameObject platformController;
     void Start()
     {
+        //have the charactercontroller variable reference something
         m_cCharacterController = GetComponent<CharacterController>();
     }
 
 
     void OnTriggerEnter(Collider other)
     {
-        CharacterController temp = GetComponent<CharacterController>();
 
-        Debug.Log("TRIGGERED");
-        Physics.IgnoreCollision(temp , other.GetComponentInParent<Collider>());
-        Debug.Log(other.name);
-        Debug.Log(GetComponent<Collider>().name);
+        Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>());
+
+
 
     }
 
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
-        CharacterController temp = GetComponent<CharacterController>();
-        Physics.IgnoreCollision(temp , other.GetComponentInParent<Collider>() , false);
+        Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>() , false);
     }
 
 
@@ -61,9 +65,43 @@ public class LouisMovement : MonoBehaviour {
     //Lincoln's messy code
     void Update()
     {
+        switch (m_cState)
+        {
+            case CStates.OnFloor:
+                OnFloor();
+                break;
+            case CStates.OnWall:
+                if (!m_cCharacterController.isGrounded)
+                {
+                    WallSlide();
+                }
+                else
+                {
+                    OnFloor();
+                }
+                break;
+            default:
+                OnFloor();
+                break;
+        }
+        Debug.Log(transform.rotation.eulerAngles.y);
+    }
+    //-------------------------------------------------------------------------------------------------------------------------------------//
+    //on floor movement
+    void OnFloor()
+    {
 
-        CharacterController temp = GetComponent<CharacterController>();
-        if (temp.isGrounded)
+        if (Input.GetAxis(playerNumber + "_Horizontal") > 0)
+        {
+            //x y z
+            transform.rotation = Quaternion.Euler(0 , -90 , 0);
+        }
+        else if (Input.GetAxis(playerNumber + "_Horizontal") < 0)
+        {
+            transform.rotation = Quaternion.Euler(0 , 90 , 0);
+        }
+
+        if (m_cCharacterController.isGrounded)
         {
             // This is the Left/Right movement for X. always set Y to 0.
             HasJumped = false;
@@ -74,28 +112,27 @@ public class LouisMovement : MonoBehaviour {
                 movementDirection.y = 0.01f;
             }
 
-            UnityEngine.Debug.Log("IsGrounded"); // UnityEngine.Debug.Log just sends the developer a message when this line is reached. Displayed in the Unity Client.
-            if (temp.isGrounded)
+
+            if (m_cCharacterController.isGrounded)
             {
                 m_fJumpTimer = 0.0f;
-                UnityEngine.Debug.Log("IsGrounded2");
+
 
                 if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
                 {
 
                     movementDirection.y = m_fJumpForce;
 
-                    UnityEngine.Debug.Log("Jumping");
+
                     HasJumped = true;
                 }
             }
         }
 
-        if (!temp.isGrounded)
+        if (!m_cCharacterController.isGrounded)
         {
-            UnityEngine.Debug.Log("HasJumped");
+
             m_fJumpTimer += Time.deltaTime;
-            UnityEngine.Debug.Log(m_fJumpTimer.ToString());
             if (m_fJumpTimer > 0.017)
             {
                 if (Input.GetButtonUp(playerNumber + "_Fire"))
@@ -105,7 +142,7 @@ public class LouisMovement : MonoBehaviour {
                 if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
                 {
                     movementDirection.y = m_fDoubleJumpMoveForce;
-                    UnityEngine.Debug.Log("HasDoubleJumped");
+
                     HasDoubleJumped = true;
                 }
             }
@@ -123,7 +160,7 @@ public class LouisMovement : MonoBehaviour {
 
         //}
 
-        //if (temp.isGrounded && Input.GetAxis(playerNumber + "_Horizontal") > 100)
+        //if (m_cCharacterController.isGrounded && Input.GetAxis(playerNumber + "_Horizontal") > 100)
         //{
         //    movementDirection.x = m_fMoveSpeed;
         //}
@@ -132,14 +169,14 @@ public class LouisMovement : MonoBehaviour {
         {
             movementDirection.y = -m_fMaxFallSpeed;
         }
-        movementDirection.x += (m_fMoveSpeed * Input.GetAxis(playerNumber + "_Horizontal"));
+        movementDirection.x -= (m_fMoveSpeed * Input.GetAxis(playerNumber + "_Horizontal"));
         if (movementDirection.x > 0.0f)
         {
             movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
         }
 
 
-
+        //TODO: somehow clean this up.
         if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
         {
             movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
@@ -166,16 +203,16 @@ public class LouisMovement : MonoBehaviour {
         //{
         //    movementDirection.x = -m_fMoveSpeed;
         //}
-        temp.Move(new Vector3(Time.deltaTime * movementDirection.x , movementDirection.y * Time.deltaTime));
-        //temp.Move(movementDirection * Time.deltaTime);
-        Debug.Log("FramesPassed");
+        m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x , movementDirection.y * Time.deltaTime));
+        //m_cCharacterController.Move(movementDirection * Time.deltaTime);
+
         //if (movementDirection.y > 0.0f)
         //{
         //    UnityEngine.Debug.Log("movement dir y > 0");
         //    this.transform.position += new Vector3(0 , m_fm_fMoveSpeed * Time.deltaTime);
 
         //}
-        //if (movementDirection.y == 0.0f && temp.isGrounded)    // Is always true. Does not work not sure why.
+        //if (movementDirection.y == 0.0f && m_cCharacterController.isGrounded)    // Is always true. Does not work not sure why.
         //{
         //    this.transform.position += new Vector3(0 , m_fm_fMoveSpeed * Time.deltaTime);
         //    UnityEngine.Debug.Log("movement dir y == 0");
@@ -185,24 +222,10 @@ public class LouisMovement : MonoBehaviour {
         //{
         //    foreach (Collider i in platformController.GetComponentsInChildren<Collider>())
         //    {
-        //        Physics.IgnoreCollision(temp , i , false);
+        //        Physics.IgnoreCollision(m_cCharacterController , i , false);
         //        UnityEngine.Debug.Log(i.name);
         //    }
         //}
-    }
-    //-------------------------------------------------------------------------------------------------------------------------------------//
-    //useless remove it.
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        CharacterController temp = GetComponent<CharacterController>();
-
-    }
-    //-------------------------------------------------------------------------------------------------------------------------------------//
-    //useless be sure to remove
-    void JumpDown()
-    {
-        Debug.Log("Jumped down");
-
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //If the wall is hit, the character will slide slowly on the wall.
@@ -212,15 +235,14 @@ public class LouisMovement : MonoBehaviour {
         if (m_bHitWall)
         {
             float tempGravity = m_fWallSlideSpeed;
-            CharacterController temp = GetComponent<CharacterController>();
-            Debug.Log("Trying to wall slide");
+
             movementDirection.y = -tempGravity;
-            temp.Move(movementDirection * Time.deltaTime);
+            m_cCharacterController.Move(movementDirection * Time.deltaTime);
 
             if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
-
                 WallJump();
+                //movementDirection = Vector3.zero;
             }
 
         }
@@ -235,11 +257,23 @@ public class LouisMovement : MonoBehaviour {
     //TODO:// move in opposite direction, currently only moves up
     void WallJump()
     {
-        Debug.Log("Trying to jump");
+
         //movementDirection.y = m_fJumpSpeed;
         //HasJumped = true;
-        movementDirection.x = 10;
-        movementDirection.y += 20;
-        m_cCharacterController.Move(Vector3.up * Time.deltaTime * m_fJumpForce);
+        if (transform.rotation.eulerAngles.y >= 1.0f && transform.rotation.eulerAngles.y <= 91.0f)
+        {
+            movementDirection.x = -m_fHorizontalWallJumpForce;
+            movementDirection.y = m_fVerticalWallJumpForce;
+            //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
+            m_cCharacterController.Move(movementDirection * Time.deltaTime);
+        }
+        else if (transform.rotation.eulerAngles.y >= 181.0f && transform.rotation.eulerAngles.y <= 271.0f)
+        {
+            Debug.Log(transform.rotation.eulerAngles.y);
+            movementDirection.x = m_fHorizontalWallJumpForce;
+            movementDirection.y = m_fVerticalWallJumpForce;
+            //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
+            m_cCharacterController.Move(movementDirection * Time.deltaTime);
+        }
     }
 }
