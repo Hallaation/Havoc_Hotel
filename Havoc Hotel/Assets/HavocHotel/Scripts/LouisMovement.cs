@@ -1,14 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum CStates
-{
-    OnFloor,
-    OnWall
-}
+public class LouisMovement : MonoBehaviour {
 
-public class MovementTest : MonoBehaviour
-{
     //declaring variables
     public float m_fMoveSpeed = 1.0f;
     const int _ROTATION_SPEED = 20; // Not used yet.
@@ -29,7 +23,7 @@ public class MovementTest : MonoBehaviour
     public float m_fGroundedTime;
     public bool m_bAllowDoubleJumpAlways;
     public float m_fMaxFallSpeed = 25.0f; //maximum downfall momentum
- 
+
     public CStates m_cState;
     private float m_fWallSlideSpeed; //wall sliding speed
     private bool m_bHitWall; //checks to see if the wall was hit or not.
