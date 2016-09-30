@@ -5,13 +5,13 @@ public class CharacterStates : MonoBehaviour
 {
     //reference to a movement script
     public LouisMovement m_refMovement;
+
     // Use this for initialization
     void Start()
     {
         //returns to dev if the script is properly being made/instanced
 
     }
-
     //changes character state to wall jumping/sliding
     void OnTriggerEnter(Collider other)
     {

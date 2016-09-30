@@ -36,21 +36,23 @@ public class LouisMovement : MonoBehaviour {
 
     private CharacterController m_cCharacterController; //character controller reference
 
+    public bool m_bIsDead;
     public GameObject platformController;
     void Start()
     {
         //have the charactercontroller variable reference something
         m_cCharacterController = GetComponent<CharacterController>();
+        m_bIsDead = false;
     }
 
 
     void OnTriggerEnter(Collider other)
     {
-
-        Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>());
-
-
-
+        if (other.tag == "Finish")
+        {
+            Debug.Log("Player " + playerNumber + " died!");
+            m_bIsDead = true;
+        }
     }
 
     //once exiting the trigger, the parent's collider will no longer ignore collisions
@@ -65,26 +67,28 @@ public class LouisMovement : MonoBehaviour {
     //Lincoln's messy code
     void Update()
     {
-        switch (m_cState)
+        if (!m_bIsDead)
         {
-            case CStates.OnFloor:
-                OnFloor();
-                break;
-            case CStates.OnWall:
-                if (!m_cCharacterController.isGrounded)
-                {
-                    WallSlide();
-                }
-                else
-                {
+            switch (m_cState)
+            {
+                case CStates.OnFloor:
                     OnFloor();
-                }
-                break;
-            default:
-                OnFloor();
-                break;
+                    break;
+                case CStates.OnWall:
+                    if (!m_cCharacterController.isGrounded)
+                    {
+                        WallSlide();
+                    }
+                    else
+                    {
+                        OnFloor();
+                    }
+                    break;
+                default:
+                    OnFloor();
+                    break;
+            }
         }
-        Debug.Log(transform.rotation.eulerAngles.y);
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //on floor movement
