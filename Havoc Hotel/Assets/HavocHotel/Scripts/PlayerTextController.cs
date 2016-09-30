@@ -1,29 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class PlayerTextController : MonoBehaviour {
-
-    public LouisMovement refPlayer1;
-    public LouisMovement refPlayer2;
-    public LouisMovement refPlayer3;
-    public LouisMovement refPlayer4;
+using System.Collections.Generic;
+public class PlayerTextController : MonoBehaviour
+{
+    public List<LouisMovement> refPlayers;
+    private List<LouisMovement> m_mDeadPlayers;
 
 
-    public UnityEngine.UI.Text txtPlayer1;
-    public UnityEngine.UI.Text txtPlayer2;
-    public UnityEngine.UI.Text txtPlayer3;
-    public UnityEngine.UI.Text txtPlayer4;
+    public GameObject refWinMessage;
     // Use this for initialization
     void Start () {
-	
+        m_mDeadPlayers = new List<LouisMovement>();
 	}
 
     // Update is called once per frame
     void Update()
     {
-        txtPlayer1.text = (refPlayer1.m_bIsDead) ? "Player 1: Dead" : "Player 1: Alive";
-        txtPlayer2.text = (refPlayer2.m_bIsDead) ? "Player 2: Dead" : "Player 2: Alive";
-        txtPlayer3.text = (refPlayer3.m_bIsDead) ? "Player 3: Dead" : "Player 3: Alive";
-        txtPlayer4.text = (refPlayer4.m_bIsDead) ? "Player 4: Dead" : "Player 4: Alive";
+        for (int i = 0; i < refPlayers.Count; ++i)
+        {
+            
+            if (refPlayers[i].m_bIsDead)
+            {
+                m_mDeadPlayers.Add(refPlayers[i]);
+                refPlayers.RemoveAt(i);
+            }
+            if (refPlayers.Count <= 1)
+            {
+                refWinMessage.SetActive(true);
+                refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!\n (This is where \nthe sick \nparty happens)"; 
+            }
+        }
     }
 }

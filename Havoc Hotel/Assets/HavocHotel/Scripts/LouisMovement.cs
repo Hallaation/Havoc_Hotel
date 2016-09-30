@@ -37,7 +37,9 @@ public class LouisMovement : MonoBehaviour {
     private CharacterController m_cCharacterController; //character controller reference
 
     public bool m_bIsDead;
-    public GameObject platformController;
+
+    public UnityEngine.UI.Text refPlayerStatus;
+    //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
         //have the charactercontroller variable reference something
@@ -67,6 +69,7 @@ public class LouisMovement : MonoBehaviour {
     //Lincoln's messy code
     void Update()
     {
+        refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
         if (!m_bIsDead)
         {
             switch (m_cState)
@@ -88,6 +91,11 @@ public class LouisMovement : MonoBehaviour {
                     OnFloor();
                     break;
             }
+    
+        }
+        else
+        {
+            this.transform.position = new Vector3(20,-60,20);
         }
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//

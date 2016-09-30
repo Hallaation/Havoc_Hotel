@@ -31,7 +31,7 @@ public class MovementTest : MonoBehaviour
     public float m_fMaxFallSpeed = 25.0f; //maximum downfall momentum
  
     public CStates m_cState;
-    private float m_fWallSlideSpeed; //wall sliding speed
+    private float m_fWallSlideSpeed = 0.5f; //wall sliding speed
     private bool m_bHitWall; //checks to see if the wall was hit or not.
 
     private CharacterController m_cCharacterController; //character controller reference
@@ -200,7 +200,7 @@ public class MovementTest : MonoBehaviour
     //useless remove it.
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        CharacterController temp = GetComponent<CharacterController>();
+
 
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//

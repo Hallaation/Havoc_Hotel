@@ -852,7 +852,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 168512620}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9995501, y: -3.36, z: 0.26937485}
+  m_LocalPosition: {x: -0.9995501, y: -8.1, z: 0.26937485}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -2605,7 +2605,7 @@ MonoBehaviour:
   m_fHorizontalWallJumpForce: 0
   m_fVerticalWallJumpForce: 0
   m_bIsDead: 0
-  platformController: {fileID: 0}
+  refPlayerStatus: {fileID: 1521234473}
 --- !u!143 &535547065
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3118,6 +3118,7 @@ RectTransform:
   - {fileID: 1521234472}
   - {fileID: 719741116}
   - {fileID: 176576583}
+  - {fileID: 1405558394}
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_AnchorMin: {x: 0, y: 0}
@@ -3555,7 +3556,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh9798
+  m_Name: pb_Mesh9804
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -4012,7 +4013,7 @@ MonoBehaviour:
   lookAt: {fileID: 0}
   movementDirection: {x: 0, y: 0, z: 0}
   HasDoubleJumped: 0
-  playerNumber: 3
+  playerNumber: 5
   m_fGroundedTime: 0
   m_bAllowDoubleJumpAlways: 0
   m_fMaxFallSpeed: 25
@@ -4021,7 +4022,7 @@ MonoBehaviour:
   m_fHorizontalWallJumpForce: 0
   m_fVerticalWallJumpForce: 0
   m_bIsDead: 0
-  platformController: {fileID: 0}
+  refPlayerStatus: {fileID: 176576584}
 --- !u!143 &939962986
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5018,7 +5019,7 @@ MonoBehaviour:
   m_fHorizontalWallJumpForce: 0
   m_fVerticalWallJumpForce: 0
   m_bIsDead: 0
-  platformController: {fileID: 0}
+  refPlayerStatus: {fileID: 719741117}
 --- !u!143 &1150622191
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5073,7 +5074,7 @@ MonoBehaviour:
   m_fHorizontalWallJumpForce: 20
   m_fVerticalWallJumpForce: 15
   m_bIsDead: 0
-  platformController: {fileID: 0}
+  refPlayerStatus: {fileID: 673222588}
 --- !u!143 &1152476824
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5377,6 +5378,80 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
+--- !u!1 &1405558391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1405558394}
+  - 222: {fileID: 1405558393}
+  - 114: {fileID: 1405558392}
+  m_Layer: 5
+  m_Name: Player_Win_Message
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1405558392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1405558391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 180
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 300
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: Player x wins!
+--- !u!222 &1405558393
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1405558391}
+--- !u!224 &1405558394
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1405558391}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 607836308}
+  m_RootOrder: 4
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 99, y: 838}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1420840268
 GameObject:
   m_ObjectHideFlags: 0
@@ -6955,14 +7030,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1217f4ef327031b42981dd972374836b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  refPlayer1: {fileID: 1152476822}
-  refPlayer2: {fileID: 535547061}
-  refPlayer3: {fileID: 1150622189}
-  refPlayer4: {fileID: 939962985}
-  txtPlayer1: {fileID: 673222588}
-  txtPlayer2: {fileID: 1521234473}
-  txtPlayer3: {fileID: 719741117}
-  txtPlayer4: {fileID: 176576584}
+  refPlayers:
+  - {fileID: 1152476822}
+  - {fileID: 535547061}
+  - {fileID: 1150622189}
+  - {fileID: 939962985}
+  refWinMessage: {fileID: 1405558391}
 --- !u!43 &1822878751
 Mesh:
   m_ObjectHideFlags: 0
