@@ -10,7 +10,7 @@ public enum CStates
 public class MovementTest : MonoBehaviour
 {
     //declaring variables
-    public float m_fMoveSpeed = 1.0f;
+    public float m_fMoveSpeed = 1.4f;
     const int _ROTATION_SPEED = 20; // Not used yet.
     const float m_f1FramePasses = 0.0170f;
     public float m_fJumpForce = 25.0f;
@@ -69,53 +69,9 @@ public class MovementTest : MonoBehaviour
     {
 
         CharacterController temp = GetComponent<CharacterController>();
-        if (temp.isGrounded)
-        {
-            // This is the Left/Right movement for X. always set Y to 0.
-            HasJumped = false;
-            HasDoubleJumped = false;
-            m_fGroundedTime += Time.deltaTime;
-            if (m_fGroundedTime >= m_f1FramePasses)
-            {
-                movementDirection.y = 0.01f;
-            }
+        Jump(temp);
 
-            UnityEngine.Debug.Log("IsGrounded"); // UnityEngine.Debug.Log just sends the developer a message when this line is reached. Displayed in the Unity Client.
-            if (temp.isGrounded)
-            {
-                m_fJumpTimer = 0.0f;
-                UnityEngine.Debug.Log("IsGrounded2");
-
-                if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
-                {
-
-                    movementDirection.y = m_fJumpForce;
-
-                    UnityEngine.Debug.Log("Jumping");
-                    HasJumped = true;
-                }
-            }
-        }
-
-        if (!temp.isGrounded)
-        {
-            UnityEngine.Debug.Log("HasJumped");
-            m_fJumpTimer += Time.deltaTime;
-            UnityEngine.Debug.Log(m_fJumpTimer.ToString());
-            if (m_fJumpTimer > 0.017)
-            {
-                if (Input.GetButtonUp(playerNumber + "_Fire"))
-                {
-                    m_bJumpKeyReleased = true;
-                }
-                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
-                {
-                    movementDirection.y = m_fDoubleJumpMoveForce;
-                    UnityEngine.Debug.Log("HasDoubleJumped");
-                    HasDoubleJumped = true;
-                }
-            }
-        }
+        DoubleJump(temp);
 
         if (!HasDoubleJumped)
         {
@@ -133,46 +89,12 @@ public class MovementTest : MonoBehaviour
         //{
         //    movementDirection.x = m_fMoveSpeed;
         //}
-        movementDirection.y -= m_fGravity;
-        if (movementDirection.y < -m_fMaxFallSpeed)
-        {
-            movementDirection.y = -m_fMaxFallSpeed;
-        }
-        movementDirection.x += (m_fMoveSpeed * Input.GetAxis(playerNumber + "_Horizontal"));
-        if (movementDirection.x > 0.0f)
-        {
-            movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
-        }
-
-
-
-        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
-        {
-            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-        }
-        if (movementDirection.x < 0.0f)
-        {
-            movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
-        }
-        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
-        {
-            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------------------------------//
-        if (movementDirection.x > 10)
-        {
-            movementDirection.x = 10;                   // Max speed settings
-        }
-
-        if (movementDirection.x < -10)
-        {
-            movementDirection.x = -10;                   // Max speed settings
-        }
+        MovementCalculations();
         //if (movementDirection.x < -m_fMoveSpeed)
         //{
         //    movementDirection.x = -m_fMoveSpeed;
         //}
-        temp.Move(new Vector3(Time.deltaTime * movementDirection.x , movementDirection.y * Time.deltaTime));
+        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed,  Time.deltaTime * movementDirection.y));
         //temp.Move(movementDirection * Time.deltaTime);
         Debug.Log("FramesPassed");
         //if (movementDirection.y > 0.0f)
@@ -247,5 +169,99 @@ public class MovementTest : MonoBehaviour
         movementDirection.x = 10;
         movementDirection.y += 20;
         m_cCharacterController.Move(Vector3.up * Time.deltaTime * m_fJumpForce);
+    }
+    // Lincolns Functions to Add to master project
+    void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
+    {
+
+        if (temp.isGrounded)
+        {
+            // This is the Left/Right movement for X. always set Y to 0.
+            HasJumped = false;
+            HasDoubleJumped = false;
+            m_fGroundedTime += Time.deltaTime;
+            if (m_fGroundedTime >= m_f1FramePasses)
+            {
+                movementDirection.y = 0.01f;
+            }
+
+            UnityEngine.Debug.Log("IsGrounded"); // UnityEngine.Debug.Log just sends the developer a message when this line is reached. Displayed in the Unity Client.
+            if (temp.isGrounded)
+            {
+                m_fJumpTimer = 0.0f;
+                UnityEngine.Debug.Log("IsGrounded2");
+
+                if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
+                {
+
+                    movementDirection.y = m_fJumpForce;
+
+                    UnityEngine.Debug.Log("Jumping");
+                    HasJumped = true;
+                    
+                }
+            }
+        }
+    }
+    // Double Jump
+    void DoubleJump(CharacterController temp)
+    {
+        if (!temp.isGrounded)
+        {
+            UnityEngine.Debug.Log("HasJumped");
+            m_fJumpTimer += Time.deltaTime;
+            UnityEngine.Debug.Log(m_fJumpTimer.ToString());
+            if (m_fJumpTimer > 0.017)
+            {
+                if (Input.GetButtonUp(playerNumber + "_Fire"))
+                {
+                    m_bJumpKeyReleased = true;
+                }
+                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
+                {
+                    movementDirection.y = m_fDoubleJumpMoveForce;
+                    UnityEngine.Debug.Log("HasDoubleJumped");
+                    HasDoubleJumped = true;
+                }
+            }
+        }
+    }
+    void MovementCalculations()
+    {
+        movementDirection.y -= m_fGravity;              // Gravity reduces Y movement every frame
+        if (movementDirection.y < -m_fMaxFallSpeed)     // Prevents passing max fall speed
+        {
+            movementDirection.y = -m_fMaxFallSpeed;
+        }
+        movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
+        if (movementDirection.x > 0.0f)
+        {
+            movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
+        }
+
+
+
+        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
+        {
+            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+        }
+        if (movementDirection.x < 0.0f)
+        {
+            movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
+        }
+        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
+        {
+            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------------------------------//
+        if (movementDirection.x > 10)
+        {
+            movementDirection.x = 10;                   // Max speed settings
+        }
+
+        if (movementDirection.x < -10)
+        {
+            movementDirection.x = -10;                   // Max speed settings
+        }
     }
 }
