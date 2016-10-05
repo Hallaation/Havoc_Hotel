@@ -267,6 +267,7 @@ public class LouisMovement : MonoBehaviour {
             movementDirection.y = m_fVerticalWallJumpForce;
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
             m_cCharacterController.Move(movementDirection * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0, -90, 0);
         }
         else if (transform.rotation.eulerAngles.y >= 181.0f && transform.rotation.eulerAngles.y <= 271.0f)
         {
@@ -274,6 +275,7 @@ public class LouisMovement : MonoBehaviour {
             movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
+            transform.rotation = Quaternion.Euler(0, 90, 0);
             m_cCharacterController.Move(movementDirection * Time.deltaTime);
         }
     }
