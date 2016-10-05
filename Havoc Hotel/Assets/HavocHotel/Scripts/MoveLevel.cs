@@ -19,7 +19,7 @@ public class MoveLevel : MonoBehaviour
     {
         //transform.position = new Vector3(Mathf.Clamp(Time.time, 0.0F, 3.0F), 0, 0);
 
-        m_fLevelSpeed += Time.deltaTime;
+      //  m_fLevelSpeed += Time.deltaTime;
 
         transform.Translate(Vector3.down * refController.m_fOverworldSpeed * Time.deltaTime);
     }
