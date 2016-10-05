@@ -4,7 +4,7 @@ using System.Collections;
 public class LouisMovement : MonoBehaviour {
 
     //declaring variables
-    public float m_fMoveSpeed = 1.0f;
+    public float m_fMoveSpeed = 1.4f;
     const int _ROTATION_SPEED = 20; // Not used yet.
     const float m_f1FramePasses = 0.0170f;
     public float m_fJumpForce = 25.0f;
@@ -55,7 +55,15 @@ public class LouisMovement : MonoBehaviour {
             Debug.Log("Player " + playerNumber + " died!");
             m_bIsDead = true;
         }
+        else
+        {
+            Debug.Log("TRIGGERED");
+            Physics.IgnoreCollision(m_cCharacterController, other.GetComponentInParent<Collider>());
+            Debug.Log(other.name);
+            Debug.Log(GetComponent<Collider>().name);
+        }
     }
+    
 
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
@@ -113,131 +121,112 @@ public class LouisMovement : MonoBehaviour {
             transform.rotation = Quaternion.Euler(0 , 90 , 0);
         }
 
-        if (m_cCharacterController.isGrounded)
-        {
-            // This is the Left/Right movement for X. always set Y to 0.
-            HasJumped = false;
-            HasDoubleJumped = false;
-            m_fGroundedTime += Time.deltaTime;
-            if (m_fGroundedTime >= m_f1FramePasses)
-            {
-                movementDirection.y = 0.01f;
-            }
 
+        CharacterController temp = GetComponent<CharacterController>();
+        Jump(temp);
 
-            if (m_cCharacterController.isGrounded)
-            {
-                m_fJumpTimer = 0.0f;
+        DoubleJump(temp);
 
-
-                if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
-                {
-
-                    movementDirection.y = m_fJumpForce;
-
-
-                    HasJumped = true;
-                }
-            }
-        }
-
-        if (!m_cCharacterController.isGrounded)
-        {
-
-            m_fJumpTimer += Time.deltaTime;
-            if (m_fJumpTimer > 0.017)
-            {
-                if (Input.GetButtonUp(playerNumber + "_Fire"))
-                {
-                    m_bJumpKeyReleased = true;
-                }
-                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
-                {
-                    movementDirection.y = m_fDoubleJumpMoveForce;
-
-                    HasDoubleJumped = true;
-                }
-            }
-        }
-
-        if (!HasDoubleJumped)
-        {
-
-        }
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
+        MovementCalculations();
 
-        //if(m_fJumpTimer <= 150)
+        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+        Debug.Log("FramesPassed");
+
+        //old hsit
+        //if (m_cCharacterController.isGrounded)
         //{
-
-        //}
-
-        //if (m_cCharacterController.isGrounded && Input.GetAxis(playerNumber + "_Horizontal") > 100)
-        //{
-        //    movementDirection.x = m_fMoveSpeed;
-        //}
-        movementDirection.y -= m_fGravity;
-        if (movementDirection.y < -m_fMaxFallSpeed)
-        {
-            movementDirection.y = -m_fMaxFallSpeed;
-        }
-        movementDirection.x -= (m_fMoveSpeed * Input.GetAxis(playerNumber + "_Horizontal"));
-        if (movementDirection.x > 0.0f)
-        {
-            movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
-        }
-
-
-        //TODO: somehow clean this up.
-        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
-        {
-            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-        }
-        if (movementDirection.x < 0.0f)
-        {
-            movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
-        }
-        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
-        {
-            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------------------------------//
-        if (movementDirection.x > 10)
-        {
-            movementDirection.x = 10;                   // Max speed settings
-        }
-
-        if (movementDirection.x < -10)
-        {
-            movementDirection.x = -10;                   // Max speed settings
-        }
-        //if (movementDirection.x < -m_fMoveSpeed)
-        //{
-        //    movementDirection.x = -m_fMoveSpeed;
-        //}
-        m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x , movementDirection.y * Time.deltaTime));
-        //m_cCharacterController.Move(movementDirection * Time.deltaTime);
-
-        //if (movementDirection.y > 0.0f)
-        //{
-        //    UnityEngine.Debug.Log("movement dir y > 0");
-        //    this.transform.position += new Vector3(0 , m_fm_fMoveSpeed * Time.deltaTime);
-
-        //}
-        //if (movementDirection.y == 0.0f && m_cCharacterController.isGrounded)    // Is always true. Does not work not sure why.
-        //{
-        //    this.transform.position += new Vector3(0 , m_fm_fMoveSpeed * Time.deltaTime);
-        //    UnityEngine.Debug.Log("movement dir y == 0");
-
-        //}
-        //if (wentThrough)
-        //{
-        //    foreach (Collider i in platformController.GetComponentsInChildren<Collider>())
+        //    // This is the Left/Right movement for X. always set Y to 0.
+        //    HasJumped = false;
+        //    HasDoubleJumped = false;
+        //    m_fGroundedTime += Time.deltaTime;
+        //    if (m_fGroundedTime >= m_f1FramePasses)
         //    {
-        //        Physics.IgnoreCollision(m_cCharacterController , i , false);
-        //        UnityEngine.Debug.Log(i.name);
+        //        movementDirection.y = 0.01f;
+        //    }
+
+
+        //    if (m_cCharacterController.isGrounded)
+        //    {
+        //        m_fJumpTimer = 0.0f;
+
+
+        //        if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
+        //        {
+
+        //            movementDirection.y = m_fJumpForce;
+
+
+        //            HasJumped = true;
+        //        }
         //    }
         //}
+
+        //if (!m_cCharacterController.isGrounded)
+        //{
+
+        //    m_fJumpTimer += Time.deltaTime;
+        //    if (m_fJumpTimer > 0.017)
+        //    {
+        //        if (Input.GetButtonUp(playerNumber + "_Fire"))
+        //        {
+        //            m_bJumpKeyReleased = true;
+        //        }
+        //        if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
+        //        {
+        //            movementDirection.y = m_fDoubleJumpMoveForce;
+
+        //            HasDoubleJumped = true;
+        //        }
+        //    }
+        //}
+
+        //if (!HasDoubleJumped)
+        //{
+
+        //}
+        //m_fJumpTimer += Time.deltaTime;
+        //timer += Time.deltaTime;
+
+        //movementDirection.y -= m_fGravity;
+        //if (movementDirection.y < -m_fMaxFallSpeed)
+        //{
+        //    movementDirection.y = -m_fMaxFallSpeed;
+        //}
+        //movementDirection.x -= (m_fMoveSpeed * Input.GetAxis(playerNumber + "_Horizontal"));
+        //if (movementDirection.x > 0.0f)
+        //{
+        //    movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
+        //}
+
+
+        ////TODO: somehow clean this up.
+        //if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
+        //{
+        //    movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+        //}
+        //if (movementDirection.x < 0.0f)
+        //{
+        //    movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
+        //}
+        //if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
+        //{
+        //    movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------------------------------//
+        //if (movementDirection.x > 10)
+        //{
+        //    movementDirection.x = 10;                   // Max speed settings
+        //}
+
+        //if (movementDirection.x < -10)
+        //{
+        //    movementDirection.x = -10;                   // Max speed settings
+        //}
+
+        //m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x , movementDirection.y * Time.deltaTime));
+
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //If the wall is hit, the character will slide slowly on the wall.
@@ -286,6 +275,102 @@ public class LouisMovement : MonoBehaviour {
             movementDirection.y = m_fVerticalWallJumpForce;
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
             m_cCharacterController.Move(movementDirection * Time.deltaTime);
+        }
+    }
+
+
+    //Lincolns shit
+    void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
+    {
+
+        if (temp.isGrounded)
+        {
+            // This is the Left/Right movement for X. always set Y to 0.
+            HasJumped = false;
+            HasDoubleJumped = false;
+            m_fGroundedTime += Time.deltaTime;
+            if (m_fGroundedTime >= m_f1FramePasses)
+            {
+                movementDirection.y = 0.01f;
+            }
+
+            UnityEngine.Debug.Log("IsGrounded"); // UnityEngine.Debug.Log just sends the developer a message when this line is reached. Displayed in the Unity Client.
+            if (temp.isGrounded)
+            {
+                m_fJumpTimer = 0.0f;
+                UnityEngine.Debug.Log("IsGrounded2");
+
+                if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
+                {
+
+                    movementDirection.y = m_fJumpForce;
+
+                    UnityEngine.Debug.Log("Jumping");
+                    HasJumped = true;
+
+                }
+            }
+        }
+    }
+    // Double Jump
+    void DoubleJump(CharacterController temp)
+    {
+        if (!temp.isGrounded)
+        {
+            UnityEngine.Debug.Log("HasJumped");
+            m_fJumpTimer += Time.deltaTime;
+            UnityEngine.Debug.Log(m_fJumpTimer.ToString());
+            if (m_fJumpTimer > 0.017)
+            {
+                if (Input.GetButtonUp(playerNumber + "_Fire"))
+                {
+                    m_bJumpKeyReleased = true;
+                }
+                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
+                {
+                    movementDirection.y = m_fDoubleJumpMoveForce;
+                    UnityEngine.Debug.Log("HasDoubleJumped");
+                    HasDoubleJumped = true;
+                }
+            }
+        }
+    }
+    void MovementCalculations()
+    {
+        movementDirection.y -= m_fGravity;              // Gravity reduces Y movement every frame
+        if (movementDirection.y < -m_fMaxFallSpeed)     // Prevents passing max fall speed
+        {
+            movementDirection.y = -m_fMaxFallSpeed;
+        }
+        movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
+        if (movementDirection.x > 0.0f)
+        {
+            movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
+        }
+
+
+
+        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
+        {
+            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+        }
+        if (movementDirection.x < 0.0f)
+        {
+            movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
+        }
+        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
+        {
+            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------------------------------//
+        if (movementDirection.x > 10)
+        {
+            movementDirection.x = 10;                   // Max speed settings
+        }
+
+        if (movementDirection.x < -10)
+        {
+            movementDirection.x = -10;                   // Max speed settings
         }
     }
 }

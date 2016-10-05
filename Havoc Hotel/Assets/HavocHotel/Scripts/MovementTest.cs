@@ -36,7 +36,6 @@ public class MovementTest : MonoBehaviour
 
     private CharacterController m_cCharacterController; //character controller reference
 
-    public GameObject platformController;
     void Start()
     {
         m_cCharacterController = GetComponent<CharacterController>();
@@ -73,50 +72,13 @@ public class MovementTest : MonoBehaviour
 
         DoubleJump(temp);
 
-        if (!HasDoubleJumped)
-        {
-
-        }
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
-
-        //if(m_fJumpTimer <= 150)
-        //{
-
-        //}
-
-        //if (temp.isGrounded && Input.GetAxis(playerNumber + "_Horizontal") > 100)
-        //{
-        //    movementDirection.x = m_fMoveSpeed;
-        //}
         MovementCalculations();
-        //if (movementDirection.x < -m_fMoveSpeed)
-        //{
-        //    movementDirection.x = -m_fMoveSpeed;
-        //}
+
         temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed,  Time.deltaTime * movementDirection.y));
-        //temp.Move(movementDirection * Time.deltaTime);
         Debug.Log("FramesPassed");
-        //if (movementDirection.y > 0.0f)
-        //{
-        //    UnityEngine.Debug.Log("movement dir y > 0");
-        //    this.transform.position += new Vector3(0 , m_fm_fMoveSpeed * Time.deltaTime);
 
-        //}
-        //if (movementDirection.y == 0.0f && temp.isGrounded)    // Is always true. Does not work not sure why.
-        //{
-        //    this.transform.position += new Vector3(0 , m_fm_fMoveSpeed * Time.deltaTime);
-        //    UnityEngine.Debug.Log("movement dir y == 0");
-
-        //}
-        //if (wentThrough)
-        //{
-        //    foreach (Collider i in platformController.GetComponentsInChildren<Collider>())
-        //    {
-        //        Physics.IgnoreCollision(temp , i , false);
-        //        UnityEngine.Debug.Log(i.name);
-        //    }
-        //}
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //useless remove it.
