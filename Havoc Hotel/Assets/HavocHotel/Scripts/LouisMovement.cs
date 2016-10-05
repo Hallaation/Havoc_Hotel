@@ -9,7 +9,7 @@ public class LouisMovement : MonoBehaviour {
     const float m_f1FramePasses = 0.0170f;
     public float m_fJumpForce = 25.0f;
     public float m_fDoubleJumpMoveForce = 20f;
-    public float m_fGravity = 2.0f;
+    public float m_fGravity = 1.4f;
     public Transform lookAt;
 
     float timer = 0.0f;
@@ -31,8 +31,8 @@ public class LouisMovement : MonoBehaviour {
     /// <summary>
     /// Wall jumping forces, higher value for bigger push force, lower for less
     /// </summary>
-    public float m_fHorizontalWallJumpForce;
-    public float m_fVerticalWallJumpForce;
+    public float m_fHorizontalWallJumpForce = 20.0f;
+    public float m_fVerticalWallJumpForce = 15.0f;
 
     private CharacterController m_cCharacterController; //character controller reference
 
@@ -110,17 +110,7 @@ public class LouisMovement : MonoBehaviour {
     //on floor movement
     void OnFloor()
     {
-
-        if (Input.GetAxis(playerNumber + "_Horizontal") > 0)
-        {
-            //x y z
-            transform.rotation = Quaternion.Euler(0 , -90 , 0);
-        }
-        else if (Input.GetAxis(playerNumber + "_Horizontal") < 0)
-        {
-            transform.rotation = Quaternion.Euler(0 , 90 , 0);
-        }
-
+        PlayerTurnAround();
 
         CharacterController temp = GetComponent<CharacterController>();
         Jump(temp);
@@ -132,100 +122,7 @@ public class LouisMovement : MonoBehaviour {
         MovementCalculations();
 
         temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
-        Debug.Log("FramesPassed");
 
-        //old hsit
-        //if (m_cCharacterController.isGrounded)
-        //{
-        //    // This is the Left/Right movement for X. always set Y to 0.
-        //    HasJumped = false;
-        //    HasDoubleJumped = false;
-        //    m_fGroundedTime += Time.deltaTime;
-        //    if (m_fGroundedTime >= m_f1FramePasses)
-        //    {
-        //        movementDirection.y = 0.01f;
-        //    }
-
-
-        //    if (m_cCharacterController.isGrounded)
-        //    {
-        //        m_fJumpTimer = 0.0f;
-
-
-        //        if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
-        //        {
-
-        //            movementDirection.y = m_fJumpForce;
-
-
-        //            HasJumped = true;
-        //        }
-        //    }
-        //}
-
-        //if (!m_cCharacterController.isGrounded)
-        //{
-
-        //    m_fJumpTimer += Time.deltaTime;
-        //    if (m_fJumpTimer > 0.017)
-        //    {
-        //        if (Input.GetButtonUp(playerNumber + "_Fire"))
-        //        {
-        //            m_bJumpKeyReleased = true;
-        //        }
-        //        if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
-        //        {
-        //            movementDirection.y = m_fDoubleJumpMoveForce;
-
-        //            HasDoubleJumped = true;
-        //        }
-        //    }
-        //}
-
-        //if (!HasDoubleJumped)
-        //{
-
-        //}
-        //m_fJumpTimer += Time.deltaTime;
-        //timer += Time.deltaTime;
-
-        //movementDirection.y -= m_fGravity;
-        //if (movementDirection.y < -m_fMaxFallSpeed)
-        //{
-        //    movementDirection.y = -m_fMaxFallSpeed;
-        //}
-        //movementDirection.x -= (m_fMoveSpeed * Input.GetAxis(playerNumber + "_Horizontal"));
-        //if (movementDirection.x > 0.0f)
-        //{
-        //    movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
-        //}
-
-
-        ////TODO: somehow clean this up.
-        //if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
-        //{
-        //    movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-        //}
-        //if (movementDirection.x < 0.0f)
-        //{
-        //    movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
-        //}
-        //if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
-        //{
-        //    movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------------------------------//
-        //if (movementDirection.x > 10)
-        //{
-        //    movementDirection.x = 10;                   // Max speed settings
-        //}
-
-        //if (movementDirection.x < -10)
-        //{
-        //    movementDirection.x = -10;                   // Max speed settings
-        //}
-
-        //m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x , movementDirection.y * Time.deltaTime));
 
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -235,6 +132,9 @@ public class LouisMovement : MonoBehaviour {
         m_bHitWall = true;
         if (m_bHitWall)
         {
+
+            PlayerTurnAround();
+
             float tempGravity = m_fWallSlideSpeed;
 
             movementDirection.y = -tempGravity;
@@ -302,7 +202,7 @@ public class LouisMovement : MonoBehaviour {
                 m_fJumpTimer = 0.0f;
                 UnityEngine.Debug.Log("IsGrounded2");
 
-                if (!HasJumped && Input.GetButton(playerNumber + "_Fire"))// if the players jump button is down
+                if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
                 {
 
                     movementDirection.y = m_fJumpForce;
@@ -374,5 +274,23 @@ public class LouisMovement : MonoBehaviour {
         {
             movementDirection.x = -10;                   // Max speed settings
         }
+    }
+
+    /// <summary>
+    /// Turns the player around based on input.
+    /// </summary>
+    void PlayerTurnAround()
+    {
+
+        if (Input.GetAxis(playerNumber + "_Horizontal") > 0)
+        {
+            //x y z
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        else if (Input.GetAxis(playerNumber + "_Horizontal") < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+
     }
 }
