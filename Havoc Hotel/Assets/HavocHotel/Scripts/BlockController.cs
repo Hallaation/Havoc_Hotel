@@ -27,7 +27,7 @@ public class BlockController : MonoBehaviour
         m_fOverworldSpeed += Time.deltaTime;
         //m_fSpawnTimer /= 1.59f;
     //m_fTimer has to account for level speed change
-    m_fTimer += Time.deltaTime;
+ //   m_fTimer += Time.deltaTime;
 
         if (m_fTimer >= m_fSpawnTimer)
         {
