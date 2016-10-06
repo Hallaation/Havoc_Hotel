@@ -9,17 +9,18 @@ public class PlayerTextController : MonoBehaviour
 
     public GameObject refWinMessage;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         m_mDeadPlayers = new List<LouisMovement>();
-	}
+    }
 
     // Update is called once per frame
     void Update()
     {
         for (int i = 0; i < refPlayers.Count; ++i)
         {
-            
-            if (refPlayers[i].m_bIsDead)
+
+            if (refPlayers[i].m_bIsDead && refPlayers[i] != null)
             {
                 m_mDeadPlayers.Add(refPlayers[i]);
                 refPlayers.RemoveAt(i);
@@ -27,8 +28,10 @@ public class PlayerTextController : MonoBehaviour
             if (refPlayers.Count <= 1)
             {
                 refWinMessage.SetActive(true);
-                refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!\n (This is where \nthe sick \nparty happens)"; 
+                refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!\n (This is where \nthe sick \nparty happens)";
             }
         }
+
+
     }
 }
