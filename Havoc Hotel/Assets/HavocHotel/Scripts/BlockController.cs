@@ -8,7 +8,6 @@ public class BlockController : MonoBehaviour
     float m_fTimer = 0;
     public float m_fSpawnTimer = 1.0f;
 
-    public BlockController refBlockDestroyer;
     public GameObject[] m_LevelChunk;
 
     // Use this for initialization
@@ -25,26 +24,32 @@ public class BlockController : MonoBehaviour
     {
 
         m_fOverworldSpeed += Time.deltaTime;
+  
         //m_fSpawnTimer /= 1.59f;
-    //m_fTimer has to account for level speed change
- //   m_fTimer += Time.deltaTime;
-
+        //m_fTimer has to account for level speed change
+        //   m_fTimer += Time.deltaTime;
+        m_fTimer += Time.deltaTime;
         if (m_fTimer >= m_fSpawnTimer)
         {
             m_fTimer -= m_fSpawnTimer;
+            Debug.Log("Spawn something");
 
-        int iRandIndex = Random.Range(0, m_LevelChunk.Length);
-        GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject;
-        //m_fOverworldSpeed += go.GetComponent<MoveLevel>().m_fSpeedIncrease;
-        go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOtherSpeed;
-        go.GetComponent<MoveLevel>().refController = this;
+
+
+            int iRandIndex = Random.Range(0, m_LevelChunk.Length - 1);
+            GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject;
+            //m_fOverworldSpeed += go.GetComponent<MoveLevel>().m_fSpeedIncrease;
+            go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOtherSpeed;
+            go.GetComponent<MoveLevel>().refController = this;
         }
+
     }
-
-    
-
-
 }
+
+
+
+
+
 
 
 
