@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MoveLevel : MonoBehaviour
 {
-    public float m_fLevelSpeed = 10.0f; //-modifiable value for designers (modifiable in unity)- initial speed of level
+    public float m_fLevelSpeed = 1.0f; //-modifiable value for designers (modifiable in unity)- initial speed of level
     public float m_fSpeedIncrease = 1.1f; //-modifiable value to change rate at which level increases in speed
 
     public BlockController refController;
@@ -24,12 +24,11 @@ public class MoveLevel : MonoBehaviour
     {
         if (other.tag == "Finish")
         {
-            Debug.Log("triggered");
             Destroy(this.gameObject);
             //refController.Spawn();
         }
 
-        Debug.Log("Destroy this");
+
     }
 
    

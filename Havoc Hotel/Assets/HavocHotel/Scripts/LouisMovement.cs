@@ -117,7 +117,16 @@ public class LouisMovement : MonoBehaviour
 
         CharacterController temp = GetComponent<CharacterController>();
         Jump(temp);
+        //
 
+        if(!temp.isGrounded && Input.GetButtonDown(playerNumber + "_AltFire"))
+        {
+            
+        }
+
+
+
+        //
         DoubleJump(temp);
 
         m_fJumpTimer += Time.deltaTime;
@@ -190,6 +199,7 @@ public class LouisMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 90, 0);
             m_cCharacterController.Move(movementDirection * Time.deltaTime);
         }
+        m_bHitWall = false;
     }
 
 
@@ -303,6 +313,6 @@ public class LouisMovement : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }
-
+        m_bHitWall = false;
     }
 }
