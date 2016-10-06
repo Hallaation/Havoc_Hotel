@@ -114,7 +114,16 @@ public class LouisMovement : MonoBehaviour {
 
         CharacterController temp = GetComponent<CharacterController>();
         Jump(temp);
+        //
 
+        if(!temp.isGrounded && Input.GetButtonDown(playerNumber + "_AltFire"))
+        {
+            
+        }
+
+
+
+        //
         DoubleJump(temp);
 
         m_fJumpTimer += Time.deltaTime;
