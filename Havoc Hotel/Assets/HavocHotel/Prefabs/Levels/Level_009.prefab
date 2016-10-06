@@ -19,9 +19,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010554822420}
+  - 54: {fileID: 54000011622273240}
+  - 114: {fileID: 114000011736865664}
   m_Layer: 0
   m_Name: Level_009
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -258,8 +260,6 @@ GameObject:
   - 4: {fileID: 4000011972169410}
   - 33: {fileID: 33000011914988228}
   - 23: {fileID: 23000012697096038}
-  - 54: {fileID: 54000013739211630}
-  - 114: {fileID: 114000011163560006}
   m_Layer: 0
   m_Name: Level_001_Tile
   m_TagString: Untagged
@@ -497,7 +497,7 @@ GameObject:
   - 65: {fileID: 65000012968743616}
   m_Layer: 0
   m_Name: Rear_Wall_Collider
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2029,12 +2029,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012244562842}
   m_Mesh: {fileID: 4300000, guid: f06788ceb4cd0264d848ab4c14c8ce89, type: 3}
---- !u!54 &54000013739211630
+--- !u!54 &54000011622273240
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012123445300}
+  m_GameObject: {fileID: 1000010146864590}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -2188,20 +2188,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 8, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114000011163560006
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012123445300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_fLevelSpeed: 10
-  m_fSpeedIncrease: 1.1
-  refController: {fileID: 0}
 --- !u!114 &114000011363598906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2482,6 +2468,20 @@ MonoBehaviour:
   m_selectedFaces: []
   m_SelectedEdges: []
   m_selectedTriangles: 
+--- !u!114 &114000011736865664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010146864590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fLevelSpeed: 1
+  m_fSpeedIncrease: 1.1
+  refController: {fileID: 0}
 --- !u!114 &114000014231950258
 MonoBehaviour:
   m_ObjectHideFlags: 1

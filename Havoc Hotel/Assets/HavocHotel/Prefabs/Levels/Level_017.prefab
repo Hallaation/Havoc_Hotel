@@ -72,8 +72,6 @@ GameObject:
   - 4: {fileID: 4000011776864686}
   - 33: {fileID: 33000012070379424}
   - 23: {fileID: 23000013823808320}
-  - 54: {fileID: 54000012521410642}
-  - 114: {fileID: 114000010429739984}
   m_Layer: 0
   m_Name: Level_001_Tile
   m_TagString: Untagged
@@ -160,7 +158,7 @@ GameObject:
   - 65: {fileID: 65000011873599996}
   m_Layer: 0
   m_Name: Rear_Wall_Collider
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,9 +205,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010222999274}
+  - 54: {fileID: 54000011382185764}
+  - 114: {fileID: 114000013368052104}
   m_Layer: 0
   m_Name: Level_017
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1758,12 +1758,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013312478740}
   m_Mesh: {fileID: 4300000, guid: f06788ceb4cd0264d848ab4c14c8ce89, type: 3}
---- !u!54 &54000012521410642
+--- !u!54 &54000011382185764
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011373887518}
+  m_GameObject: {fileID: 1000012499909066}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -1905,17 +1905,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.1, y: 0.32, z: 1}
   m_Center: {x: 1.5, y: -0.05, z: 0.5}
---- !u!114 &114000010429739984
+--- !u!114 &114000013368052104
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011373887518}
+  m_GameObject: {fileID: 1000012499909066}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fLevelSpeed: 10
+  m_fLevelSpeed: 1
   m_fSpeedIncrease: 1.1
   refController: {fileID: 0}

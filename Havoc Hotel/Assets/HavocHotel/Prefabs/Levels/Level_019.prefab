@@ -53,9 +53,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010547776458}
+  - 54: {fileID: 54000013309550278}
+  - 114: {fileID: 114000013055489204}
   m_Layer: 0
   m_Name: Level_019
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -321,8 +323,6 @@ GameObject:
   - 4: {fileID: 4000013779548200}
   - 33: {fileID: 33000013559202458}
   - 23: {fileID: 23000013449083356}
-  - 54: {fileID: 54000011068963742}
-  - 114: {fileID: 114000013019689486}
   m_Layer: 0
   m_Name: Level_001_Tile
   m_TagString: Untagged
@@ -361,7 +361,7 @@ GameObject:
   - 65: {fileID: 65000012245807918}
   m_Layer: 0
   m_Name: Rear_Wall_Collider
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -743,7 +743,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 1
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -1225,12 +1225,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012212855208}
   m_Mesh: {fileID: 4300000, guid: 6612ded2c6dc5584ea682d26a23ce2bc, type: 3}
---- !u!54 &54000011068963742
+--- !u!54 &54000013309550278
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013594502102}
+  m_GameObject: {fileID: 1000010533901412}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -1676,17 +1676,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
---- !u!114 &114000013019689486
+--- !u!114 &114000013055489204
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013594502102}
+  m_GameObject: {fileID: 1000010533901412}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fLevelSpeed: 10
+  m_fLevelSpeed: 1
   m_fSpeedIncrease: 1.1
   refController: {fileID: 0}

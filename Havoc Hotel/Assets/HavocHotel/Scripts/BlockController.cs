@@ -15,6 +15,7 @@ public class BlockController : MonoBehaviour
     void Start()
     {
         m_fCounter = 0;
+        Spawn();
         //m_fOverworldSpeed = 0.0f;
 
         //transform.position = transform.position - Vector3.up * /*fSpeed*/m_fOverworldSpeed;
@@ -45,6 +46,8 @@ public class BlockController : MonoBehaviour
             go.GetComponent<MoveLevel>().refController = this;
         }
         */
+
+
     }
 
     void OnTriggerExit(Collider other)
@@ -60,37 +63,52 @@ public class BlockController : MonoBehaviour
 
     void Spawn()
     {
-        if (m_fCounter == 2)
+
+        int iRandIndex = Random.Range(0, m_LevelChunk.Length);
+        GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject;
+        go.GetComponent<MoveLevel>().refController = this;
+        if (m_fOverworldSpeed <= m_fOverworldMaxSpeed)
         {
-            int iRandIndex = Random.Range(0, m_LevelChunk.Length);
-            GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject;
-            go.GetComponent<MoveLevel>().refController = this;
-            if (m_fOverworldSpeed <= m_fOverworldMaxSpeed)
-            {
-                go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-                go.GetComponent<MoveLevel>().refController = this;
-            }
-            else
-            {
-                go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-            }
+            go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+
         }
         else
         {
-            GameObject go = Instantiate(m_LevelChunk[m_fCounter], transform.position, Quaternion.identity) as GameObject;
-            go.GetComponent<MoveLevel>().refController = this;
-            m_fCounter++;
-            if (m_fOverworldSpeed <= m_fOverworldMaxSpeed)
-            {
-
-                go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-                go.GetComponent<MoveLevel>().refController = this;
-            }
-            else
-            {
-                go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-            }
+            go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
         }
+
+
+      //  if (m_fCounter == 2)
+      //  {
+      //      int iRandIndex = Random.Range(0, m_LevelChunk.Length);
+      //      GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject;
+      //      go.GetComponent<MoveLevel>().refController = this;
+      //      if (m_fOverworldSpeed <= m_fOverworldMaxSpeed)
+      //      {
+      //          go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+      //          go.GetComponent<MoveLevel>().refController = this;
+      //      }
+      //      else
+      //      {
+      //          go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+      //      }
+      //  }
+      //  else
+      //  {
+      //      GameObject go = Instantiate(m_LevelChunk[m_fCounter], transform.position, Quaternion.identity) as GameObject;
+      //      go.GetComponent<MoveLevel>().refController = this;
+      //      m_fCounter++;
+      //      if (m_fOverworldSpeed <= m_fOverworldMaxSpeed)
+      //      {
+      //
+      //          go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+      //          go.GetComponent<MoveLevel>().refController = this;
+      //      }
+      //      else
+      //      {
+      //          go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+      //      }
+      //  }
     }
 }
 

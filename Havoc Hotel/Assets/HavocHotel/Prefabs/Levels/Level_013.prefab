@@ -75,8 +75,6 @@ GameObject:
   - 4: {fileID: 4000010611346652}
   - 33: {fileID: 33000013949714992}
   - 23: {fileID: 23000014280836310}
-  - 54: {fileID: 54000012128060056}
-  - 114: {fileID: 114000014174532144}
   m_Layer: 0
   m_Name: Level_001_Tile
   m_TagString: Untagged
@@ -109,9 +107,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011033081734}
+  - 54: {fileID: 54000013209983706}
+  - 114: {fileID: 114000012719406744}
   m_Layer: 0
   m_Name: Level_013
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -212,7 +212,7 @@ GameObject:
   - 65: {fileID: 65000014199593080}
   m_Layer: 0
   m_Name: Rear_Wall_Collider
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1304,7 +1304,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 1
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -1596,12 +1596,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013890530824}
   m_Mesh: {fileID: 4300000, guid: f06788ceb4cd0264d848ab4c14c8ce89, type: 3}
---- !u!54 &54000012128060056
+--- !u!54 &54000013209983706
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010949957738}
+  m_GameObject: {fileID: 1000011065081682}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -2011,6 +2011,20 @@ MonoBehaviour:
   m_selectedFaces: []
   m_SelectedEdges: []
   m_selectedTriangles: 
+--- !u!114 &114000012719406744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011065081682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fLevelSpeed: 1
+  m_fSpeedIncrease: 1.1
+  refController: {fileID: 0}
 --- !u!114 &114000013140206740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2023,17 +2037,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
---- !u!114 &114000014174532144
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010949957738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_fLevelSpeed: 10
-  m_fSpeedIncrease: 1.1
-  refController: {fileID: 0}

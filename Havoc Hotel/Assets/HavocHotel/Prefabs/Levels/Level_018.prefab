@@ -125,8 +125,6 @@ GameObject:
   - 4: {fileID: 4000013432569852}
   - 33: {fileID: 33000012055374128}
   - 23: {fileID: 23000010725909266}
-  - 54: {fileID: 54000012741939694}
-  - 114: {fileID: 114000010466935120}
   m_Layer: 0
   m_Name: Level_001_Tile
   m_TagString: Untagged
@@ -157,9 +155,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013670475172}
+  - 54: {fileID: 54000014269201526}
+  - 114: {fileID: 114000011245220092}
   m_Layer: 0
   m_Name: Level_018
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -263,7 +263,7 @@ GameObject:
   - 65: {fileID: 65000012330284860}
   m_Layer: 0
   m_Name: Rear_Wall_Collider
-  m_TagString: Untagged
+  m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -831,12 +831,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010339934030}
   m_Mesh: {fileID: 4300000, guid: 4e625b1a64d27e7408ef8d37c75d1cb9, type: 3}
---- !u!54 &54000012741939694
+--- !u!54 &54000014269201526
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011081557590}
+  m_GameObject: {fileID: 1000012107600180}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -954,20 +954,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.1, y: 0.32, z: 1}
   m_Center: {x: 1.5, y: -0.05, z: 0.5}
---- !u!114 &114000010466935120
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011081557590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_fLevelSpeed: 10
-  m_fSpeedIncrease: 1.1
-  refController: {fileID: 0}
 --- !u!114 &114000010580356356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1260,6 +1246,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
+--- !u!114 &114000011245220092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012107600180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023abca048779f9478285288a2b2a71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fLevelSpeed: 1
+  m_fSpeedIncrease: 1.1
+  refController: {fileID: 0}
 --- !u!114 &114000012190205694
 MonoBehaviour:
   m_ObjectHideFlags: 1
