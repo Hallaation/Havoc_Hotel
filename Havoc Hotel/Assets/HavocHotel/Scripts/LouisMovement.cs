@@ -12,7 +12,7 @@ public class LouisMovement : MonoBehaviour
     public float m_fDoubleJumpMoveForce = 20f;
     public float m_fGravity = 1.4f;
     public Transform lookAt;
-
+    public float m_fPushForce = 10.0f;
     float timer = 0.0f;
     public Vector3 movementDirection;
     private float m_fJumpTimer;
@@ -42,6 +42,8 @@ public class LouisMovement : MonoBehaviour
     public bool m_bIsDead;
 
     public UnityEngine.UI.Text refPlayerStatus;
+
+
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
@@ -51,6 +53,8 @@ public class LouisMovement : MonoBehaviour
     }
 
 
+    //on trigger enter, collision with platform is ignored.
+    //if the finish trigger is entered, the player "dies"
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Finish")
@@ -60,10 +64,10 @@ public class LouisMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("TRIGGERED");
+
             Physics.IgnoreCollision(m_cCharacterController, other.GetComponentInParent<Collider>());
-            Debug.Log(other.name);
-            Debug.Log(GetComponent<Collider>().name);
+
+
         }
     }
 
@@ -218,11 +222,11 @@ public class LouisMovement : MonoBehaviour
                 movementDirection.y = 0.01f;
             }
 
-            UnityEngine.Debug.Log("IsGrounded"); // UnityEngine.Debug.Log just sends the developer a message when this line is reached. Displayed in the Unity Client.
+
             if (temp.isGrounded)
             {
                 m_fJumpTimer = 0.0f;
-                UnityEngine.Debug.Log("IsGrounded2");
+
 
                 if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
                 {
@@ -241,9 +245,9 @@ public class LouisMovement : MonoBehaviour
     {
         if (!temp.isGrounded)
         {
-            UnityEngine.Debug.Log("HasJumped");
+
             m_fJumpTimer += Time.deltaTime;
-            UnityEngine.Debug.Log(m_fJumpTimer.ToString());
+
             if (m_fJumpTimer > 0.017)
             {
                 if (Input.GetButtonUp(playerNumber + "_Fire"))
