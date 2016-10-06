@@ -17,8 +17,6 @@ public class CharacterStates : MonoBehaviour
     {
         if (other.tag == "Wall")
         {
-
-
             m_refMovement.m_cState = CStates.OnWall;
         }
     }
@@ -26,9 +24,18 @@ public class CharacterStates : MonoBehaviour
     void OnTriggerExit(Collider a_collision)
     {
         //exit out of wall jumping state and into onfloor
-        m_refMovement.m_cState = CStates.OnFloor;
+        if (this.tag == "Wall")
+        {
+            m_refMovement.m_cState = CStates.OnFloor;
+        }
     }
-
+    void OnPlayerKick(Collider a_collision)
+    {
+        if(this.tag == "Player" && a_collision.tag == "Kick")
+        {
+            //a_collision.gameObject.GetComponent<LouisMovement>()
+        }
+    }
     //check to see if the collider entered something
     void OnCollisionEnter(Collision other)
     {
