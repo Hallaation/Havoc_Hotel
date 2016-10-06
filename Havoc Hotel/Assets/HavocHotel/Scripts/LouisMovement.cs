@@ -178,6 +178,7 @@ public class LouisMovement : MonoBehaviour {
             transform.rotation = Quaternion.Euler(0, 90, 0);
             m_cCharacterController.Move(movementDirection * Time.deltaTime);
         }
+        m_bHitWall = false;
     }
 
 
@@ -291,6 +292,6 @@ public class LouisMovement : MonoBehaviour {
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }
-
+        m_bHitWall = false;
     }
 }
