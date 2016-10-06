@@ -12,6 +12,8 @@ public class LouisMovement : MonoBehaviour {
     public float m_fGravity = 1.4f;
     public Transform lookAt;
 
+    public float m_fPushForce = 10.0f;
+
     float timer = 0.0f;
     public Vector3 movementDirection;
     private float m_fJumpTimer;
