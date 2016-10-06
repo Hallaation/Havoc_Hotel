@@ -15,24 +15,28 @@ public class CharacterStates : MonoBehaviour
     //changes character state to wall jumping/sliding
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Wall")
+        if (this.tag != "Kick")
         {
-            m_refMovement.m_cState = CStates.OnWall;
-        }
-        if (other.tag == "Player")
-        {
-            if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
+            if (other.tag == "Wall")
             {
-                Push(other);
+                m_refMovement.m_cState = CStates.OnWall;
             }
-        }
 
+            if (other.tag == "Player")
+            {
+                if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
+                {
+                    Push(other);
+                }
+            }
+
+        }
     }
 
     void OnTriggerExit(Collider a_collision)
     {
         //exit out of wall jumping state and into onfloor
-        if (this.tag == "Wall")
+        if (a_collision.tag == "Wall" && this.tag != "Kick")
         {
             m_refMovement.m_cState = CStates.OnFloor;
         }

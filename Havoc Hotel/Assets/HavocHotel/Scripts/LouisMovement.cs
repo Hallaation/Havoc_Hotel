@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LouisMovement : MonoBehaviour {
+public class LouisMovement : MonoBehaviour
+{
 
     //declaring variables
     public float m_fMoveSpeed = 1.4f;
@@ -13,6 +14,9 @@ public class LouisMovement : MonoBehaviour {
     public Transform lookAt;
 
     public float m_fPushForce = 10.0f;
+    private float m_fButtonDelay = 1.0f;
+    float m_fButtonTimer = 0.0f;
+
 
     float timer = 0.0f;
     public Vector3 movementDirection;
@@ -40,9 +44,9 @@ public class LouisMovement : MonoBehaviour {
 
     private CharacterController m_cCharacterController; //character controller reference
     float m_fCurrentStunTime;
-   public float m_fMaxKickTime = 5f;
+    public float m_fMaxKickTime = 5f;
     float m_fCurrentKickTime;
-   public float m_fMaxStunTime = 3.0f;
+    public float m_fMaxStunTime = 3.0f;
     private bool m_bIsStunned;
     public bool m_bIsDead;
 
@@ -74,12 +78,12 @@ public class LouisMovement : MonoBehaviour {
             Debug.Log(GetComponent<Collider>().name);
         }
     }
-    
+
 
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
-        Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>() , false);
+        Physics.IgnoreCollision(m_cCharacterController, other.GetComponentInParent<Collider>(), false);
     }
 
 
@@ -91,13 +95,13 @@ public class LouisMovement : MonoBehaviour {
         refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
         if (!m_bIsDead)
         {
-            
+
             if (!m_bIsStunned)
             {
-                if(m_bIsKicking)
+                if (m_bIsKicking)
                 {
                     PlayerKick(m_cCharacterController);
-                    
+
 
                 }
                 switch (m_cState)
@@ -106,9 +110,9 @@ public class LouisMovement : MonoBehaviour {
                         OnFloor();
                         break;
                     case CStates.Kicking:
-                       if (m_fCurrentKickTime <= m_fMaxKickTime)
+                        if (m_fCurrentKickTime <= m_fMaxKickTime)
                         {
-                                                                ///////////////////////////////////////////////////////////////////////////// Continue work here
+                            ///////////////////////////////////////////////////////////////////////////// Continue work here
                         }
                         break;
                     case CStates.OnWall:
@@ -128,7 +132,7 @@ public class LouisMovement : MonoBehaviour {
 
             }
             else if (!m_bIsDead)
-            {    
+            {
                 this.transform.position = new Vector3(20, -60, 20);
             }
 
@@ -146,7 +150,7 @@ public class LouisMovement : MonoBehaviour {
         Jump(temp);
         //
 
-        PlayerKick();
+        //PlayerKick();
 
 
 
@@ -163,13 +167,21 @@ public class LouisMovement : MonoBehaviour {
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //If the wall is hit, the character will slide slowly on the wall.
-   public void WallSlide()
+    public void WallSlide()
     {
         m_bHitWall = true;
         if (m_bHitWall)
         {
-
-            PlayerTurnAround();
+            //short delay when moving away from wall
+            if (Input.GetAxis(playerNumber + "_Horizontal") >= 0 || Input.GetAxis(playerNumber + "_Horizontal") <= 0)
+            {
+                m_fButtonTimer += 0.05f;
+            }
+            if (m_fButtonTimer >= m_fButtonDelay)
+            {
+                PlayerTurnAround();
+                m_fButtonTimer = 0.0f;
+            }
 
             float tempGravity = m_fWallSlideSpeed;
 
@@ -187,7 +199,7 @@ public class LouisMovement : MonoBehaviour {
         {
             movementDirection.y = 0;
         }
- 
+
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -235,20 +247,20 @@ public class LouisMovement : MonoBehaviour {
                 movementDirection.y = 0.01f;
             }
 
-            UnityEngine.Debug.Log("IsGrounded"); // UnityEngine.Debug.Log just sends the developer a message when this line is reached. Displayed in the Unity Client.
+
             if (temp.isGrounded)
             {
                 m_fJumpTimer = 0.0f;
-                UnityEngine.Debug.Log("IsGrounded2");
+
 
                 if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
                 {
 
                     movementDirection.y = m_fJumpForce;
 
-                    UnityEngine.Debug.Log("Jumping");
+
                     HasJumped = true;
-                  
+
                 }
             }
         }
@@ -258,9 +270,9 @@ public class LouisMovement : MonoBehaviour {
     {
         if (!temp.isGrounded)
         {
-            UnityEngine.Debug.Log("HasJumped");
+
             m_fJumpTimer += Time.deltaTime;
-            UnityEngine.Debug.Log(m_fJumpTimer.ToString());
+
             if (m_fJumpTimer > 0.017)
             {
                 if (Input.GetButtonUp(playerNumber + "_Fire"))
@@ -272,7 +284,7 @@ public class LouisMovement : MonoBehaviour {
                     movementDirection.y = m_fDoubleJumpMoveForce;
                     UnityEngine.Debug.Log("HasDoubleJumped");
                     HasDoubleJumped = true;
-                
+
                 }
             }
         }
@@ -331,7 +343,7 @@ public class LouisMovement : MonoBehaviour {
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }
-        
+
         m_bHitWall = false;
     }
 
@@ -339,11 +351,11 @@ public class LouisMovement : MonoBehaviour {
     {
         m_bIsStunned = true;
         m_fCurrentStunTime += Time.deltaTime;
-        if(m_fCurrentStunTime >= m_fMaxStunTime)
+        if (m_fCurrentStunTime >= m_fMaxStunTime)
         {
             m_bIsStunned = false;
         }
-    
+
     }
     public void PlayerKick(CharacterController Temp)
     {
