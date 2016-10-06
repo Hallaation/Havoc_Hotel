@@ -4,7 +4,8 @@ using System.Collections;
 public enum CStates
 {
     OnFloor,
-    OnWall
+    OnWall,
+    Kicking
 }
 
 public class MovementTest : MonoBehaviour

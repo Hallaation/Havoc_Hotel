@@ -17,7 +17,8 @@ public class MoveLevel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * 10 * Time.deltaTime);
+        transform.Translate(Vector3.down * m_fLevelSpeed * Time.deltaTime);
+        m_fLevelSpeed = refController.m_fOverworldSpeed;
     }
 
     void OnTriggerEnter(Collider other)
