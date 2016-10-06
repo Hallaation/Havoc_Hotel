@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LouisMovement : MonoBehaviour {
+public class LouisMovement : MonoBehaviour
+{
 
     //declaring variables
     public float m_fMoveSpeed = 1.4f;
@@ -28,6 +29,8 @@ public class LouisMovement : MonoBehaviour {
     public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     private bool m_bHitWall; //checks to see if the wall was hit or not.
 
+    private float m_fButtonDelay = 1.0f;
+    float m_fButtonTimer = 0.0f;
     /// <summary>
     /// Wall jumping forces, higher value for bigger push force, lower for less
     /// </summary>
@@ -63,12 +66,12 @@ public class LouisMovement : MonoBehaviour {
             Debug.Log(GetComponent<Collider>().name);
         }
     }
-    
+
 
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
-        Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>() , false);
+        Physics.IgnoreCollision(m_cCharacterController, other.GetComponentInParent<Collider>(), false);
     }
 
 
@@ -99,11 +102,11 @@ public class LouisMovement : MonoBehaviour {
                     OnFloor();
                     break;
             }
-    
+
         }
         else
         {
-            this.transform.position = new Vector3(20,-60,20);
+            this.transform.position = new Vector3(20, -60, 20);
         }
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -132,9 +135,18 @@ public class LouisMovement : MonoBehaviour {
         m_bHitWall = true;
         if (m_bHitWall)
         {
+            //short delay when moving away from wall
+            if (Input.GetAxis(playerNumber + "_Horizontal") >= 0 || Input.GetAxis(playerNumber + "_Horizontal") <= 0)
+            {
+                m_fButtonTimer += 0.05f;
+            }
+            if (m_fButtonTimer >= m_fButtonDelay)
+            {
+                PlayerTurnAround();
+                m_fButtonTimer = 0.0f;
+            }
 
-            PlayerTurnAround();
-
+            Debug.Log(m_fButtonTimer);
             float tempGravity = m_fWallSlideSpeed;
 
             movementDirection.y = -tempGravity;
