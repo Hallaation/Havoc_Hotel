@@ -23,7 +23,7 @@ GameObject:
   - 23: {fileID: 23000012790241804}
   - 33: {fileID: 33000010622568106}
   - 114: {fileID: 114000012011789818}
-  - 64: {fileID: 64000013533620930}
+  - 65: {fileID: 65000011708269350}
   m_Layer: 0
   m_Name: Column_002_Large_001
   m_TagString: Wall
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011568368774}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 3, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -80,8 +80,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011568368774}
   m_Mesh: {fileID: 0}
---- !u!64 &64000013533620930
-MeshCollider:
+--- !u!65 &65000011708269350
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -90,8 +90,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 0}
+  m_Size: {x: 2, y: 6, z: 1}
+  m_Center: {x: 1, y: 0, z: -0.5}
 --- !u!114 &114000012011789818
 MonoBehaviour:
   m_ObjectHideFlags: 1
