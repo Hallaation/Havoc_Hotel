@@ -72,10 +72,10 @@ public class LouisMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("TRIGGERED");
+
             Physics.IgnoreCollision(m_cCharacterController, other.GetComponentInParent<Collider>());
-            Debug.Log(other.name);
-            Debug.Log(GetComponent<Collider>().name);
+
+
         }
     }
 
@@ -92,7 +92,7 @@ public class LouisMovement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
-        refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
+        //refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
         if (!m_bIsDead)
         {
 
