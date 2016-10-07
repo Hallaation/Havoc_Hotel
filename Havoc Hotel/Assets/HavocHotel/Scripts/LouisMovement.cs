@@ -93,6 +93,13 @@ public class LouisMovement : MonoBehaviour
     void Update()
     {
         //refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
+        if (Input.GetButtonDown(playerNumber + "_AltFire"))
+        {
+            
+            Physics.Raycast(this.transform.position, this.transform.forward, 1);
+        }
+
+
         if (!m_bIsDead)
         {
 
@@ -135,7 +142,6 @@ public class LouisMovement : MonoBehaviour
             {
                 this.transform.position = new Vector3(20, -60, 20);
             }
-
 
 
         }
@@ -188,7 +194,7 @@ public class LouisMovement : MonoBehaviour
             movementDirection.y = -tempGravity;
             m_cCharacterController.Move(movementDirection * Time.deltaTime);
 
-            if (Input.GetButtonDown(playerNumber + "_Fire"))
+            if (Input.GetButtonDown(playerNumber + "_Jump"))
             {
                 WallJump();
                 //movementDirection = Vector3.zero;
@@ -253,7 +259,7 @@ public class LouisMovement : MonoBehaviour
                 m_fJumpTimer = 0.0f;
 
 
-                if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
+                if (!HasJumped && Input.GetButtonDown(playerNumber + "_Jump"))// if the players jump button is down
                 {
 
                     movementDirection.y = m_fJumpForce;
@@ -275,11 +281,11 @@ public class LouisMovement : MonoBehaviour
 
             if (m_fJumpTimer > 0.017)
             {
-                if (Input.GetButtonUp(playerNumber + "_Fire"))
+                if (Input.GetButtonUp(playerNumber + "_Jump"))
                 {
                     m_bJumpKeyReleased = true;
                 }
-                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
+                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Jump")) // if the players jump button is down
                 {
                     movementDirection.y = m_fDoubleJumpMoveForce;
                     UnityEngine.Debug.Log("HasDoubleJumped");
@@ -289,6 +295,8 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
+
+
     void MovementCalculations()
     {
         movementDirection.y -= m_fGravity;              // Gravity reduces Y movement every frame
@@ -334,12 +342,12 @@ public class LouisMovement : MonoBehaviour
     void PlayerTurnAround()
     {
 
-        if (Input.GetAxis(playerNumber + "_Horizontal") > 0)
+        if (Input.GetAxis(playerNumber + "_Horizontal") > 0.05)
         {
             //x y z
             transform.rotation = Quaternion.Euler(0, -90, 0);
         }
-        else if (Input.GetAxis(playerNumber + "_Horizontal") < 0)
+        else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.05)
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }
@@ -386,4 +394,5 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
+
 }
