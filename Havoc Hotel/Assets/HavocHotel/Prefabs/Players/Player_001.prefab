@@ -63,7 +63,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1000012159731240
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,7 +88,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010971589822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.338, z: 0.387}
+  m_LocalPosition: {x: 0, y: 0.338, z: 0.445}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -113,8 +113,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012159731240}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 7.67, y: 0.08050001, z: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -238,21 +238,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fMoveSpeed: 1
-  m_fJumpForce: 20
+  m_fJumpForce: 25
   m_fDoubleJumpMoveForce: 20
-  m_fGravity: 1.35
+  m_fGravity: 2
   lookAt: {fileID: 0}
   m_fPushForce: 10
-  movementDirection: {x: 0, y: -1.34, z: 0}
+  movementDirection: {x: 0, y: 0, z: 0}
   HasDoubleJumped: 0
   playerNumber: 0
-  m_fGroundedTime: 26.379866
+  m_fGroundedTime: 0
   m_bAllowDoubleJumpAlways: 0
-  m_fMaxFallSpeed: 12
-  m_cState: 1
-  m_fWallSlideSpeed: 3
-  m_fHorizontalWallJumpForce: 30
-  m_fVerticalWallJumpForce: 25
+  m_fMaxFallSpeed: 25
+  m_cState: 0
+  m_fWallSlideSpeed: 0.5
+  m_fHorizontalWallJumpForce: 20
+  m_fVerticalWallJumpForce: 15
   m_fMaxKickTime: 5
   m_fMaxStunTime: 3
   m_bIsDead: 0

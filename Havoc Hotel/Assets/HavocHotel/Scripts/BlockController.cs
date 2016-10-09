@@ -6,16 +6,15 @@ public class BlockController : MonoBehaviour
     public float m_fOverworldSpeed = 5.0f; //all speed increase except acceleration 
     public float m_fOverworldMaxSpeed = 50.0f; //max speed overworld can go (for countering too high acceleration)
     public float m_fSpeedIncrease = 1.0f; //-modifiable value to change rate at which level increases in speed
-    public float m_fTimeStart = 5.0f; //time 'til level starts moving
 
     //float m_fTimer = 0; //meant to be used to help with block spawn problems 
     //public float m_fSpawnTimer = 1.0f;
 
-    public GameObject[] m_LevelChunk; // array to have list of modular level pieces
+    public GameObject[] m_LevelChunk;
 
-    public bool m_bRunning; // bool to control leel movent
+    public bool m_bRunning;
 
-    
+
     // Use this for initialization
     void Start()
     {
@@ -48,38 +47,22 @@ public class BlockController : MonoBehaviour
             go.GetComponent<MoveLevel>().refController = this;
         }
         */
-
-        m_fTimeStart -= Time.deltaTime;//use delta time to have seconds until bRunning is true
-        if (m_fTimeStart < 0)
+        if (Input.GetKey(KeyCode.Return))
         {
             m_bRunning = true;
         }
 
-
-       // if (Input.GetKey(KeyCode.Return))
-       // {
-       //     m_bRunning = true;
-       // }
-
-        if (Input.GetKey(KeyCode.W))    // test power up stuff
-        {                               // test power up stuff
-            --m_fOverworldSpeed;        // test power up stuff
-        }                               // test power up stuff
-        if (Input.GetKey(KeyCode.S))    // test power up stuff
-        {                               // test power up stuff
-            ++m_fOverworldSpeed;        // test power up stuff
-        }                               // test power up stuff
     }
 
-    void OnTriggerExit(Collider other) // when level block leave box collider activate
+    void OnTriggerExit(Collider other)
     {
-        if (this.tag == "Spawner") // talking to box directly with "Spawner" tag
+        if (this.tag == "Spawner")
         {
-            if (other.tag == "Level") // talking level block with "Level" tag
+            if (other.tag == "Level")
             {
-                Debug.Log(this.tag);       // things to see in console if this is activating
-                Debug.Log("Spawn level");  // things to see in console if this is activating
-                Spawn(); // activate Spawn() funct 
+                Debug.Log(this.tag);
+                Debug.Log("Spawn level");
+                Spawn();
             }
         }
 
@@ -90,19 +73,51 @@ public class BlockController : MonoBehaviour
     void Spawn()
     {
 
-        int iRandIndex = Random.Range(0, m_LevelChunk.Length); // rand list to choose level block or in this case "chunk"
-        GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
-        go.GetComponent<MoveLevel>().refController = this; //refrance MoveLevel???????????????????????
-
-        if (m_fOverworldSpeed <= m_fOverworldMaxSpeed) //if state to make max speed posible
+        int iRandIndex = Random.Range(0, m_LevelChunk.Length);
+        GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject;
+        go.GetComponent<MoveLevel>().refController = this;
+        if (m_fOverworldSpeed <= m_fOverworldMaxSpeed)
         {
             go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
             m_fOverworldSpeed += m_fSpeedIncrease;
+
         }
         else
         {
-            go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldMaxSpeed;//iff world speed more than max speed; make world speed max speed
+            go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldMaxSpeed;
         }
+
+
+        // if (m_fCounter >= 2)
+        // {
+        //     int iRandIndex = Random.Range(0, m_LevelChunk.Length);
+        //     GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject;
+        //     go.GetComponent<MoveLevel>().refController = this;
+        //     if (m_fOverworldSpeed <= m_fOverworldMaxSpeed)
+        //     {
+        //         go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+        //        // go.GetComponent<MoveLevel>().refController = this;
+        //     }
+        //     else
+        //     {
+        //         go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldMaxSpeed;
+        //     }
+        // }
+        // else if (m_fCounter >= 2)
+        // {
+        //     GameObject go = Instantiate(m_LevelChunk[m_fCounter], transform.position, Quaternion.identity) as GameObject;
+        //     go.GetComponent<MoveLevel>().refController = this;
+        //     m_fCounter++;
+        //     if (m_fOverworldSpeed <= m_fOverworldMaxSpeed)
+        //     {
+        //         go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+        //        // go.GetComponent<MoveLevel>().refController = this;
+        //     }
+        //     else
+        //     {
+        //         go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldMaxSpeed;
+        //     }
+        // }
     }
 }
 

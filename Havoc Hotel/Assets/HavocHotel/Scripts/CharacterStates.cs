@@ -10,11 +10,11 @@ public class CharacterStates : MonoBehaviour
     void Start()
     {
         //returns to dev if the script is properly being made/instanced
+
     }
     //changes character state to wall jumping/sliding
     void OnTriggerEnter(Collider other)
     {
-        //check to see if it isnt the kick hitbox
         if (this.tag != "Kick")
         {
             if (other.tag == "Wall")
@@ -22,13 +22,17 @@ public class CharacterStates : MonoBehaviour
                 m_refMovement.m_cState = CStates.OnWall;
             }
 
-            //if the thing im colliding with has the player tag, allow pushing.
-            Push(other);
-        }
+            if (other.tag == "Player")
+            {
+                if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
+                {
+                    Push(other);
+                }
+            }
 
+        }
     }
 
-    //when leaving the wall, the on player is switched the "onfloor" state which allow further regular movement
     void OnTriggerExit(Collider a_collision)
     {
         //exit out of wall jumping state and into onfloor
@@ -36,18 +40,22 @@ public class CharacterStates : MonoBehaviour
         {
             m_refMovement.m_cState = CStates.OnFloor;
         }
-        Push(a_collision);
     }
 
-    //??
     void OnPlayerKick(Collider a_collision)
     {
-        if (this.tag == "Player" && a_collision.tag == "Kick")
+        if(this.tag == "Player" && a_collision.tag == "Kick")
         {
             //a_collision.gameObject.GetComponent<LouisMovement>()
         }
     }
 
+
+    //check to see if the collider entered something
+    void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("I entered something");
+    }
 
     /// <summary>
     /// while the trigger stays in a collider check if it is in another player, if so push them
@@ -55,22 +63,19 @@ public class CharacterStates : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerStay(Collider other)
     {
-        Push(other);
-    }
-
-    //only called when tag is player, this pushes the other collider's charactercontroller.
-    void Push(Collider a_collider)
-    {
-
-        //if the thing im colliding with has the player tag, allow pushing.
-        if (a_collider.tag == "Player")
+        if (other.tag == "Player")
         {
             if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
             {
-                a_collider.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * m_refMovement.m_fPushForce;
+                Push(other);
             }
         }
     }
+
+    void Push(Collider a_collider)
+    {
+        //a_collider.GetComponent<CharacterController>().Move(this.transform.forward * m_refMovement.m_fPushForce * Time.deltaTime) ;
+        a_collider.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * m_refMovement.m_fPushForce;
+    }
+
 }
-
-

@@ -6,7 +6,7 @@ public class MoveLevel : MonoBehaviour
     public float m_fLevelSpeed = 1.0f; //-modifiable value for designers (modifiable in unity)- initial speed of level
     
 
-    public BlockController refController; // refrance BlockController
+    public BlockController refController;
 
 
     // Use this for initialization
@@ -17,18 +17,18 @@ public class MoveLevel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (refController.m_bRunning) 
+        if (refController.m_bRunning)
         {
-            transform.Translate(Vector3.down * m_fLevelSpeed * Time.deltaTime); // move level
-            m_fLevelSpeed = refController.m_fOverworldSpeed; // makes levelSpeed OBEY worldSpeed
+            transform.Translate(Vector3.down * m_fLevelSpeed * Time.deltaTime);
+            m_fLevelSpeed = refController.m_fOverworldSpeed;
         }
     }
 
-    void OnTriggerEnter(Collider other)// when colliding with box collider at bottom  
+    void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Finish") // 
+        if (other.tag == "Finish")
         {
-            Destroy(this.gameObject); // destroy level blocks
+            Destroy(this.gameObject);
         }
 
     }

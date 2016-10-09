@@ -45,6 +45,8 @@ public class LouisMovement : MonoBehaviour
     private CharacterController m_cCharacterController; //character controller reference
     float m_fCurrentStunTime;
     public float m_fMaxKickTime = 5f;
+    float m_fTimeSinceLastKick;
+    float m_fKickCoolDown;
     float m_fCurrentKickTime;
     public float m_fMaxStunTime = 3.0f;
     private bool m_bIsStunned;
@@ -93,13 +95,6 @@ public class LouisMovement : MonoBehaviour
     void Update()
     {
         //refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
-        if (Input.GetButtonDown(playerNumber + "_AltFire"))
-        {
-            
-            Physics.Raycast(this.transform.position, this.transform.forward, 1);
-        }
-
-
         if (!m_bIsDead)
         {
 
@@ -117,10 +112,13 @@ public class LouisMovement : MonoBehaviour
                         OnFloor();
                         break;
                     case CStates.Kicking:
-                        if (m_fCurrentKickTime <= m_fMaxKickTime)
+                        if (m_bIsKicking == false)
                         {
-                            ///////////////////////////////////////////////////////////////////////////// Continue work here
+
                         }
+                        CharacterController temp = GetComponent<CharacterController>();
+                        PlayerKick(temp);
+
                         break;
                     case CStates.OnWall:
                         if (!m_cCharacterController.isGrounded)
@@ -144,6 +142,7 @@ public class LouisMovement : MonoBehaviour
             }
 
 
+
         }
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -156,7 +155,7 @@ public class LouisMovement : MonoBehaviour
         Jump(temp);
         //
 
-        //PlayerKick();
+        PlayerKick(temp);
 
 
 
@@ -194,7 +193,7 @@ public class LouisMovement : MonoBehaviour
             movementDirection.y = -tempGravity;
             m_cCharacterController.Move(movementDirection * Time.deltaTime);
 
-            if (Input.GetButtonDown(playerNumber + "_Jump"))
+            if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
                 WallJump();
                 //movementDirection = Vector3.zero;
@@ -259,7 +258,7 @@ public class LouisMovement : MonoBehaviour
                 m_fJumpTimer = 0.0f;
 
 
-                if (!HasJumped && Input.GetButtonDown(playerNumber + "_Jump"))// if the players jump button is down
+                if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
                 {
 
                     movementDirection.y = m_fJumpForce;
@@ -281,11 +280,11 @@ public class LouisMovement : MonoBehaviour
 
             if (m_fJumpTimer > 0.017)
             {
-                if (Input.GetButtonUp(playerNumber + "_Jump"))
+                if (Input.GetButtonUp(playerNumber + "_Fire"))
                 {
                     m_bJumpKeyReleased = true;
                 }
-                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Jump")) // if the players jump button is down
+                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
                 {
                     movementDirection.y = m_fDoubleJumpMoveForce;
                     UnityEngine.Debug.Log("HasDoubleJumped");
@@ -295,8 +294,6 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
-
-
     void MovementCalculations()
     {
         movementDirection.y -= m_fGravity;              // Gravity reduces Y movement every frame
@@ -342,12 +339,12 @@ public class LouisMovement : MonoBehaviour
     void PlayerTurnAround()
     {
 
-        if (Input.GetAxis(playerNumber + "_Horizontal") > 0.05)
+        if (Input.GetAxis(playerNumber + "_Horizontal") > 0)
         {
             //x y z
             transform.rotation = Quaternion.Euler(0, -90, 0);
         }
-        else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.05)
+        else if (Input.GetAxis(playerNumber + "_Horizontal") < 0)
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }
@@ -386,6 +383,8 @@ public class LouisMovement : MonoBehaviour
             {
                 m_bIsKicking = false;
                 ref_KickHitBox.SetActive(false);
+                m_fCurrentKickTime = 0f;
+                m_cState = CStates.OnFloor;
             }
             else
             {
@@ -394,5 +393,4 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
-
 }
