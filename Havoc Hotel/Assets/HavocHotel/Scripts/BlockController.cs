@@ -102,7 +102,7 @@ public class BlockController : MonoBehaviour
         if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
         {
             go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-            //m_fOverworldSpeed += m_fSpeedIncrease;
+            m_fOverworldSpeed += m_fSpeedIncrease;
         }
         else if (m_fOverworldSpeed > m_fOverworldMaxSpeed)
         {
