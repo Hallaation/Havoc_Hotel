@@ -13,7 +13,7 @@ public class LouisMovement : MonoBehaviour
     public float m_fGravity = 1.4f;
     public float m_fMaxFallSpeed = 15.0f;
     public Transform lookAt;
-
+    public float m_fMaxKickSpeed = 25.0f;
     public float m_fPushForce = 10.0f;
     private float m_fButtonDelay = 1.0f;
     float m_fButtonTimer = 0.0f;
