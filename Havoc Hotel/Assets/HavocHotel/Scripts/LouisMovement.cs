@@ -11,6 +11,7 @@ public class LouisMovement : MonoBehaviour
     public float m_fJumpForce = 25.0f;
     public float m_fDoubleJumpMoveForce = 20f;
     public float m_fGravity = 1.4f;
+    public float m_fMaxFallSpeed = 15.0f;
     public Transform lookAt;
 
     public float m_fPushForce = 10.0f;
@@ -30,7 +31,7 @@ public class LouisMovement : MonoBehaviour
     public int playerNumber; //Input manager to know which joypad number to use
     public float m_fGroundedTime;
     public bool m_bAllowDoubleJumpAlways;
-    public float m_fMaxFallSpeed = 25.0f; //maximum downfall momentum
+     //maximum downfall momentum
 
     public CStates m_cState;
     public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
@@ -114,11 +115,13 @@ public class LouisMovement : MonoBehaviour
                     case CStates.Kicking:
                         if (m_bIsKicking == false)
                         {
-
+                            m_cState = CStates.OnFloor;
                         }
                         CharacterController temp = GetComponent<CharacterController>();
                         PlayerKick(temp);
+                        MovementCalculations();
 
+                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                         break;
                     case CStates.OnWall:
                         if (!m_cCharacterController.isGrounded)
@@ -149,6 +152,7 @@ public class LouisMovement : MonoBehaviour
     //on floor movement
     void OnFloor()
     {
+        m_fCurrentKickTime = 0;
         PlayerTurnAround();
 
         CharacterController temp = GetComponent<CharacterController>();
@@ -366,6 +370,7 @@ public class LouisMovement : MonoBehaviour
     {
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_AltFire"))
         {
+            m_bIsKicking = true;
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
@@ -377,9 +382,12 @@ public class LouisMovement : MonoBehaviour
                 movementDirection.y = -20f;
                 movementDirection.x = 10f;
             }
-            m_fCurrentKickTime += Time.deltaTime;
-            m_fMaxFallSpeed = 20f;
-            if (m_fCurrentKickTime >= m_fMaxKickTime)
+        }
+        m_fCurrentKickTime += Time.deltaTime;
+        // m_fMaxFallSpeed = 20f;
+        if (m_bIsKicking == true)
+        {
+            if (m_fCurrentKickTime >= m_fMaxKickTime || Temp.isGrounded )
             {
                 m_bIsKicking = false;
                 ref_KickHitBox.SetActive(false);
@@ -388,8 +396,16 @@ public class LouisMovement : MonoBehaviour
             }
             else
             {
+                movementDirection.y = -20f;
+                if (movementDirection.x > 0)
+                {
+                    movementDirection.x = 10f;
+                }
+                else
+                    movementDirection.x = -10f;
                 ref_KickHitBox.SetActive(true);
                 m_bIsKicking = true;
+                m_cState = CStates.Kicking;
             }
         }
     }
