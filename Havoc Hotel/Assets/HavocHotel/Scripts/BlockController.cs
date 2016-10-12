@@ -48,14 +48,15 @@ public class BlockController : MonoBehaviour
                     go.GetComponent<MoveLevel>().refController = this;
                 }
                 */
-                
+
 
         m_fTimeStart -= Time.deltaTime;//use delta time to have seconds until bRunning is true
-        if (m_fTimeStart < 0)
-        {
-            m_bRunning = true;
-        }
+                                       //if (m_fTimeStart < 0)
+                                       //{
+                                       //m_bRunning = true;
+                                       //}
 
+        m_bRunning = true;
 
         // if (Input.GetKey(KeyCode.Return))
         // {
@@ -74,6 +75,10 @@ public class BlockController : MonoBehaviour
 
     void OnTriggerExit(Collider other) // when level block leave box collider activate
     {
+        if (this.tag == "Player")
+        {
+            Debug.Log("Player is trying something");
+        }
         if (this.tag == "Spawner") // talking to box directly with "Spawner" tag
         {
             if (other.tag == "Level") // talking level block with "Level" tag
@@ -90,7 +95,6 @@ public class BlockController : MonoBehaviour
 
     void Spawn()
     {
-
         int iRandIndex = Random.Range(0, m_LevelChunk.Length); // rand list to choose level block or in this case "chunk"
         GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
         go.GetComponent<MoveLevel>().refController = this; //refrance MoveLevel???????????????????????
@@ -98,12 +102,13 @@ public class BlockController : MonoBehaviour
         if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
         {
             go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-            m_fOverworldSpeed += m_fSpeedIncrease;
+            //m_fOverworldSpeed += m_fSpeedIncrease;
         }
-        else if(m_fOverworldSpeed > m_fOverworldMaxSpeed)
+        else if (m_fOverworldSpeed > m_fOverworldMaxSpeed)
         {
             go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldMaxSpeed;//iff world speed more than max speed; make world speed max speed
         }
+
     }
 }
 
