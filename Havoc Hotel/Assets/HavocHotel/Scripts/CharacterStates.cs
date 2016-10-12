@@ -12,6 +12,21 @@ public class CharacterStates : MonoBehaviour
         //returns to dev if the script is properly being made/instanced
 
     }
+
+
+    void Update()
+    {
+        RaycastHit hit;
+      
+        if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
+        {
+            Debug.DrawRay(this.transform.position, this.transform.forward);
+            if (Physics.Raycast(transform.position, this.transform.forward, out hit, 0.5f))
+            {
+                hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += m_refMovement.m_fPushForce;
+            }
+        }
+    }
     //changes character state to wall jumping/sliding
     void OnTriggerEnter(Collider other)
     {
@@ -22,13 +37,13 @@ public class CharacterStates : MonoBehaviour
                 m_refMovement.m_cState = CStates.OnWall;
             }
 
-            if (other.tag == "Player")
-            {
-                if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
-                {
-                    Push(other);
-                }
-            }
+            //if (other.tag == "Player")
+            //{
+            //    if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
+            //    {
+            //        Push(other);
+            //    }
+            //}
 
         }
     }
@@ -36,15 +51,15 @@ public class CharacterStates : MonoBehaviour
     void OnTriggerExit(Collider a_collision)
     {
         //exit out of wall jumping state and into onfloor
-        if (a_collision.tag == "Wall" && this.tag != "Kick")
-        {
-            m_refMovement.m_cState = CStates.OnFloor;
-        }
+        //if (a_collision.tag == "Wall" && this.tag != "Kick")
+        //{
+        //    m_refMovement.m_cState = CStates.OnFloor;
+        //}
     }
 
     void OnPlayerKick(Collider a_collision)
     {
-        if(this.tag == "Player" && a_collision.tag == "Kick")
+        if (this.tag == "Player" && a_collision.tag == "Kick")
         {
             //a_collision.gameObject.GetComponent<LouisMovement>()
         }
@@ -63,13 +78,13 @@ public class CharacterStates : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
-        {
-            if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
-            {
-                Push(other);
-            }
-        }
+        //if (other.tag == "Player")
+        //{
+        //    if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
+        //    {
+        //        Push(other);
+        //    }
+        //}
     }
 
     void Push(Collider a_collider)
