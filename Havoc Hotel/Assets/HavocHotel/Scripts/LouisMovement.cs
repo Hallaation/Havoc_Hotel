@@ -15,7 +15,7 @@ public class LouisMovement : MonoBehaviour
     public Transform lookAt;
     public float m_fMaxKickSpeed = 25.0f;
     public float m_fPushForce = 10.0f;
-    private float m_fButtonDelay = 1.0f;
+    public float m_fButtonDelay = 1.0f;
     float m_fButtonTimer = 0.0f;
 
 
@@ -31,7 +31,7 @@ public class LouisMovement : MonoBehaviour
     public int playerNumber; //Input manager to know which joypad number to use
     public float m_fGroundedTime;
     public bool m_bAllowDoubleJumpAlways;
-     //maximum downfall momentum
+    //maximum downfall momentum
 
     public CStates m_cState;
     public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
@@ -49,7 +49,7 @@ public class LouisMovement : MonoBehaviour
     float m_fTimeSinceLastKick;
     float m_fKickCoolDown;
     float m_fCurrentKickTime;
-    public float m_fMaxStunTime = 3.0f;
+    public float m_fMaxStunTime = 15.0f;
     private bool m_bIsStunned;
     public bool m_bIsDead;
 
@@ -95,59 +95,66 @@ public class LouisMovement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
+        CharacterController temp = GetComponent<CharacterController>();
+        Debug.Log(playerNumber + m_cState.ToString());
         //refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
         if (!m_bIsDead)
         {
 
-            if (!m_bIsStunned)
+
+            if (m_bIsKicking)
             {
-                if (m_bIsKicking)
-                {
-                    PlayerKick(m_cCharacterController);
-
-
-                }
-                switch (m_cState)
-                {
-                    case CStates.OnFloor:
-                        OnFloor();
-                        break;
-                    case CStates.Kicking:
-                        if (m_bIsKicking == false)
-                        {
-                            m_cState = CStates.OnFloor;
-                        }
-                        CharacterController temp = GetComponent<CharacterController>();
-                        PlayerKick(temp);
-                        MovementCalculations();
-
-                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
-                        break;
-                    case CStates.OnWall:
-                        if (!m_cCharacterController.isGrounded)
-                        {
-                            WallSlide();
-                        }
-                        else
-                        {
-                            OnFloor();
-                        }
-                        break;
-                    default:
-                        OnFloor();
-                        break;
-                }
-
-            }
-            else if (!m_bIsDead)
-            {
-                this.transform.position = new Vector3(20, -60, 20);
+                PlayerKick(m_cCharacterController);
             }
 
-
+            switch (m_cState)
+            {
+                case CStates.Stunned:
+                    
+                    PlayerStun();
+                    temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                    break;
+                case CStates.OnFloor:
+                    OnFloor();
+                    break;
+                case CStates.Kicking:
+                    if (m_bIsKicking == false)
+                    {
+                        m_cState = CStates.OnFloor;
+                    }
+                  
+                    PlayerKick(temp);
+                    MovementCalculations();
+                    m_fGroundedTime = 0;
+                    temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                    break;
+                case CStates.OnWall:
+                    m_fGroundedTime = 0;
+                    if (!m_cCharacterController.isGrounded)
+                    {
+                        WallSlide();
+                    }
+                    else
+                    {
+                        OnFloor();
+                    }
+                    break;
+                default:
+                    OnFloor();
+                    break;
+            }
 
         }
+        else
+        {
+            this.transform.position = new Vector3(20, -60, 20);
+        }
+
+
+
     }
+
+
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //on floor movement
     void OnFloor()
@@ -182,10 +189,10 @@ public class LouisMovement : MonoBehaviour
         if (m_bHitWall)
         {
             //short delay when moving away from wall
-            if (Input.GetAxis(playerNumber + "_Horizontal") >= 0 || Input.GetAxis(playerNumber + "_Horizontal") <= 0)
-            {
-                m_fButtonTimer += 0.05f;
-            }
+
+            bool horizontalActive = Input.GetAxis(playerNumber + "_Horizontal") != 0;
+            m_fButtonTimer += 0.05f * System.Convert.ToByte(horizontalActive);
+
             if (m_fButtonTimer >= m_fButtonDelay)
             {
                 PlayerTurnAround();
@@ -251,7 +258,7 @@ public class LouisMovement : MonoBehaviour
             HasJumped = false;
             HasDoubleJumped = false;
             m_fGroundedTime += Time.deltaTime;
-            if (m_fGroundedTime >= m_f1FramePasses)
+            if (m_fGroundedTime >= m_f1FramePasses * 3)
             {
                 movementDirection.y = 0.01f;
             }
@@ -291,7 +298,7 @@ public class LouisMovement : MonoBehaviour
                 if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
                 {
                     movementDirection.y = m_fDoubleJumpMoveForce;
-                    UnityEngine.Debug.Log("HasDoubleJumped");
+
                     HasDoubleJumped = true;
 
                 }
@@ -300,7 +307,7 @@ public class LouisMovement : MonoBehaviour
     }
     void MovementCalculations()
     {
-        movementDirection.y -= m_fGravity;              // Gravity reduces Y movement every frame
+        movementDirection.y -= m_fGravity * Time.deltaTime;              // Gravity reduces Y movement every frame
         if (movementDirection.y < -m_fMaxFallSpeed)     // Prevents passing max fall speed
         {
             movementDirection.y = -m_fMaxFallSpeed;
@@ -310,30 +317,33 @@ public class LouisMovement : MonoBehaviour
         {
             movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
         }
-
-
-
-        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
-        {
-            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-        }
-        if (movementDirection.x < 0.0f)
-        {
+        else if(movementDirection.x < 0.0f)
+        { 
             movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
         }
+
+
         if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
         {
             movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-        }
-        //-------------------------------------------------------------------------------------------------------------------------------------//
-        if (movementDirection.x > 10)
-        {
-            movementDirection.x = 10;                   // Max speed settings
-        }
 
-        if (movementDirection.x < -10)
+        }
+        else
         {
-            movementDirection.x = -10;                   // Max speed settings
+
+
+        
+
+            //-------------------------------------------------------------------------------------------------------------------------------------//
+            if (movementDirection.x > 10)
+            {
+                movementDirection.x = 10;                   // Max speed settings
+            }
+
+           else if (movementDirection.x < -10)
+            {
+                movementDirection.x = -10;                   // Max speed settings
+            }
         }
     }
 
@@ -359,16 +369,21 @@ public class LouisMovement : MonoBehaviour
     public void PlayerStun()
     {
         m_bIsStunned = true;
+        m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
         if (m_fCurrentStunTime >= m_fMaxStunTime)
         {
             m_bIsStunned = false;
+            m_cState = CStates.OnFloor;
+            Debug.Log(playerNumber + " Leave stun");
+            m_fCurrentStunTime = 0;
         }
-
+        movementDirection.y = -5f;
+        
     }
     public void PlayerKick(CharacterController Temp)
     {
-        if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_AltFire"))
+        if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick"))
         {
             m_bIsKicking = true;
             PlayerTurnAround();
@@ -387,7 +402,7 @@ public class LouisMovement : MonoBehaviour
         // m_fMaxFallSpeed = 20f;
         if (m_bIsKicking == true)
         {
-            if (m_fCurrentKickTime >= m_fMaxKickTime || Temp.isGrounded )
+            if (m_fCurrentKickTime >= m_fMaxKickTime || Temp.isGrounded)
             {
                 m_bIsKicking = false;
                 ref_KickHitBox.SetActive(false);

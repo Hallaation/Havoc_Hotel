@@ -16,16 +16,16 @@ public class CharacterStates : MonoBehaviour
 
     void Update()
     {
-        RaycastHit hit;
-      
-        if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
-        {
-            Debug.DrawRay(this.transform.position, this.transform.forward);
-            if (Physics.Raycast(transform.position, this.transform.forward, out hit, 0.5f))
-            {
-                hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += m_refMovement.m_fPushForce;
-            }
-        }
+        //RaycastHit hit;
+
+        //if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
+        //{
+        //    Debug.DrawRay(this.transform.position, this.transform.forward);
+        //    if (Physics.Raycast(transform.position, this.transform.forward, out hit, 0.5f))
+        //    {
+        //        hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += m_refMovement.m_fPushForce;
+        //    }
+        //}
     }
     //changes character state to wall jumping/sliding
     void OnTriggerEnter(Collider other)
@@ -46,30 +46,43 @@ public class CharacterStates : MonoBehaviour
             //}
 
         }
+        if (this.tag == "Kick")
+        {
+            
+
+            if (other.tag == "Head")
+            {
+                GetComponentInParent<LouisMovement>().movementDirection.y = 30f;
+                other.GetComponentInParent<LouisMovement>().m_cState = CStates.Stunned;
+   
+                //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
+                //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
+                this.m_refMovement.m_cState = CStates.OnFloor;
+
+            }
+        }
     }
 
     void OnTriggerExit(Collider a_collision)
     {
         //exit out of wall jumping state and into onfloor
-        //if (a_collision.tag == "Wall" && this.tag != "Kick")
-        //{
-        //    m_refMovement.m_cState = CStates.OnFloor;
-        //}
-    }
-
-    void OnPlayerKick(Collider a_collision)
-    {
-        if (this.tag == "Player" && a_collision.tag == "Kick")
+        if (a_collision.tag == "Wall" && this.tag != "Kick")
         {
-            //a_collision.gameObject.GetComponent<LouisMovement>()
+            m_refMovement.m_cState = CStates.OnFloor;
         }
     }
 
 
+
     //check to see if the collider entered something
-    void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision a_collision)
     {
-        Debug.Log("I entered something");
+        //Debug.Log("I entered something");
+        //if (this.tag == "Player" && a_collision.gameObject.tag == "Kick")
+        //{
+        //    a_collision.gameObject.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
+        //    Debug.Log("Yay");
+        //}
     }
 
     /// <summary>
@@ -87,10 +100,10 @@ public class CharacterStates : MonoBehaviour
         //}
     }
 
-    void Push(Collider a_collider)
-    {
-        //a_collider.GetComponent<CharacterController>().Move(this.transform.forward * m_refMovement.m_fPushForce * Time.deltaTime) ;
-        a_collider.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * m_refMovement.m_fPushForce;
-    }
+    //void Push(Collider a_collider)
+    //{
+    //    //a_collider.GetComponent<CharacterController>().Move(this.transform.forward * m_refMovement.m_fPushForce * Time.deltaTime) ;
+    //    a_collider.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * m_refMovement.m_fPushForce;
+    //}
 
 }
