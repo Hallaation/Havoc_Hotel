@@ -47,12 +47,12 @@ public class BlockController : MonoBehaviour
 
 
         m_fTimeStart -= Time.deltaTime;//use delta time to have seconds until bRunning is true
-                                       //if (m_fTimeStart < 0)
-                                       //{
-                                       //m_bRunning = true;
-                                       //}
 
-        m_bRunning = true;
+        if (m_fTimeStart <= 0)
+        {
+            m_bRunning = true;
+        }
+        
 
         // if (Input.GetKey(KeyCode.Return))
         // {

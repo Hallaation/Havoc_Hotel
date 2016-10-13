@@ -435,6 +435,11 @@ Prefab:
       propertyPath: m_fJumpForce
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: m_bIsStunned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
   m_IsPrefabParent: 0
@@ -849,7 +854,7 @@ MonoBehaviour:
   m_fOverworldSpeed: 1
   m_fOverworldMaxSpeed: 20
   m_fSpeedIncrease: 0.1
-  m_fTimeStart: 1
+  m_fTimeStart: 10
   m_LevelChunk:
   - {fileID: 1000010593156732, guid: c2d371bd195d1074586696d1e4c2472a, type: 2}
   - {fileID: 1000010133717218, guid: 8c50a93d7099de54f9a759f1e4cc6c98, type: 2}
