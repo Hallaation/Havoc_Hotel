@@ -7,15 +7,11 @@ public class BlockController : MonoBehaviour
     public float m_fOverworldMaxSpeed = 50.0f; //max speed overworld can go (for countering too high acceleration)
     public float m_fSpeedIncrease = 1.0f; //-modifiable value to change rate at which level increases in speed
     public float m_fTimeStart = 0.0f; //time 'til level starts moving
-
-    //float m_fTimer = 0; //meant to be used to help with block spawn problems 
-    //public float m_fSpawnTimer = 1.0f;
-
+    
     public GameObject[] m_LevelChunk; // array to have list of modular level pieces
 
     public bool m_bRunning; // bool to control leel movent
-
-
+    
     // Use this for initialization
     void Start()
     {
@@ -71,6 +67,9 @@ public class BlockController : MonoBehaviour
         {                               // test power up stuff
             ++m_fOverworldSpeed;        // test power up stuff
         }                               // test power up stuff
+
+       
+        
     }
 
     void OnTriggerExit(Collider other) // when level block leave box collider activate
@@ -111,8 +110,6 @@ public class BlockController : MonoBehaviour
 
     }
 }
-
-
 
 
 
