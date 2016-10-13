@@ -103,21 +103,27 @@ public class LouisMovement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
-        RaycastHit hit;
+<<<<<<< HEAD
         CharacterController temp = GetComponent<CharacterController>();
-         refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
-        
+        Debug.Log(playerNumber + m_cState.ToString());
+        //refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
+        if (!m_bIsDead)
+        {
+=======
+        RaycastHit hit;
+        refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
         if (m_bIsPlaying)
         {
-         if (!m_bIsDead)
-        {
-
-            if (!m_bIsStunned)
+            if (!m_bIsDead)
             {
-                if (m_bIsKicking)
+
+                if (!m_bIsStunned)
                 {
-                    PlayerKick(m_cCharacterController);
-          }
+                    if (m_bIsKicking)
+                    {
+                        PlayerKick(m_cCharacterController);
+                    }
+
                     //shoots a raycast forward from the player, if it hits another player, it pushes them
                     if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
                     {
@@ -132,7 +138,53 @@ public class LouisMovement : MonoBehaviour
                             }
                         }
                     }
-             switch (m_cState)
+
+                    switch (m_cState)
+                    {
+                        case CStates.OnFloor:
+                            OnFloor();
+                            break;
+                        case CStates.Kicking:
+                            if (m_bIsKicking == false)
+                            {
+                                m_cState = CStates.OnFloor;
+                            }
+                            CharacterController temp = GetComponent<CharacterController>();
+                            PlayerKick(temp);
+                            MovementCalculations();
+
+                            temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                            break;
+                        case CStates.OnWall:
+                            if (!m_cCharacterController.isGrounded)
+                            {
+                                WallSlide();
+                            }
+                            else
+                            {
+                                OnFloor();
+                            }
+                            break;
+                        default:
+                            OnFloor();
+                            break;
+                    }
+
+                }
+                else if (!m_bIsDead)
+                {
+                    this.transform.position = new Vector3(20, -60, 20);
+                }
+>>>>>>> 561def91273a54f0b5de7de1e196f0c142df5f9d
+
+
+            if (m_bIsKicking)
+            {
+                PlayerKick(m_cCharacterController);
+            }
+<<<<<<< HEAD
+
+            switch (m_cState)
             {
                 case CStates.Stunned:
                     
@@ -169,17 +221,15 @@ public class LouisMovement : MonoBehaviour
                     break;
             }
 
-            }
-            else if (!m_bIsDead)
-            {
-                this.transform.position = new Vector3(20, -60, 20);
-            }
-
-
-
         }
-    }
-            }
+        else
+        {
+            this.transform.position = new Vector3(20, -60, 20);
+        }
+
+
+
+=======
         }
         else
         {
@@ -207,7 +257,10 @@ public class LouisMovement : MonoBehaviour
             //    ++m_iQuickRelease;
             //}
         }
+>>>>>>> 561def91273a54f0b5de7de1e196f0c142df5f9d
     }
+
+
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //on floor movement
     void OnFloor()

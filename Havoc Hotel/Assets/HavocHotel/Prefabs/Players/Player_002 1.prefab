@@ -116,7 +116,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011485475738}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.338, z: 0.445}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0.445}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -129,7 +129,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013625616486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.153, y: 0, z: 0.5}
+  m_LocalPosition: {x: -4.34, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -224,7 +224,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.5, z: 0.08}
+  m_Size: {x: 0.05, y: 0.3, z: 0.08}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114000013705924112
 MonoBehaviour:
@@ -241,14 +241,16 @@ MonoBehaviour:
   m_fJumpForce: 25
   m_fDoubleJumpMoveForce: 20
   m_fGravity: 2
+  m_fMaxFallSpeed: 25
   lookAt: {fileID: 0}
+  m_fMaxKickSpeed: 25
   m_fPushForce: 10
+  m_fButtonDelay: 1
   movementDirection: {x: 0, y: 0, z: 0}
   HasDoubleJumped: 0
-  playerNumber: 5
+  playerNumber: 1
   m_fGroundedTime: 0
   m_bAllowDoubleJumpAlways: 0
-  m_fMaxFallSpeed: 25
   m_cState: 0
   m_fWallSlideSpeed: 0.5
   m_fHorizontalWallJumpForce: 20
@@ -256,8 +258,10 @@ MonoBehaviour:
   m_fMaxKickTime: 5
   m_fMaxStunTime: 3
   m_bIsDead: 0
-  refPlayerStatus: {fileID: 0}
+  refPlayerStatus: {fileID: 114000013362225374, guid: 9b66948df56f16c4292dc84ecc88d93a,
+    type: 2}
   ref_KickHitBox: {fileID: 1000013456751676}
+  ref_PlayerArray: {fileID: 0}
 --- !u!114 &114000013834205958
 MonoBehaviour:
   m_ObjectHideFlags: 1
