@@ -69,10 +69,10 @@ public class CharacterStates : MonoBehaviour
     void OnTriggerExit(Collider a_collision)
     {
         //exit out of wall jumping state and into onfloor
-        //if (a_collision.tag == "Wall" && this.tag != "Kick")
-        //{
-        //    m_refMovement.m_cState = CStates.OnFloor;
-        //}
+        if (a_collision.tag == "Wall" && this.tag != "Kick")
+        {
+            m_refMovement.m_cState = CStates.OnFloor;
+        }
     }
 
     void OnPlayerKick(Collider a_collision)
