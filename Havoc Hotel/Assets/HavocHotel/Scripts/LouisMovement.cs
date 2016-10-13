@@ -51,7 +51,7 @@ public class LouisMovement : MonoBehaviour
     float m_fKickCoolDown;
     float m_fCurrentKickTime;
     public float m_fMaxStunTime = 15.0f;
-    private bool m_bIsStunned;
+    public bool m_bIsStunned;
     public bool m_bIsDead;
 
     public UnityEngine.UI.Text refPlayerStatus;
@@ -188,7 +188,7 @@ public class LouisMovement : MonoBehaviour
 
             }
         }
-    }
+   // }
     //    }
 
 
@@ -202,23 +202,26 @@ public class LouisMovement : MonoBehaviour
     //}
     //        }
     //        //quick stun release. mash button to release stun (when in stun) 
-    //        if (m_bIsStunned)
-    //        {
-    //            if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
-    //            {
-    //                m_bIsStunned = false;
-    //                m_iQuickRelease = 0;
-    //            }
-    //            if (Input.GetKey(KeyCode.Q))    //when press 'Q' adds to quick release counter  
-    //            {                               
-    //                ++m_iQuickRelease;              
-    //            }
-    //            //if (Input.GetAxis(playerNumber + "_Release")) //try to put xb360 controles
-    //            //{
-    //            //    ++m_iQuickRelease;
-    //            //}
-    //        }
-    //    }
+            if (m_bIsStunned)
+            {
+                if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
+                {
+                Debug.Log("stunrelease");
+                    m_bIsStunned = false;
+                m_cState = CStates.OnFloor;
+                    m_iQuickRelease = 0;
+                }
+                if (Input.GetKeyDown(KeyCode.Q))    //when press 'Q' adds to quick release counter  
+                {                               
+                    ++m_iQuickRelease;
+                Debug.Log("qIsPressed");
+            }
+                //if (Input.GetAxis(playerNumber + "_Release")) //try to put xb360 controles
+                //{
+                //    ++m_iQuickRelease;
+                //}
+            }
+        }
 
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //on floor movement
