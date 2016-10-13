@@ -25,10 +25,10 @@ public class PlayerTextController : MonoBehaviour
                 m_mDeadPlayers.Add(refPlayers[i]);
                 refPlayers.RemoveAt(i);
             }
-            if (refPlayers.Count <= 1)
+            if (refPlayers.Count <= 1 && m_mDeadPlayers.Count != 0)
             {
                 refWinMessage.SetActive(true);
-                refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!\n (This is where \nthe sick \nparty happens)";
+                refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!";
             }
         }
 
