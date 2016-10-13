@@ -65,8 +65,8 @@ public class LouisMovement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
-       m_bIsPlaying = false;
-       m_iQuickRelease = 0;
+        m_bIsPlaying = false;
+        m_iQuickRelease = 0;
         ref_KickHitBox.SetActive(false);
         //have the charactercontroller variable reference something
         m_cCharacterController = GetComponent<CharacterController>();
@@ -105,69 +105,68 @@ public class LouisMovement : MonoBehaviour
     {
         RaycastHit hit;
         CharacterController temp = GetComponent<CharacterController>();
-         refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
-        
+
+        refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
+
         if (m_bIsPlaying)
         {
-         if (!m_bIsDead)
-        {
-
-            if (!m_bIsStunned)
+            if (!m_bIsDead)
             {
+
                 if (m_bIsKicking)
                 {
                     PlayerKick(m_cCharacterController);
-          }
-                    //shoots a raycast forward from the player, if it hits another player, it pushes them
-                    if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
+                }
+                //shoots a raycast forward from the player, if it hits another player, it pushes them
+                if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
+                {
+                    Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
+                    Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
+                    if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, 0.5f))
                     {
-                        Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
-                        Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
-                        if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, 0.5f))
+                        if (hit.transform.tag == "Player")
                         {
-                            if (hit.transform.tag == "Player")
-                            {
-                                hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * this.m_fPushForce;
-                                Debug.Log("Push");
-                            }
+                            hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * this.m_fPushForce;
+                            Debug.Log("Push");
                         }
                     }
-             switch (m_cState)
-            {
-                case CStates.Stunned:
-                    
-                    PlayerStun();
-                    temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
-                    break;
-                case CStates.OnFloor:
-                    OnFloor();
-                    break;
-                case CStates.Kicking:
-                    if (m_bIsKicking == false)
-                    {
-                        m_cState = CStates.OnFloor;
-                    }
-                  
-                    PlayerKick(temp);
-                    MovementCalculations();
-                    m_fGroundedTime = 0;
-                    temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
-                    break;
-                case CStates.OnWall:
-                    m_fGroundedTime = 0;
-                    if (!m_cCharacterController.isGrounded)
-                    {
-                        WallSlide();
-                    }
-                    else
-                    {
+                }
+
+                switch (m_cState)
+                {
+                    case CStates.Stunned:
+                        PlayerStun();
+                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                        break;
+                    case CStates.OnFloor:
                         OnFloor();
-                    }
-                    break;
-                default:
-                    OnFloor();
-                    break;
-            }
+                        break;
+                    case CStates.Kicking:
+                        if (m_bIsKicking == false)
+                        {
+                            m_cState = CStates.OnFloor;
+                        }
+
+                        PlayerKick(temp);
+                        MovementCalculations();
+                        m_fGroundedTime = 0;
+                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                        break;
+                    case CStates.OnWall:
+                        m_fGroundedTime = 0;
+                        if (!m_cCharacterController.isGrounded)
+                        {
+                            WallSlide();
+                        }
+                        else
+                        {
+                            OnFloor();
+                        }
+                        break;
+                    default:
+                        OnFloor();
+                        break;
+                }
 
             }
             else if (!m_bIsDead)
@@ -178,9 +177,6 @@ public class LouisMovement : MonoBehaviour
 
 
         }
-    }
-            }
-        }
         else
         {
             refPlayerStatus.text = "Press Start to join";
@@ -188,26 +184,41 @@ public class LouisMovement : MonoBehaviour
             {
                 m_bIsPlaying = true;
                 ref_PlayerArray.refPlayers.Add(this);
+
             }
-        }
-        //quick stun release. mash button to release stun (when in stun) 
-        if (m_bIsStunned)
-        {
-            if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
-            {
-                m_bIsStunned = false;
-                m_iQuickRelease = 0;
-            }
-            if (Input.GetKey(KeyCode.Q))    //when press 'Q' adds to quick release counter  
-            {                               
-                ++m_iQuickRelease;              
-            }
-            //if (Input.GetAxis(playerNumber + "_Release")) //try to put xb360 controles
-            //{
-            //    ++m_iQuickRelease;
-            //}
         }
     }
+    //    }
+
+
+    //        else
+    //        {
+    //            refPlayerStatus.text = "Press Start to join";
+    //            if (Input.GetButtonDown(playerNumber + "_Start"))
+    //            {
+    //                m_bIsPlaying = true;
+    //                ref_PlayerArray.refPlayers.Add(this);
+    //}
+    //        }
+    //        //quick stun release. mash button to release stun (when in stun) 
+    //        if (m_bIsStunned)
+    //        {
+    //            if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
+    //            {
+    //                m_bIsStunned = false;
+    //                m_iQuickRelease = 0;
+    //            }
+    //            if (Input.GetKey(KeyCode.Q))    //when press 'Q' adds to quick release counter  
+    //            {                               
+    //                ++m_iQuickRelease;              
+    //            }
+    //            //if (Input.GetAxis(playerNumber + "_Release")) //try to put xb360 controles
+    //            //{
+    //            //    ++m_iQuickRelease;
+    //            //}
+    //        }
+    //    }
+
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //on floor movement
     void OnFloor()
@@ -370,8 +381,8 @@ public class LouisMovement : MonoBehaviour
         {
             movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
         }
-        else if(movementDirection.x < 0.0f)
-        { 
+        else if (movementDirection.x < 0.0f)
+        {
             movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
         }
 
@@ -385,7 +396,7 @@ public class LouisMovement : MonoBehaviour
         {
 
 
-        
+
 
             //-------------------------------------------------------------------------------------------------------------------------------------//
             if (movementDirection.x > 10)
@@ -393,7 +404,7 @@ public class LouisMovement : MonoBehaviour
                 movementDirection.x = 10;                   // Max speed settings
             }
 
-           else if (movementDirection.x < -10)
+            else if (movementDirection.x < -10)
             {
                 movementDirection.x = -10;                   // Max speed settings
             }
@@ -432,7 +443,7 @@ public class LouisMovement : MonoBehaviour
             m_fCurrentStunTime = 0;
         }
         movementDirection.y = -5f;
-        
+
     }
     public void PlayerKick(CharacterController Temp)
     {

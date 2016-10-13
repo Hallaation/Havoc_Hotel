@@ -5,7 +5,8 @@ public enum CStates
 {
     OnFloor,
     OnWall,
-    Kicking
+    Kicking,
+    Stunned
 }
 
 public class MovementTest : MonoBehaviour
