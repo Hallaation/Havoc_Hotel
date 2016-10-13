@@ -55,6 +55,9 @@ public class LouisMovement : MonoBehaviour
 
     public UnityEngine.UI.Text refPlayerStatus;
 
+    int m_iQuickRelease;
+    public int iReleaseCount = 0;
+
     public GameObject ref_KickHitBox;
 
     public PlayerTextController ref_PlayerArray;
@@ -62,7 +65,8 @@ public class LouisMovement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
-        m_bIsPlaying = false;
+       m_bIsPlaying = false;
+       m_iQuickRelease = 0;
         ref_KickHitBox.SetActive(false);
         //have the charactercontroller variable reference something
         m_cCharacterController = GetComponent<CharacterController>();
@@ -176,6 +180,23 @@ public class LouisMovement : MonoBehaviour
                 m_bIsPlaying = true;
                 ref_PlayerArray.refPlayers.Add(this);
             }
+        }
+        //quick stun release. mash button to release stun (when in stun) 
+        if (m_bIsStunned)
+        {
+            if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
+            {
+                m_bIsStunned = false;
+                m_iQuickRelease = 0;
+            }
+            if (Input.GetKey(KeyCode.Q))    //when press 'Q' adds to quick release counter  
+            {                               
+                ++m_iQuickRelease;              
+            }
+            //if (Input.GetAxis(playerNumber + "_Release")) //try to put xb360 controles
+            //{
+            //    ++m_iQuickRelease;
+            //}
         }
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
