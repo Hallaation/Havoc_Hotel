@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CharacterStates : MonoBehaviour
 {
+   
     //reference to a movement script
     public LouisMovement m_refMovement;
 
@@ -55,7 +56,7 @@ public class CharacterStates : MonoBehaviour
 
             if (other.tag == "Head")
             {
-                GetComponentInParent<LouisMovement>().movementDirection.y = 30f;
+                GetComponentInParent<LouisMovement>().movementDirection.y = GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
                 other.GetComponentInParent<LouisMovement>().m_cState = CStates.Stunned;
    
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;

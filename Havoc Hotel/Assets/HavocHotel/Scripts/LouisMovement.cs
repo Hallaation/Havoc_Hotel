@@ -10,7 +10,8 @@ public class LouisMovement : MonoBehaviour
     const float m_f1FramePasses = 0.0170f;
     public float m_fJumpForce = 25.0f;
     public float m_fDoubleJumpMoveForce = 20f;
-    public float m_fGravity = 1.4f;
+    public float m_fGravity = 80f;
+    public float m_fHeadBounceForce = 20f;
     public float m_fMaxFallSpeed = 15.0f;
     public Transform lookAt;
     public float m_fMaxKickSpeed = 25.0f;
