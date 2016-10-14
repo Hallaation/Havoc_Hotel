@@ -95,18 +95,21 @@ public class BlockController : MonoBehaviour
     void Spawn()
     {
         int iRandIndex = Random.Range(0, m_LevelChunk.Length); // rand list to choose level block or in this case "chunk"
-        GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
-        go.GetComponent<MoveLevel>().refController = this; //refrance MoveLevel???????????????????????
+        m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+        m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().refController = this; //refrance MoveLevel???????????????????????
 
         if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
         {
-            go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-            m_fOverworldSpeed += m_fSpeedIncrease;
+            m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
+            m_fOverworldSpeed += m_fSpeedIncrease + 0.04f;
         }
         else if (m_fOverworldSpeed > m_fOverworldMaxSpeed)
         {
-            go.GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldMaxSpeed;//iff world speed more than max speed; make world speed max speed
+            m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldMaxSpeed;//iff world speed more than max speed; make world speed max speed
         }
+
+        GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
+
 
     }
 }

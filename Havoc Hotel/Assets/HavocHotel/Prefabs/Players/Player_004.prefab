@@ -106,7 +106,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014203471078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.23, y: 0, z: 0.5}
+  m_LocalPosition: {x: -0.56, y: 1.46, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c26bcd9eb096846ad6892b07e1b36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_refMovement: {fileID: 0}
+  m_refMovement: {fileID: 114000012768628688}
 --- !u!114 &114000012562426586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_fMoveSpeed: 1
   m_fJumpForce: 25
   m_fDoubleJumpMoveForce: 20
-  m_fGravity: 80
+  m_fGravity: 70
   m_fHeadBounceForce: 20
   m_fMaxFallSpeed: 25
   lookAt: {fileID: 0}
@@ -332,7 +332,7 @@ MonoBehaviour:
   m_fButtonDelay: 1
   movementDirection: {x: 0, y: 0, z: 0}
   HasDoubleJumped: 0
-  playerNumber: 5
+  playerNumber: 3
   m_fGroundedTime: 0
   m_bAllowDoubleJumpAlways: 0
   m_cState: 0
