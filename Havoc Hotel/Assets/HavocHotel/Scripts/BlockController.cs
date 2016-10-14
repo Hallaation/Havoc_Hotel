@@ -7,7 +7,9 @@ public class BlockController : MonoBehaviour
     public float m_fOverworldMaxSpeed = 50.0f; //max speed overworld can go (for countering too high acceleration)
     public float m_fSpeedIncrease = 1.0f; //-modifiable value to change rate at which level increases in speed
     public float m_fTimeStart = 0.0f; //time 'til level starts moving
-    
+
+    public GameObject go;
+
     public GameObject[] m_LevelChunk; // array to have list of modular level pieces
 
     public bool m_bRunning; // bool to control leel movent
@@ -52,24 +54,13 @@ public class BlockController : MonoBehaviour
         {
             m_bRunning = true;
         }
-        
 
-        // if (Input.GetKey(KeyCode.Return))
-        // {
-        //     m_bRunning = true;
-        // }
+        if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
+        {
 
-        if (Input.GetKey(KeyCode.W))    // test power up stuff
-        {                               // test power up stuff
-            --m_fOverworldSpeed;        // test power up stuff
-        }                               // test power up stuff
-        if (Input.GetKey(KeyCode.S))    // test power up stuff
-        {                               // test power up stuff
-            ++m_fOverworldSpeed;        // test power up stuff
-        }                               // test power up stuff
+            m_fOverworldSpeed += Time.deltaTime;
+        }
 
-       
-        
     }
 
     void OnTriggerExit(Collider other) // when level block leave box collider activate
@@ -95,20 +86,10 @@ public class BlockController : MonoBehaviour
     void Spawn()
     {
         int iRandIndex = Random.Range(0, m_LevelChunk.Length); // rand list to choose level block or in this case "chunk"
-        m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-        m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().refController = this; //refrance MoveLevel???????????????????????
 
-        if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
-        {
-            m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldSpeed;
-            m_fOverworldSpeed += m_fSpeedIncrease + 0.04f;
-        }
-        else if (m_fOverworldSpeed > m_fOverworldMaxSpeed)
-        {
-            m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().m_fLevelSpeed = m_fOverworldMaxSpeed;//iff world speed more than max speed; make world speed max speed
-        }
+        m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().refController = this; //Make it reference this.
 
-        GameObject go = Instantiate(m_LevelChunk[iRandIndex], transform.position, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
+        go = Instantiate(m_LevelChunk[iRandIndex], go.transform.position + Vector3.up * 8, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
 
 
     }

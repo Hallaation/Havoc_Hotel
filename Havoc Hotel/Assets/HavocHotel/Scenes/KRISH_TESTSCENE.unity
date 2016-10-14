@@ -1036,7 +1036,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 7.9, z: 5}
+  m_Size: {x: 10, y: 8, z: 5}
   m_Center: {x: 0, y: 4, z: 0}
 --- !u!114 &1737568566
 MonoBehaviour:
@@ -1053,6 +1053,7 @@ MonoBehaviour:
   m_fOverworldMaxSpeed: 20
   m_fSpeedIncrease: 0.2
   m_fTimeStart: 5
+  go: {fileID: 1937951392}
   m_LevelChunk:
   - {fileID: 1000010593156732, guid: c2d371bd195d1074586696d1e4c2472a, type: 2}
   - {fileID: 1000010133717218, guid: 8c50a93d7099de54f9a759f1e4cc6c98, type: 2}
@@ -1104,6 +1105,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 578887534}
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!1 &1937951392 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010146864590, guid: c06d5faad26381c4cae1c1c6691acf9c,
+    type: 2}
+  m_PrefabInternal: {fileID: 836192266}
 --- !u!1001 &2068045334
 Prefab:
   m_ObjectHideFlags: 0
