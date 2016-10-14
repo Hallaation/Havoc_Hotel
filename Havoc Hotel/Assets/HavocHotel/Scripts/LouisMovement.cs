@@ -216,10 +216,11 @@ public class LouisMovement : MonoBehaviour
                     ++m_iQuickRelease;
                 Debug.Log("qIsPressed");
             }
-                //if (Input.GetAxis(playerNumber + "_Release")) //try to put xb360 controles
-                //{
-                //    ++m_iQuickRelease;
-                //}
+                if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
+                {
+                   Debug.Log("bIsPressed");
+                   ++m_iQuickRelease;
+                }
             }
         }
 
