@@ -8,17 +8,17 @@ public class LouisMovement : MonoBehaviour
     public float m_fMoveSpeed = 1.4f;
     const int _ROTATION_SPEED = 20; // Not used yet.
     const float m_f1FramePasses = 0.0170f;
-    public float m_fJumpForce = 25.0f;
-    public float m_fDoubleJumpMoveForce = 20f;
-    public float m_fGravity = 80f;
+    public float m_fJumpForce = 25f;
+    public float m_fDoubleJumpMoveForce = 15f;
+    public float m_fGravity = 50f;
     public float m_fHeadBounceForce = 20f;
-    public float m_fMaxFallSpeed = 15.0f;
+    public float m_fMaxFallSpeed = 15f;
     public Transform lookAt;
     public float m_fMaxKickSpeed = 25.0f;
     public float m_fPushForce = 10.0f;
     public float m_fButtonDelay = 1.0f;
     float m_fButtonTimer = 0.0f;
-
+    public float m_fGroundBuffer = 0.15f;
 
     float timer = 0.0f;
     public Vector3 movementDirection;
@@ -30,7 +30,7 @@ public class LouisMovement : MonoBehaviour
 
     public bool HasDoubleJumped;
     public int playerNumber; //Input manager to know which joypad number to use
-    public float m_fGroundedTime;
+    public float m_fAirBourneTime;
     public bool m_bAllowDoubleJumpAlways;
     //maximum downfall momentum
 
@@ -63,9 +63,14 @@ public class LouisMovement : MonoBehaviour
 
     public PlayerTextController ref_PlayerArray;
     private bool m_bIsPlaying;
+
+    public BlockController refBlockController;
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
+        //GameObject[] list = GameObject.FindObjectsOfType<GameObject>();
+        //list[0].name.Contains
+
         m_bIsPlaying = false;
         m_iQuickRelease = 0;
         ref_KickHitBox.SetActive(false);
@@ -104,6 +109,7 @@ public class LouisMovement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
+        //begin of mess
         RaycastHit hit;
         CharacterController temp = GetComponent<CharacterController>();
 
@@ -132,12 +138,16 @@ public class LouisMovement : MonoBehaviour
                         }
                     }
                 }
-
+          // end of mess
+          if(temp.isGrounded)
+                {
+                    m_fAirBourneTime = 0f;
+                }
                 switch (m_cState)
                 {
                     case CStates.Stunned:
                         PlayerStun();
-                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                        temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
                         break;
                     case CStates.OnFloor:
                         OnFloor();
@@ -150,11 +160,11 @@ public class LouisMovement : MonoBehaviour
 
                         PlayerKick(temp);
                         MovementCalculations();
-                        m_fGroundedTime = 0;
+                        m_fAirBourneTime = 0;
                         temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                         break;
                     case CStates.OnWall:
-                        m_fGroundedTime = 0;
+                        m_fAirBourneTime = 0;
                         if (!m_cCharacterController.isGrounded)
                         {
                             WallSlide();
@@ -188,40 +198,37 @@ public class LouisMovement : MonoBehaviour
 
             }
         }
-   // }
-    //    }
+        // }
+        //    }
 
 
-    //        else
-    //        {
-    //            refPlayerStatus.text = "Press Start to join";
-    //            if (Input.GetButtonDown(playerNumber + "_Start"))
-    //            {
-    //                m_bIsPlaying = true;
-    //                ref_PlayerArray.refPlayers.Add(this);
-    //}
-    //        }
-    //        //quick stun release. mash button to release stun (when in stun) 
-            if (m_bIsStunned)
+        //        else
+        //        {
+        //            refPlayerStatus.text = "Press Start to join";
+        //            if (Input.GetButtonDown(playerNumber + "_Start"))
+        //            {
+        //                m_bIsPlaying = true;
+        //                ref_PlayerArray.refPlayers.Add(this);
+        //}
+        //        }
+        //        //quick stun release. mash button to release stun (when in stun) 
+        if (m_bIsStunned)
+        {
+            if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
             {
-                if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
-                {
                 Debug.Log("stunrelease");
-                    m_bIsStunned = false;
+                m_bIsStunned = false;
                 m_cState = CStates.OnFloor;
-                    m_iQuickRelease = 0;
-                }
-                if (Input.GetKeyDown(KeyCode.Q))    //when press 'Q' adds to quick release counter  
-                {                               
-                    ++m_iQuickRelease;
-                Debug.Log("qIsPressed");
+                m_iQuickRelease = 0;
             }
-                //if (Input.GetAxis(playerNumber + "_Release")) //try to put xb360 controles
-                //{
-                //    ++m_iQuickRelease;
-                //}
+
+            if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
+            {
+                Debug.Log("bIsPressed");
+                ++m_iQuickRelease;
             }
         }
+    }
 
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //on floor movement
@@ -320,39 +327,36 @@ public class LouisMovement : MonoBehaviour
     void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
     {
 
-        if (temp.isGrounded)
-        {
+
             // This is the Left/Right movement for X. always set Y to 0.
+          
+            m_fAirBourneTime += Time.deltaTime;
+
+
+
+            if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
+            {
+            movementDirection.y = refBlockController.m_fOverworldSpeed;
             HasJumped = false;
-            HasDoubleJumped = false;
-            m_fGroundedTime += Time.deltaTime;
-            if (m_fGroundedTime >= m_f1FramePasses * 3)
-            {
-                movementDirection.y = 0.01f;
-            }
-
-
-            if (temp.isGrounded)
-            {
-                m_fJumpTimer = 0.0f;
-
+                HasDoubleJumped = false;
+         
 
                 if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
                 {
 
                     movementDirection.y = m_fJumpForce;
-
-
+                    m_fJumpTimer = 0.0f;
+                m_fAirBourneTime = m_fGroundBuffer + 1f;
                     HasJumped = true;
+
 
                 }
             }
-        }
     }
     // Double Jump
     void DoubleJump(CharacterController temp)
     {
-        if (!temp.isGrounded)
+        if (!temp.isGrounded && m_fAirBourneTime >= m_fGroundBuffer)
         {
 
             m_fJumpTimer += Time.deltaTime;
@@ -375,7 +379,15 @@ public class LouisMovement : MonoBehaviour
     }
     void MovementCalculations()
     {
-        movementDirection.y -= m_fGravity * Time.deltaTime;              // Gravity reduces Y movement every frame
+        if (m_fAirBourneTime <= m_fGroundBuffer)
+        {
+            movementDirection.y = -refBlockController.m_fOverworldSpeed;
+        }
+        if (m_fAirBourneTime >= m_fGroundBuffer)
+        {
+
+            movementDirection.y -= (m_fGravity * Time.deltaTime);
+        }
         if (movementDirection.y < -m_fMaxFallSpeed)     // Prevents passing max fall speed
         {
             movementDirection.y = -m_fMaxFallSpeed;
@@ -399,7 +411,7 @@ public class LouisMovement : MonoBehaviour
         else
         {
 
-
+            
 
 
             //-------------------------------------------------------------------------------------------------------------------------------------//
