@@ -41,14 +41,6 @@ public class CharacterStates : MonoBehaviour
                 m_refMovement.m_cState = CStates.OnWall;
             }
 
-            //if (other.tag == "Player")
-            //{
-            //    if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
-            //    {
-            //        Push(other);
-            //    }
-            //}
-
         }
         if (this.tag == "Kick")
         {

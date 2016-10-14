@@ -2,9 +2,7 @@
 using System.Collections;
 
 public class MoveLevel : MonoBehaviour
-{
-    public float m_fLevelSpeed = 1.0f; //-modifiable value for designers (modifiable in unity)- initial speed of level
-    
+{   
 
     public BlockController refController;
 
@@ -19,19 +17,10 @@ public class MoveLevel : MonoBehaviour
     {
         if (refController.m_bRunning)
         {
-            transform.Translate(Vector3.down * m_fLevelSpeed * Time.deltaTime);
-            m_fLevelSpeed = refController.m_fOverworldSpeed;
+            transform.Translate(Vector3.down * refController.m_fOverworldSpeed * Time.deltaTime);
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Finish")
-        {
-            Destroy(this.gameObject);
-        }
-
-    }
 
    
 
