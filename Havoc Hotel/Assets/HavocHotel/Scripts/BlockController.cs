@@ -54,11 +54,13 @@ public class BlockController : MonoBehaviour
         {
             m_bRunning = true;
         }
-
-        if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
+        if (m_bRunning)
         {
+            if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
+            {
 
-            m_fOverworldSpeed += Time.deltaTime;
+                m_fOverworldSpeed += m_fSpeedIncrease * Time.deltaTime;
+            }
         }
 
     }

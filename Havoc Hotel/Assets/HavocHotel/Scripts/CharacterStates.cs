@@ -95,13 +95,14 @@ public class CharacterStates : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerStay(Collider other)
     {
-        //if (other.tag == "Player")
-        //{
-        //    if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
-        //    {
-        //        Push(other);
-        //    }
-        //}
+        if (this.tag != "Kick")
+        {
+            if (other.tag == "Wall")
+            {
+                m_refMovement.m_cState = CStates.OnWall;
+            }
+
+        }
     }
 
     //void Push(Collider a_collider)
