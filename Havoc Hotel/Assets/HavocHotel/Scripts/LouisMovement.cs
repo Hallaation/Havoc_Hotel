@@ -221,11 +221,19 @@ public class LouisMovement : MonoBehaviour
                 m_cState = CStates.OnFloor;
                 m_iQuickRelease = 0;
             }
+<<<<<<< HEAD
 
             if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
             {
                 Debug.Log("bIsPressed");
                 ++m_iQuickRelease;
+=======
+                if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
+                {
+                   Debug.Log("bIsPressed");
+                   ++m_iQuickRelease;
+                }
+>>>>>>> eef08653311f410fff2555b4979c101bab481754
             }
         }
     }
