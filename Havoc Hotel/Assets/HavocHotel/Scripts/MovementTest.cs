@@ -192,7 +192,8 @@ public class MovementTest : MonoBehaviour
     }
     void MovementCalculations()
     {
-        movementDirection.y -= m_fGravity;              // Gravity reduces Y movement every frame
+        //m_fMaxFallSpeed = m_fMaxFallSpeed + CharacterStates.
+        //movementDirection.y -= m_fGravity;              // Gravity reduces Y movement every frame
         if (movementDirection.y < -m_fMaxFallSpeed)     // Prevents passing max fall speed
         {
             movementDirection.y = -m_fMaxFallSpeed;
