@@ -11,7 +11,6 @@ public class SubStringReplace : ScriptableWizard
     public GameObject NewType;
     public List<GameObject> oldObjects = new List<GameObject>();
 
-    public bool hasStarted = false;
 
     private int m_iCounter;
     private string foundLocations;
