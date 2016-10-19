@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1000012851917278}
+  m_IsPrefabParent: 1
+--- !u!1 &1000011863427330
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000013370260988}
+  - 65: {fileID: 65000012290928492}
+  m_Layer: 0
+  m_Name: PlayerBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000012851917278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000013633755038}
+  - 114: {fileID: 114000012778289190}
+  - 65: {fileID: 65000014178841564}
+  m_Layer: 0
+  m_Name: Level_Section_Spawner
+  m_TagString: Spawner
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000013370260988
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011863427330}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -10.49, z: -0.49}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000013633755038}
+  m_RootOrder: 0
+--- !u!4 &4000013633755038
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012851917278}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 23.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 4000013370260988}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!65 &65000012290928492
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011863427330}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 1, z: 5}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65000014178841564
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012851917278}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 8, z: 5}
+  m_Center: {x: 0, y: 4, z: 0}
+--- !u!114 &114000012778289190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012851917278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f7d73ab083d5e448d81dddab3299ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fOverworldSpeed: 1
+  m_fOverworldMaxSpeed: 20
+  m_fSpeedIncrease: 0.2
+  m_fTimeStart: 5
+  go: {fileID: 0}
+  m_LevelChunk:
+  - {fileID: 1000010133717218, guid: 8c50a93d7099de54f9a759f1e4cc6c98, type: 2}
+  - {fileID: 1000010942484162, guid: 949350048ad1c4d4db8d9e0b345acec1, type: 2}
+  - {fileID: 1000011521486962, guid: c78aee511599aa345bfbab5aa9ec78a6, type: 2}
+  - {fileID: 1000013855407942, guid: a41158fc343b7ba47b5eccb08eada22a, type: 2}
+  - {fileID: 1000011715481036, guid: 4ccd59dc4f82ce64f8d6a68f00681b89, type: 2}
+  - {fileID: 1000012093047580, guid: 2fd266f3b3272b64f9c33b4b4fd942fd, type: 2}
+  - {fileID: 1000011249961212, guid: 2653126ad94618e4d8d4806339a2121e, type: 2}
+  - {fileID: 1000010146864590, guid: c06d5faad26381c4cae1c1c6691acf9c, type: 2}
+  - {fileID: 1000012571709476, guid: 1664279447ff4c24c853fb1a521b97b3, type: 2}
+  - {fileID: 1000011529526480, guid: 884d54b97754e474f98a62df3f61a902, type: 2}
+  - {fileID: 1000010649723546, guid: ad04d5fcc4c9422438702aa8d4da193c, type: 2}
+  - {fileID: 1000011065081682, guid: 79cf9956de3331d41a7e31f90c990630, type: 2}
+  - {fileID: 1000011306988798, guid: 26b5df491b4b1f6438874b4be96f171f, type: 2}
+  - {fileID: 1000013025044636, guid: 00e3af86958270647b0bb1e8fa832938, type: 2}
+  - {fileID: 1000012180658278, guid: b32780af446e65643ba9435e99489e47, type: 2}
+  - {fileID: 1000012499909066, guid: 172dc55070a0bf6468345e0c9e517ecc, type: 2}
+  - {fileID: 1000012107600180, guid: 1b9567fce18918142920dc24d3462262, type: 2}
+  - {fileID: 1000010533901412, guid: 0dbd55fc5cd5ce74996c807637229c00, type: 2}
+  - {fileID: 1000012466331788, guid: 3ef5b8bac5328f846a1693df21f5405e, type: 2}
+  - {fileID: 1000013615037950, guid: 8d1f8f3ab349f544fb8938e0e6495e8b, type: 2}
+  - {fileID: 1000013382018194, guid: eccdeeff53ce1d7428cd6ba68c217a27, type: 2}
+  - {fileID: 1000014022032268, guid: 6ddca99d29ca52c40be28e72a7ff9c06, type: 2}
+  - {fileID: 1000010593156732, guid: c2d371bd195d1074586696d1e4c2472a, type: 2}
+  m_bRunning: 0
