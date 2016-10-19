@@ -18,7 +18,7 @@ public class LouisMovement : MonoBehaviour
     public float m_fPushForce = 10.0f;
     public float m_fButtonDelay = 1.0f;
     float m_fButtonTimer = 0.0f;
-    public float m_fGroundBuffer = 0.15f;
+    public float m_fGroundBuffer = 0.036f;
 
     float timer = 0.0f;
     public Vector3 movementDirection;
@@ -340,16 +340,19 @@ public class LouisMovement : MonoBehaviour
           
             m_fAirBourneTime += Time.deltaTime;
 
-
-
-            if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
-            {
+        if(temp.isGrounded)
+        {
             movementDirection.y = refBlockController.m_fOverworldSpeed;
+        }
+        
+        if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
+            {
+            
             HasJumped = false;
                 HasDoubleJumped = false;
-         
+            
 
-                if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
+            if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
                 {
 
                     movementDirection.y = m_fJumpForce;
@@ -360,6 +363,7 @@ public class LouisMovement : MonoBehaviour
 
                 }
             }
+        
     }
     // Double Jump
     void DoubleJump(CharacterController temp)
@@ -387,9 +391,10 @@ public class LouisMovement : MonoBehaviour
     }
     void MovementCalculations()
     {
-        if (m_fAirBourneTime <= m_fGroundBuffer)
+        if (m_fAirBourneTime <= m_fGroundBuffer ) // && temp is grounded? 10/19/2016
         {
-            movementDirection.y = -refBlockController.m_fOverworldSpeed;
+            movementDirection.y = -refBlockController.m_fOverworldSpeed;     // Can't be equals
+            movementDirection.y -= (m_fGravity * Time.deltaTime);   
         }
         if (m_fAirBourneTime >= m_fGroundBuffer)
         {
@@ -477,12 +482,12 @@ public class LouisMovement : MonoBehaviour
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
-                movementDirection.y = -20f;
+                movementDirection.y = -20f - refBlockController.m_fOverworldSpeed;
                 movementDirection.x = -10f;
             }
             else
             {
-                movementDirection.y = -20f;
+                movementDirection.y = -20f - refBlockController.m_fOverworldSpeed;
                 movementDirection.x = 10f;
             }
         }
