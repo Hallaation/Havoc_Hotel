@@ -299,17 +299,18 @@ MonoBehaviour:
   m_fMoveSpeed: 1
   m_fJumpForce: 25
   m_fDoubleJumpMoveForce: 20
-  m_fGravity: 70
+  m_fGravity: 100.15
   m_fHeadBounceForce: 20
   m_fMaxFallSpeed: 25
   lookAt: {fileID: 0}
   m_fMaxKickSpeed: 25
   m_fPushForce: 10
   m_fButtonDelay: 1
+  m_fGroundBuffer: 0.15
   movementDirection: {x: 0, y: 0, z: 0}
   HasDoubleJumped: 0
-  playerNumber: 1
-  m_fGroundedTime: 0
+  playerNumber: 2
+  m_fAirBourneTime: 0
   m_bAllowDoubleJumpAlways: 0
   m_cState: 0
   m_fWallSlideSpeed: 0.5
@@ -323,6 +324,7 @@ MonoBehaviour:
   iReleaseCount: 5
   ref_KickHitBox: {fileID: 1000013572976796}
   ref_PlayerArray: {fileID: 0}
+  refBlockController: {fileID: 0}
 --- !u!114 &114000011965191646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -346,7 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c26bcd9eb096846ad6892b07e1b36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_refMovement: {fileID: 114000010501399198}
+  m_refMovement: {fileID: 0}
 --- !u!114 &114000014167874246
 MonoBehaviour:
   m_ObjectHideFlags: 1
