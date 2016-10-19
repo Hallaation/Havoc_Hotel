@@ -22,7 +22,7 @@ public class SubStringReplace : ScriptableWizard
 
     void OnWizardCreate()
     {
-        if (EditorUtility.DisplayDialog("Are you sure you wish to replace?" , "Yes replace them," , "Nevermind"))
+        if (EditorUtility.DisplayDialog("" , "Are you sure you wish to replace?" , "Yes replace them", "Nevermind"))
         {
             foreach (GameObject go in oldObjects)
             {
