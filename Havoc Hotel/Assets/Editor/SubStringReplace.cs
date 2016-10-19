@@ -54,7 +54,14 @@ public class SubStringReplace : ScriptableWizard
             }
             foreach (GameObject go in oldObjects)
             {
-                foundLocations += go.transform.parent.name + "  ";
+                if (go.transform.parent)
+                {
+                    foundLocations += go.transform.parent.name + "  ";
+                }
+                else
+                {
+                    foundLocations = "Root heirarchy";
+                }
             }
             EditorUtility.DisplayDialog("Items found" , "I found " + m_iCounter + " of " + NameToFind + " Heres where they are: " , "OK");
             EditorUtility.DisplayDialog("Locations" , foundLocations , "OK");
