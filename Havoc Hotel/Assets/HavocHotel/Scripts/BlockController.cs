@@ -34,7 +34,15 @@ public class BlockController : MonoBehaviour
             m_bRunning = true;
             Debug.Log("Pressed");
         }
-
+        if (Input.GetAxis("0_DpadH") > 0)
+        {
+            m_fOverworldSpeed += 1;
+        }
+        else if (Input.GetAxis("0_DpadH") < 0 )
+        {
+            m_fOverworldSpeed -= 1;
+        }
+        
         //m_fTimeStart -= Time.deltaTime;//use delta time to have seconds until bRunning is true
         //
         //if (m_fTimeStart <= 0)
