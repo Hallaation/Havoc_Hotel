@@ -19,13 +19,14 @@ public class LouisMovement : MonoBehaviour
     public float m_fButtonDelay = 1.0f;
     float m_fButtonTimer = 0.0f;
     public float m_fGroundBuffer = 0.036f;
+    public bool m_bCanJump;
 
     float timer = 0.0f;
     public Vector3 movementDirection;
     private float m_fJumpTimer;
-    bool HasJumped;
+   public bool HasJumped;
     bool m_bJumpKeyReleased;
-    bool m_bIsKicking;
+  public  bool m_bIsKicking;
 
 
     public bool HasDoubleJumped;
@@ -56,8 +57,8 @@ public class LouisMovement : MonoBehaviour
 
     public UnityEngine.UI.Text refPlayerStatus;
 
-    int m_iQuickRelease;
-    public int iReleaseCount = 0;
+    public int m_iQuickRelease;
+    public int iReleaseCount = 10;
 
     public GameObject ref_KickHitBox;
 
@@ -159,7 +160,7 @@ public class LouisMovement : MonoBehaviour
                         }
 
                         PlayerKick(temp);
-                        MovementCalculations();
+                        MovementCalculations(temp);
                         m_fAirBourneTime = 0;
                         temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                         break;
@@ -258,7 +259,7 @@ public class LouisMovement : MonoBehaviour
 
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
-        MovementCalculations();
+        MovementCalculations(temp);
 
         temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
 
@@ -389,12 +390,18 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
-    void MovementCalculations()
+    void MovementCalculations(CharacterController temp)
     {
-        if (m_fAirBourneTime <= m_fGroundBuffer ) // && temp is grounded? 10/19/2016
+
+        if (temp.isGrounded && HasJumped == false )
         {
-            movementDirection.y = -refBlockController.m_fOverworldSpeed;     // Can't be equals
-            movementDirection.y -= (m_fGravity * Time.deltaTime);   
+            movementDirection.y = -refBlockController.m_fOverworldSpeed + -1;
+            m_fAirBourneTime = 0;
+        }
+        if (m_fAirBourneTime <= m_fGroundBuffer) // && temp is grounded? 10/19/2016
+        {
+                                                                // Can't be equals
+            movementDirection.y -= (m_fGravity * Time.deltaTime);
         }
         if (m_fAirBourneTime >= m_fGroundBuffer)
         {
@@ -482,12 +489,12 @@ public class LouisMovement : MonoBehaviour
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
-                movementDirection.y = -20f - refBlockController.m_fOverworldSpeed;
+                movementDirection.y = -20f +- refBlockController.m_fOverworldSpeed;
                 movementDirection.x = -10f;
             }
             else
             {
-                movementDirection.y = -20f - refBlockController.m_fOverworldSpeed;
+                movementDirection.y = -20f +- refBlockController.m_fOverworldSpeed;
                 movementDirection.x = 10f;
             }
         }
