@@ -523,12 +523,12 @@ public class LouisMovement : MonoBehaviour
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
                 movementDirection.y = m_fKickYSpeed- refBlockController.m_fOverworldSpeed;
-                movementDirection.x = m_fKickXSpeed;;
+                movementDirection.x = -m_fKickXSpeed;;
             }
             else
             {
                 movementDirection.y = m_fKickYSpeed- refBlockController.m_fOverworldSpeed;
-                movementDirection.x = -m_fKickXSpeed;;
+                movementDirection.x = m_fKickXSpeed;;
             }
         }
         m_fCurrentKickTime += Time.deltaTime;
