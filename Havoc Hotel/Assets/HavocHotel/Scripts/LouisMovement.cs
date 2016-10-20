@@ -3,67 +3,90 @@ using System.Collections;
 
 public class LouisMovement : MonoBehaviour
 {
-
-    //declaring variables
+    //ALL THE PUBLIC VARIABLES.
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    public int playerNumber; //Input manager to know which joypad number to use
+    public float m_fGravity = 50f;
     public float m_fMoveSpeed = 1.4f;
-    const int _ROTATION_SPEED = 20; // Not used yet.
-    const float m_f1FramePasses = 0.0170f;
+
+    public CStates m_cState;
+    //movement stuff
+    public bool HasJumped;
+    public bool m_bCanJump;
+    public bool HasDoubleJumped;
+    public bool m_bAllowDoubleJumpAlways;
     public float m_fJumpForce = 25f;
     public float m_fDoubleJumpMoveForce = 15f;
-    public float m_fGravity = 50f;
-    public float m_fHeadBounceForce = 20f;
     public float m_fMaxFallSpeed = 15f;
-    public Transform lookAt;
-    public float m_fMaxKickSpeed = 25.0f;
+
     public float m_fPushForce = 10.0f;
-    public float m_fButtonDelay = 1.0f;
+    //wall jump stuff
+    public float m_fHorizontalWallJumpForce = 20.0f;
+    public float m_fVerticalWallJumpForce = 15.0f;
+    public float m_fTurnDelay = 1.0f;
+    public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
+
+    //dive kick stuff
+    public bool m_bIsKicking;
+    public float m_fMaxKickSpeed = 25.0f;
+    public float m_fMaxStunTime = 15.0f;
+    public float m_fMaxKickTime = 5f;
+    public float m_fHeadBounceForce = 20f;
+    public float m_fKickYSpeed = 20;
+    public float m_fKickXSpeed = 10;
+
+    //quick release
+    private int m_iQuickRelease;
+    public int iReleaseCount = 10;
+
+
+
+
+    public bool m_bIsStunned;
+    public bool m_bIsDead;
+
+    public Vector3 movementDirection;
+
+
+    //references
+    public GameObject ref_KickHitBox;
+
+    public UnityEngine.UI.Text refPlayerStatus;
+
+    public PlayerTextController ref_PlayerArray;
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    private float m_fGroundBuffer = 0.036f;
+
+    private float m_fAirBourneTime;
+    //declaring variables
+    const int _ROTATION_SPEED = 20; // Not used yet.
+    const float m_f1FramePasses = 0.0170f;
     float m_fButtonTimer = 0.0f;
     public float m_fGroundBuffer = 0.036f;
     public bool m_bCanJump;
-    public float m_fKickYSpeed = 20;
-    public float m_fKickXSpeed = 10;
+
     float timer = 0.0f;
-    public Vector3 movementDirection;
     private float m_fJumpTimer;
-   public bool HasJumped;
     bool m_bJumpKeyReleased;
   public  bool m_bIsKicking;
-    public float m_fKickCoolDown = 2f;
 
-    public bool HasDoubleJumped;
-    public int playerNumber; //Input manager to know which joypad number to use
-    public float m_fAirBourneTime;
-    public bool m_bAllowDoubleJumpAlways;
+
+
     //maximum downfall momentum
-
-    public CStates m_cState;
-    public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     private bool m_bHitWall; //checks to see if the wall was hit or not.
 
     /// <summary>
     /// Wall jumping forces, higher value for bigger push force, lower for less
     /// </summary>
-    public float m_fHorizontalWallJumpForce = 20.0f;
-    public float m_fVerticalWallJumpForce = 15.0f;
 
     private CharacterController m_cCharacterController; //character controller reference
     float m_fCurrentStunTime;
     public float m_fMaxKickTime = 5f;
-   public float m_fTimeSinceLastKick;
-
+    float m_fTimeSinceLastKick;
+    float m_fKickCoolDown;
     float m_fCurrentKickTime;
-    public float m_fMaxStunTime = 15.0f;
-    public bool m_bIsStunned;
-    public bool m_bIsDead;
 
-    public UnityEngine.UI.Text refPlayerStatus;
-
-    public int m_iQuickRelease;
-    public int iReleaseCount = 10;
-
-    public GameObject ref_KickHitBox;
-
-    public PlayerTextController ref_PlayerArray;
     private bool m_bIsPlaying;
 
     public BlockController refBlockController;
@@ -114,7 +137,6 @@ public class LouisMovement : MonoBehaviour
     void Update()
     {
         //begin of mess
-        RaycastHit hit;
         CharacterController temp = GetComponent<CharacterController>();
 
         refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
@@ -128,22 +150,9 @@ public class LouisMovement : MonoBehaviour
                 {
                     PlayerKick(m_cCharacterController);
                 }
-                //shoots a raycast forward from the player, if it hits another player, it pushes them
-                if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
-                {
-                    Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
-                    Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
-                    if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, 0.5f))
-                    {
-                        if (hit.transform.tag == "Player")
-                        {
-                            hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * this.m_fPushForce;
-                            Debug.Log("Push");
-                        }
-                    }
-                }
-          // end of mess
-          if(temp.isGrounded)
+
+                // end of mess
+                if (temp.isGrounded)
                 {
                     m_fAirBourneTime = 0f;
                 }
@@ -153,9 +162,12 @@ public class LouisMovement : MonoBehaviour
                         PlayerStun();
                         temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
                         break;
+
                     case CStates.OnFloor:
                         OnFloor();
+                        Push();
                         break;
+
                     case CStates.Kicking:
                         if (m_bIsKicking == false)
                         {
@@ -163,23 +175,21 @@ public class LouisMovement : MonoBehaviour
                         }
 
                         PlayerKick(temp);
-                        MovementCalculations(temp);
+                        MovementCalculations();
                         m_fAirBourneTime = 0;
                         temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                         break;
+
                     case CStates.OnWall:
-                        m_fAirBourneTime = 0;
+                        m_fAirBourneTime = 2;
                         if (!m_cCharacterController.isGrounded)
                         {
                             WallSlide();
                         }
-                        else
+                        else if(m_cCharacterController.isGrounded)
                         {
                             OnFloor();
                         }
-                        break;
-                    default:
-                        OnFloor();
                         break;
                 }
 
@@ -216,30 +226,7 @@ public class LouisMovement : MonoBehaviour
         //}
         //        }
         //        //quick stun release. mash button to release stun (when in stun) 
-        if (m_bIsStunned)
-        {
-            if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
-            {
-                Debug.Log("stunrelease");
-                m_bIsStunned = false;
-                m_cState = CStates.OnFloor;
-                m_iQuickRelease = 0;
-            }
 
-
-            if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
-            {
-                Debug.Log("bIsPressed");
-                ++m_iQuickRelease;
-
-                if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
-                {
-                   Debug.Log("bIsPressed");
-                   ++m_iQuickRelease;
-                }
-
-            }
-        }
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -250,23 +237,20 @@ public class LouisMovement : MonoBehaviour
         m_fCurrentKickTime = 0;
         PlayerTurnAround();
 
-        CharacterController temp = GetComponent<CharacterController>();
-        Jump(temp);
+        Jump(m_cCharacterController);
         //
-        if (m_fTimeSinceLastKick > m_fKickCoolDown)
-        {
-            PlayerKick(temp);
-        }
+
+        PlayerKick(temp);
+
 
 
         //
-        DoubleJump(temp);
+        DoubleJump(m_cCharacterController);
 
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
-        MovementCalculations(temp);
-
-        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+        MovementCalculations();
+        m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
 
 
     }
@@ -274,15 +258,18 @@ public class LouisMovement : MonoBehaviour
     //If the wall is hit, the character will slide slowly on the wall.
     public void WallSlide()
     {
+
+        m_fAirBourneTime = 2;
         m_bHitWall = true;
         if (m_bHitWall)
         {
+            m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + 1.5f;
             //short delay when moving away from wall
 
             bool horizontalActive = Input.GetAxis(playerNumber + "_Horizontal") != 0;
             m_fButtonTimer += 0.05f * System.Convert.ToByte(horizontalActive);
 
-            if (m_fButtonTimer >= m_fButtonDelay)
+            if (m_fButtonTimer >= m_fTurnDelay)
             {
                 PlayerTurnAround();
                 m_fButtonTimer = 0.0f;
@@ -296,13 +283,10 @@ public class LouisMovement : MonoBehaviour
             if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
                 WallJump();
+                
                 //movementDirection = Vector3.zero;
             }
 
-        }
-        else
-        {
-            movementDirection.y = 0;
         }
 
     }
@@ -313,63 +297,90 @@ public class LouisMovement : MonoBehaviour
     void WallJump()
     {
 
-        //movementDirection.y = m_fJumpSpeed;
-        //HasJumped = true;
+        //HasJumped = false;
         if (transform.rotation.eulerAngles.y >= 1.0f && transform.rotation.eulerAngles.y <= 91.0f)
         {
+            //movementDirection.x = -m_fHorizontalWallJumpForce;
             movementDirection.x = -m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
+            //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
-            m_cCharacterController.Move(movementDirection * Time.deltaTime);
+            //m_cCharacterController.Move(temp * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0, -90, 0);
+
         }
         else if (transform.rotation.eulerAngles.y >= 181.0f && transform.rotation.eulerAngles.y <= 271.0f)
         {
-            Debug.Log(transform.rotation.eulerAngles.y);
+            //movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
+            //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
+            //m_cCharacterController.Move(temp * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0, 90, 0);
-            m_cCharacterController.Move(movementDirection * Time.deltaTime);
         }
-        m_bHitWall = false;
 
+        //movementDirection.x += -this.transform.forward * m_fHorizontalWallJumpForce;
+        //movementDirection.y += this.transform.up.y * m_fVerticalWallJumpForce;
+        //movementDirection = -this.transform.forward * m_fHorizontalWallJumpForce;
+        //m_bHitWall = false;
+        Debug.Log(movementDirection);
+        //m_cCharacterController.Move(movementDirection);
+        //movementDirection = Vector3.up * m_fVerticalWallJumpForce;
+        m_cState = CStates.OnFloor;
     }
 
-
+    void Push()
+    {
+        RaycastHit hit;
+        //shoots a raycast forward from the player, if it hits another player, it pushes them
+        if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
+        {
+            Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
+            Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
+            if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, 0.5f))
+            {
+                if (hit.transform.tag == "Player")
+                {
+                    hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * this.m_fPushForce;
+                    Debug.Log("Push");
+                }
+            }
+        }
+    }
     //Lincolns shit
     void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
     {
 
 
-            // This is the Left/Right movement for X. always set Y to 0.
-          
-            m_fAirBourneTime += Time.deltaTime;
+        // This is the Left/Right movement for X. always set Y to 0.
 
-        if(temp.isGrounded)
+        m_fAirBourneTime += Time.deltaTime;
+
+        if (temp.isGrounded)
         {
             movementDirection.y = refBlockController.m_fOverworldSpeed;
         }
-        
+
         if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
-            {
-            
+        {
+
             HasJumped = false;
-                HasDoubleJumped = false;
-            
+            HasDoubleJumped = false;
+
 
             if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
-                {
+            {
 
-                    movementDirection.y = m_fJumpForce;
-                    m_fJumpTimer = 0.0f;
+                movementDirection.y = m_fJumpForce;
+                m_fJumpTimer = 0.0f;
                 m_fAirBourneTime = m_fGroundBuffer + 1f;
-                    HasJumped = true;
+                HasJumped = true;
 
 
-                }
             }
-        
+        }
+
     }
     // Double Jump
     void DoubleJump(CharacterController temp)
@@ -395,17 +406,17 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
-    void MovementCalculations(CharacterController temp)
+    void MovementCalculations()
     {
-
-        if (temp.isGrounded && HasJumped == false )
+        movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
+        if (m_cCharacterController.isGrounded && HasJumped == false)
         {
             movementDirection.y = -refBlockController.m_fOverworldSpeed + -1;
             m_fAirBourneTime = 0;
         }
         if (m_fAirBourneTime <= m_fGroundBuffer) // && temp is grounded? 10/19/2016
         {
-                                                                // Can't be equals
+            // Can't be equals
             movementDirection.y -= (m_fGravity * Time.deltaTime);
         }
         if (m_fAirBourneTime >= m_fGroundBuffer)
@@ -417,7 +428,8 @@ public class LouisMovement : MonoBehaviour
         {
             movementDirection.y = -m_fMaxFallSpeed;
         }
-        movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
+
+
         if (movementDirection.x > 0.0f)
         {
             movementDirection.x -= 0.5f;                // if momemntum x > 0, reduce it.
@@ -436,7 +448,7 @@ public class LouisMovement : MonoBehaviour
         else
         {
 
-            
+
 
 
             //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -473,6 +485,7 @@ public class LouisMovement : MonoBehaviour
 
     public void PlayerStun()
     {
+        StunRelease();
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
@@ -486,6 +499,23 @@ public class LouisMovement : MonoBehaviour
         movementDirection.y = -5f;
 
     }
+
+    void StunRelease()
+    {
+        if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
+        {
+            m_bIsStunned = false;
+            m_cState = CStates.OnFloor;
+            m_iQuickRelease = 0;
+        }
+
+
+        if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
+        {
+            ++m_iQuickRelease;
+
+        }
+    }
     public void PlayerKick(CharacterController Temp)
     {
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick"))
@@ -494,13 +524,13 @@ public class LouisMovement : MonoBehaviour
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
-                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
-                movementDirection.x = m_fKickXSpeed;
+                movementDirection.y = m_fKickYSpeed- refBlockController.m_fOverworldSpeed;
+                movementDirection.x = m_fKickXSpeed;;
             }
             else
             {
-                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
-                movementDirection.x = -m_fKickXSpeed;
+                movementDirection.y = m_fKickYSpeed- refBlockController.m_fOverworldSpeed;
+                movementDirection.x = -m_fKickXSpeed;;
             }
         }
         m_fCurrentKickTime += Time.deltaTime;
@@ -530,4 +560,16 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.transform.tag == "Wall")
+        {
+            if ((m_cCharacterController.collisionFlags & CollisionFlags.Above) != 0)
+            {
+                movementDirection.y = 0;
+            }
+        }
+    }
+
+
 }
