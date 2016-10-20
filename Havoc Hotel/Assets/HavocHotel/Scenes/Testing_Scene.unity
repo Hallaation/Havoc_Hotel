@@ -500,6 +500,10 @@ Prefab:
       propertyPath: go
       value: 
       objectReference: {fileID: 1796356997}
+    - target: {fileID: 4000013370260988, guid: 97b7345ca97550f4384063012acf7831, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -5.49
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97b7345ca97550f4384063012acf7831, type: 2}
   m_IsPrefabParent: 0
@@ -807,17 +811,22 @@ Prefab:
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
       propertyPath: m_fWallSlideSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
       propertyPath: m_fHorizontalWallJumpForce
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
       propertyPath: m_fVerticalWallJumpForce
-      value: 25
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: m_fMoveSpeed
+      value: 1.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
