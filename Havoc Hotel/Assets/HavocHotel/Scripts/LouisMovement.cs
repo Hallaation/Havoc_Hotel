@@ -63,13 +63,11 @@ public class LouisMovement : MonoBehaviour
     const int _ROTATION_SPEED = 20; // Not used yet.
     const float m_f1FramePasses = 0.0170f;
     float m_fButtonTimer = 0.0f;
-    public float m_fGroundBuffer = 0.036f;
-    public bool m_bCanJump;
 
     float timer = 0.0f;
     private float m_fJumpTimer;
     bool m_bJumpKeyReleased;
-  public  bool m_bIsKicking;
+
 
 
 
@@ -82,7 +80,7 @@ public class LouisMovement : MonoBehaviour
 
     private CharacterController m_cCharacterController; //character controller reference
     float m_fCurrentStunTime;
-    public float m_fMaxKickTime = 5f;
+
     float m_fTimeSinceLastKick;
     float m_fKickCoolDown;
     float m_fCurrentKickTime;
@@ -160,6 +158,7 @@ public class LouisMovement : MonoBehaviour
                 {
                     case CStates.Stunned:
                         PlayerStun();
+                        StunRelease();
                         temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
                         break;
 
@@ -240,7 +239,7 @@ public class LouisMovement : MonoBehaviour
         Jump(m_cCharacterController);
         //
 
-        PlayerKick(temp);
+        PlayerKick(m_cCharacterController);
 
 
 
@@ -485,7 +484,6 @@ public class LouisMovement : MonoBehaviour
 
     public void PlayerStun()
     {
-        StunRelease();
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
