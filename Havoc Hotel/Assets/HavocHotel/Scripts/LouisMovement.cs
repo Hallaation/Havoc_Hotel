@@ -20,14 +20,15 @@ public class LouisMovement : MonoBehaviour
     float m_fButtonTimer = 0.0f;
     public float m_fGroundBuffer = 0.036f;
     public bool m_bCanJump;
-
+    public float m_fKickYSpeed = 20;
+    public float m_fKickXSpeed = 10;
     float timer = 0.0f;
     public Vector3 movementDirection;
     private float m_fJumpTimer;
    public bool HasJumped;
     bool m_bJumpKeyReleased;
   public  bool m_bIsKicking;
-
+    public float m_fKickCoolDown = 2f;
 
     public bool HasDoubleJumped;
     public int playerNumber; //Input manager to know which joypad number to use
@@ -48,8 +49,8 @@ public class LouisMovement : MonoBehaviour
     private CharacterController m_cCharacterController; //character controller reference
     float m_fCurrentStunTime;
     public float m_fMaxKickTime = 5f;
-    float m_fTimeSinceLastKick;
-    float m_fKickCoolDown;
+   public float m_fTimeSinceLastKick;
+
     float m_fCurrentKickTime;
     public float m_fMaxStunTime = 15.0f;
     public bool m_bIsStunned;
@@ -78,6 +79,8 @@ public class LouisMovement : MonoBehaviour
         //have the charactercontroller variable reference something
         m_cCharacterController = GetComponent<CharacterController>();
         m_bIsDead = false;
+
+      
     }
 
 
@@ -243,15 +246,17 @@ public class LouisMovement : MonoBehaviour
     //on floor movement
     void OnFloor()
     {
+        m_fTimeSinceLastKick += Time.deltaTime;
         m_fCurrentKickTime = 0;
         PlayerTurnAround();
 
         CharacterController temp = GetComponent<CharacterController>();
         Jump(temp);
         //
-
-        PlayerKick(temp);
-
+        if (m_fTimeSinceLastKick > m_fKickCoolDown)
+        {
+            PlayerKick(temp);
+        }
 
 
         //
@@ -489,13 +494,13 @@ public class LouisMovement : MonoBehaviour
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
-                movementDirection.y = -20f +- refBlockController.m_fOverworldSpeed;
-                movementDirection.x = -10f;
+                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
+                movementDirection.x = m_fKickXSpeed;
             }
             else
             {
-                movementDirection.y = -20f +- refBlockController.m_fOverworldSpeed;
-                movementDirection.x = 10f;
+                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
+                movementDirection.x = -m_fKickXSpeed;
             }
         }
         m_fCurrentKickTime += Time.deltaTime;
@@ -508,6 +513,7 @@ public class LouisMovement : MonoBehaviour
                 ref_KickHitBox.SetActive(false);
                 m_fCurrentKickTime = 0f;
                 m_cState = CStates.OnFloor;
+                m_fTimeSinceLastKick = 0;
             }
             else
             {
