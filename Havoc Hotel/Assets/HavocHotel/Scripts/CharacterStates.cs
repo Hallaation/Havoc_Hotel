@@ -53,7 +53,7 @@ public class CharacterStates : MonoBehaviour
    
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
-                this.m_refMovement.m_cState = CStates.OnFloor;
+                m_refMovement.m_cState = CStates.OnFloor;
 
             }
         }
