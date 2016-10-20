@@ -153,6 +153,7 @@ public class LouisMovement : MonoBehaviour
                 {
                     case CStates.Stunned:
                         PlayerStun();
+                        StunRelease();
                         temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
                         break;
 
@@ -475,7 +476,7 @@ public class LouisMovement : MonoBehaviour
 
     public void PlayerStun()
     {
-        StunRelease();
+
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
