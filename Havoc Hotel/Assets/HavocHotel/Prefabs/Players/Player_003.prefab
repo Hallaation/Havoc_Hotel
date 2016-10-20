@@ -74,7 +74,7 @@ GameObject:
   - 4: {fileID: 4000011385333072}
   - 143: {fileID: 143000010799377724}
   - 114: {fileID: 114000010501399198}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player_003
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -307,6 +307,8 @@ MonoBehaviour:
   m_fJumpForce: 25
   m_fDoubleJumpMoveForce: 20
   m_fMaxFallSpeed: 25
+  m_fPushDistance: 0.5
+
   m_fPushForce: 10
   m_fHorizontalWallJumpForce: 25
   m_fVerticalWallJumpForce: 25
@@ -315,11 +317,6 @@ MonoBehaviour:
   m_bIsKicking: 0
   m_fMaxKickSpeed: 25
   m_fMaxStunTime: 5
-  m_fMaxKickTime: 0.5
-  m_fHeadBounceForce: 20
-  m_fKickYSpeed: 20
-  m_fKickXSpeed: 10
-  iReleaseCount: 5
   m_bIsStunned: 0
   m_bIsDead: 0
   movementDirection: {x: 0, y: 0, z: 0}
