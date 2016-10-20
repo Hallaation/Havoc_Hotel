@@ -150,6 +150,41 @@ Prefab:
       propertyPath: refPlayerStatus
       value: 
       objectReference: {fileID: 1766251302}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fGravity
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fMoveSpeed
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fJumpForce
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fDoubleJumpMoveForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fVerticalWallJumpForce
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fWallSlideSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fMaxStunTime
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
   m_IsPrefabParent: 0
@@ -207,6 +242,26 @@ Prefab:
       propertyPath: refPlayerStatus
       value: 
       objectReference: {fileID: 2043613250}
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
+        type: 2}
+      propertyPath: m_fGravity
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
+        type: 2}
+      propertyPath: m_fMoveSpeed
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
+        type: 2}
+      propertyPath: m_fVerticalWallJumpForce
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
+        type: 2}
+      propertyPath: m_fWallSlideSpeed
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
   m_IsPrefabParent: 0
@@ -656,6 +711,36 @@ Prefab:
       propertyPath: refPlayerStatus
       value: 
       objectReference: {fileID: 281870093}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_fGravity
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: playerNumber
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_fMoveSpeed
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_fHorizontalWallJumpForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_fVerticalWallJumpForce
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_fWallSlideSpeed
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
   m_IsPrefabParent: 0
@@ -821,12 +906,22 @@ Prefab:
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
       propertyPath: m_fVerticalWallJumpForce
-      value: 20
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
       propertyPath: m_fMoveSpeed
       value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: m_fMaxKickSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: m_fMaxKickTime
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
