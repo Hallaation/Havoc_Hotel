@@ -236,6 +236,7 @@ public class LouisMovement : MonoBehaviour
         m_bHitWall = true;
         if (m_bHitWall)
         {
+            m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + 1.5f;
             //short delay when moving away from wall
 
             bool horizontalActive = Input.GetAxis(playerNumber + "_Horizontal") != 0;
