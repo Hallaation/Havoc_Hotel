@@ -111,7 +111,6 @@ public class LouisMovement : MonoBehaviour
     void Update()
     {
         //begin of mess
-        RaycastHit hit;
         CharacterController temp = GetComponent<CharacterController>();
 
         refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
@@ -120,25 +119,12 @@ public class LouisMovement : MonoBehaviour
         {
             if (!m_bIsDead)
             {
-
+   
                 if (m_bIsKicking)
                 {
                     PlayerKick(m_cCharacterController);
                 }
-                //shoots a raycast forward from the player, if it hits another player, it pushes them
-                if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
-                {
-                    Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
-                    Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
-                    if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, 0.5f))
-                    {
-                        if (hit.transform.tag == "Player")
-                        {
-                            hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * this.m_fPushForce;
-                            Debug.Log("Push");
-                        }
-                    }
-                }
+
           // end of mess
           if(temp.isGrounded)
                 {
@@ -152,6 +138,7 @@ public class LouisMovement : MonoBehaviour
                         break;
                     case CStates.OnFloor:
                         OnFloor();
+                        Push();
                         break;
                     case CStates.Kicking:
                         if (m_bIsKicking == false)
@@ -213,24 +200,7 @@ public class LouisMovement : MonoBehaviour
         //}
         //        }
         //        //quick stun release. mash button to release stun (when in stun) 
-        if (m_bIsStunned)
-        {
-            if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
-            {
-                Debug.Log("stunrelease");
-                m_bIsStunned = false;
-                m_cState = CStates.OnFloor;
-                m_iQuickRelease = 0;
-            }
 
-
-            if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
-            {
-                Debug.Log("bIsPressed");
-                ++m_iQuickRelease;
-
-            }
-        }
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -325,7 +295,24 @@ public class LouisMovement : MonoBehaviour
 
     }
 
-
+    void Push()
+    {
+        RaycastHit hit;
+        //shoots a raycast forward from the player, if it hits another player, it pushes them
+        if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
+        {
+            Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
+            Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
+            if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, 0.5f))
+            {
+                if (hit.transform.tag == "Player")
+                {
+                    hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * this.m_fPushForce;
+                    Debug.Log("Push");
+                }
+            }
+        }
+    }
     //Lincolns shit
     void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
     {
@@ -462,6 +449,7 @@ public class LouisMovement : MonoBehaviour
 
     public void PlayerStun()
     {
+        StunRelease();
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
@@ -474,6 +462,23 @@ public class LouisMovement : MonoBehaviour
         }
         movementDirection.y = -5f;
 
+    }
+
+    void StunRelease()
+    {
+        if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
+        {
+            m_bIsStunned = false;
+            m_cState = CStates.OnFloor;
+            m_iQuickRelease = 0;
+        }
+
+
+        if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
+        {
+            ++m_iQuickRelease;
+
+        }
     }
     public void PlayerKick(CharacterController Temp)
     {
@@ -518,4 +523,16 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.transform.tag == "Wall")
+        {
+            if ((m_cCharacterController.collisionFlags & CollisionFlags.Above) != 0)
+            {
+                movementDirection.y = 0;
+            }
+        }
+    }
+
+
 }
