@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+
 public class LouisMovement : MonoBehaviour
 {
     //ALL THE PUBLIC VARIABLES.
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    //** Ignore booleans
     public int playerNumber; //Input manager to know which joypad number to use
-    public float m_fGravity = 50f;
+    public float m_fGravity = 50f; 
     public float m_fMoveSpeed = 1.4f;
 
     public CStates m_cState;
@@ -15,29 +18,31 @@ public class LouisMovement : MonoBehaviour
     public bool m_bCanJump;
     public bool HasDoubleJumped;
     public bool m_bAllowDoubleJumpAlways;
-    public float m_fJumpForce = 25f;
-    public float m_fDoubleJumpMoveForce = 15f;
-    public float m_fMaxFallSpeed = 15f;
+    public float m_fJumpForce = 25f; //how far the player moves up in a normal jump
+    public float m_fDoubleJumpMoveForce = 15f; //how far the player moves up in a double jump
+    public float m_fMaxFallSpeed = 15f; //maximum falling speed *terminal velocity
 
-    public float m_fPushForce = 10.0f;
+    //pushing stuff
+    public float m_fPushDistance = 0.5f; //determines how far the raycast will travel
+    public float m_fPushForce = 10.0f; //determines how far the player pushes the other playaer.
     //wall jump stuff
-    public float m_fHorizontalWallJumpForce = 20.0f;
-    public float m_fVerticalWallJumpForce = 15.0f;
-    public float m_fTurnDelay = 1.0f;
+    public float m_fHorizontalWallJumpForce = 20.0f; //how far the wall jump pushes it away from the wall horizontally --> || <--
+    public float m_fVerticalWallJumpForce = 15.0f; //how far it pushes the player up from the wall. ^ || v
+    public float m_fTurnDelay = 1.0f; //Delay when turning away from the wall
     public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
 
     //dive kick stuff
     public bool m_bIsKicking;
     public float m_fMaxKickSpeed = 25.0f;
-    public float m_fMaxStunTime = 15.0f;
-    public float m_fMaxKickTime = 5f;
-    public float m_fHeadBounceForce = 20f;
-    public float m_fKickYSpeed = 20;
-    public float m_fKickXSpeed = 10;
+    public float m_fMaxStunTime = 15.0f; //how long the player is stunned for.
+    public float m_fMaxKickTime = 5f;  //
+    public float m_fHeadBounceForce = 20f; //player head bounce when stunning another player
+    public float m_fKickYSpeed = 20; //
+    public float m_fKickXSpeed = 10; //
 
     //quick release
     private int m_iQuickRelease;
-    public int iReleaseCount = 10;
+    public int iReleaseCount = 10; //amount of times a player has to press to get out of stun.
 
 
 
@@ -101,7 +106,7 @@ public class LouisMovement : MonoBehaviour
         m_cCharacterController = GetComponent<CharacterController>();
         m_bIsDead = false;
 
-      
+
     }
 
 
@@ -165,6 +170,7 @@ public class LouisMovement : MonoBehaviour
                     case CStates.OnFloor:
                         OnFloor();
                         Push();
+                       
                         break;
 
                     case CStates.Kicking:
@@ -185,7 +191,7 @@ public class LouisMovement : MonoBehaviour
                         {
                             WallSlide();
                         }
-                        else if(m_cCharacterController.isGrounded)
+                        else if (m_cCharacterController.isGrounded)
                         {
                             OnFloor();
                         }
@@ -282,7 +288,7 @@ public class LouisMovement : MonoBehaviour
             if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
                 WallJump();
-                
+
                 //movementDirection = Vector3.zero;
             }
 
@@ -331,13 +337,23 @@ public class LouisMovement : MonoBehaviour
 
     void Push()
     {
+        int m_iLayerMask = 1 << 8;
+      
         RaycastHit hit;
         //shoots a raycast forward from the player, if it hits another player, it pushes them
         if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
         {
+            //ray origin is from the middle of the player at 0.5f
             Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
             Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
-            if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, 0.5f))
+            Debug.DrawLine(this.transform.position - new Vector3(0f, 0f, 0f), (this.transform.position - new Vector3(0f, 0f, 0f) + this.transform.forward));
+
+
+
+            if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
+                || Physics.Raycast(this.transform.position - new Vector3(0f, 0.3f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
+                || Physics.Raycast(this.transform.position + new Vector3(0f, 0.8f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask))
+
             {
                 if (hit.transform.tag == "Player")
                 {
@@ -522,13 +538,13 @@ public class LouisMovement : MonoBehaviour
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
-                movementDirection.y = m_fKickYSpeed- refBlockController.m_fOverworldSpeed;
-                movementDirection.x = -m_fKickXSpeed;;
+                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
+                movementDirection.x = -m_fKickXSpeed; ;
             }
             else
             {
-                movementDirection.y = m_fKickYSpeed- refBlockController.m_fOverworldSpeed;
-                movementDirection.x = m_fKickXSpeed;;
+                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
+                movementDirection.x = m_fKickXSpeed; ;
             }
         }
         m_fCurrentKickTime += Time.deltaTime;
