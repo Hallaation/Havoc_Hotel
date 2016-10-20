@@ -484,10 +484,6 @@ public class LouisMovement : MonoBehaviour
 
     public void PlayerStun()
     {
-<<<<<<< HEAD
-
-=======
->>>>>>> 82086f29e416b573292867b792f0210be2511f76
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
