@@ -9,7 +9,7 @@ public class LouisMovement : MonoBehaviour
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //** Ignore booleans
     public int playerNumber; //Input manager to know which joypad number to use
-    public float m_fGravity = 50f; 
+    public float m_fGravity = 50f;
     public float m_fMoveSpeed = 1.4f;
 
     public CStates m_cState;
@@ -24,7 +24,8 @@ public class LouisMovement : MonoBehaviour
 
     //pushing stuff
     public float m_fPushDistance = 0.5f; //determines how far the raycast will travel
-    public float m_fPushForce = 10.0f; //determines how far the player pushes the other playaer.
+    public float m_fPushForce = 10.0f; //determines how far the player pushes the other player.
+    public float m_fPushTime = 0.5f; //time the player will be pushed for
     //wall jump stuff
     public float m_fHorizontalWallJumpForce = 20.0f; //how far the wall jump pushes it away from the wall horizontally --> || <--
     public float m_fVerticalWallJumpForce = 15.0f; //how far it pushes the player up from the wall. ^ || v
@@ -63,7 +64,11 @@ public class LouisMovement : MonoBehaviour
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     private float m_fGroundBuffer = 0.036f;
 
+    private float m_fPushTimer;
+    private bool m_bIsPushed = false;
+
     private float m_fAirBourneTime;
+
     //declaring variables
     const int _ROTATION_SPEED = 20; // Not used yet.
     const float m_f1FramePasses = 0.0170f;
@@ -74,6 +79,7 @@ public class LouisMovement : MonoBehaviour
     bool m_bJumpKeyReleased;
 
 
+    private float m_fMaxMomentum = 10.0f; //setting for setting the maximum amount of momentum allowed.
 
 
     //maximum downfall momentum
@@ -91,14 +97,14 @@ public class LouisMovement : MonoBehaviour
     float m_fCurrentKickTime;
 
     private bool m_bIsPlaying;
-
+    public GameObject gameobject;
     public BlockController refBlockController;
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
         //GameObject[] list = GameObject.FindObjectsOfType<GameObject>();
         //list[0].name.Contains
-
+        m_bIsPushed = false;
         m_bIsPlaying = false;
         m_iQuickRelease = 0;
         ref_KickHitBox.SetActive(false);
@@ -136,9 +142,15 @@ public class LouisMovement : MonoBehaviour
 
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //update every frame
+    //reset the z position ... essentially clamping the player to the z, never falling forward.
+    void FixedUpdate()
+    {
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0.5f);
+    }
     //Lincoln's messy code
     void Update()
     {
+
         //begin of mess
         CharacterController temp = GetComponent<CharacterController>();
 
@@ -146,8 +158,10 @@ public class LouisMovement : MonoBehaviour
 
         if (m_bIsPlaying)
         {
+
             if (!m_bIsDead)
             {
+                PushCheck(); //check to see if still pushed
 
                 if (m_bIsKicking)
                 {
@@ -169,8 +183,9 @@ public class LouisMovement : MonoBehaviour
 
                     case CStates.OnFloor:
                         OnFloor();
+
                         Push();
-                       
+
                         break;
 
                     case CStates.Kicking:
@@ -189,7 +204,15 @@ public class LouisMovement : MonoBehaviour
                         m_fAirBourneTime = 2;
                         if (!m_cCharacterController.isGrounded)
                         {
-                            WallSlide();
+                            if (!(Input.GetAxis(playerNumber + "_Horizontal") == 0))
+                            {
+                                WallSlide();
+                            }
+                            else
+                            {
+                                OnFloor();
+                            }
+
                         }
                         else if (m_cCharacterController.isGrounded)
                         {
@@ -238,6 +261,20 @@ public class LouisMovement : MonoBehaviour
     //on floor movement
     void OnFloor()
     {
+        RaycastHit hit;
+
+        Debug.DrawRay(this.transform.position + this.transform.up, Vector3.up, Color.black, 1);
+        if (Physics.Raycast(this.transform.position + this.transform.up, Vector3.up, out hit, 0.2f ))
+        {
+            Debug.Log(hit.transform.tag);
+            if (hit.transform.tag == "Wall")
+            {
+                movementDirection.y = 0;
+                movementDirection.y -= 1;
+            }
+        }
+
+
         m_fTimeSinceLastKick += Time.deltaTime;
         m_fCurrentKickTime = 0;
         PlayerTurnAround();
@@ -257,6 +294,25 @@ public class LouisMovement : MonoBehaviour
         MovementCalculations();
         m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
 
+        gameobject.SetActive(false);
+    }
+
+    void PushCheck()
+    {
+        if (m_bIsPushed)
+        {
+            m_fMaxMomentum = int.MaxValue;
+            m_fPushTimer += Time.deltaTime;
+            if (m_fPushTimer >= m_fPushTime)
+            {
+                m_fPushTimer = 0;
+                m_bIsPushed = false;
+            }
+        }
+        else
+        {
+            m_fMaxMomentum = 10;
+        }
 
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -293,6 +349,7 @@ public class LouisMovement : MonoBehaviour
             }
 
         }
+        gameobject.SetActive(true);
 
     }
 
@@ -301,7 +358,6 @@ public class LouisMovement : MonoBehaviour
     //TODO:// move in opposite direction, currently only moves up
     void WallJump()
     {
-
         //HasJumped = false;
         if (transform.rotation.eulerAngles.y >= 1.0f && transform.rotation.eulerAngles.y <= 91.0f)
         {
@@ -311,35 +367,34 @@ public class LouisMovement : MonoBehaviour
             //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
             //m_cCharacterController.Move(temp * Time.deltaTime);
+            m_fMaxMomentum = m_fHorizontalWallJumpForce;
+            m_bIsPushed = true;
             transform.rotation = Quaternion.Euler(0, -90, 0);
-
+            m_cState = CStates.OnFloor;
         }
         else if (transform.rotation.eulerAngles.y >= 181.0f && transform.rotation.eulerAngles.y <= 271.0f)
         {
             //movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
+            m_fMaxMomentum = m_fHorizontalWallJumpForce;
+            m_bIsPushed = true;
             //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
             //m_cCharacterController.Move(temp * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0, 90, 0);
+            m_cState = CStates.OnFloor;
         }
 
-        //movementDirection.x += -this.transform.forward * m_fHorizontalWallJumpForce;
-        //movementDirection.y += this.transform.up.y * m_fVerticalWallJumpForce;
-        //movementDirection = -this.transform.forward * m_fHorizontalWallJumpForce;
-        //m_bHitWall = false;
-        Debug.Log(movementDirection);
-        //m_cCharacterController.Move(movementDirection);
-        //movementDirection = Vector3.up * m_fVerticalWallJumpForce;
         m_cState = CStates.OnFloor;
     }
 
     void Push()
     {
         int m_iLayerMask = 1 << 8;
-      
+
         RaycastHit hit;
+        LouisMovement referencedMovement;
         //shoots a raycast forward from the player, if it hits another player, it pushes them
         if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
         {
@@ -357,8 +412,10 @@ public class LouisMovement : MonoBehaviour
             {
                 if (hit.transform.tag == "Player")
                 {
-                    hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * this.m_fPushForce;
-                    Debug.Log("Push");
+                    referencedMovement = hit.transform.gameObject.GetComponent<LouisMovement>();
+                    //hit.transform.gameObject.GetComponent<LouisMovement>().m_cCharacterController.Move(new Vector3(m_fPushForce * Time.deltaTime, 0, 0));
+                    referencedMovement.m_bIsPushed = true;
+                    referencedMovement.movementDirection.x = this.transform.forward.x * m_fPushForce;
                 }
             }
         }
@@ -413,6 +470,7 @@ public class LouisMovement : MonoBehaviour
                 }
                 if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
                 {
+                    gameobject.SetActive(true);
                     movementDirection.y = m_fDoubleJumpMoveForce;
 
                     HasDoubleJumped = true;
@@ -420,23 +478,33 @@ public class LouisMovement : MonoBehaviour
                 }
             }
         }
+
     }
     void MovementCalculations()
     {
-        movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
+        if (m_cCharacterController.isGrounded)
+        {
+            movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
+        }
+        else
+        {
+            movementDirection.x += (m_fMoveSpeed * 0.9f * -Input.GetAxis(playerNumber + "_Horizontal"));
+        }
+
         if (m_cCharacterController.isGrounded && HasJumped == false)
         {
             movementDirection.y = -refBlockController.m_fOverworldSpeed + -1;
             m_fAirBourneTime = 0;
         }
+
         if (m_fAirBourneTime <= m_fGroundBuffer) // && temp is grounded? 10/19/2016
         {
             // Can't be equals
             movementDirection.y -= (m_fGravity * Time.deltaTime);
         }
+
         if (m_fAirBourneTime >= m_fGroundBuffer)
         {
-
             movementDirection.y -= (m_fGravity * Time.deltaTime);
         }
         if (movementDirection.y < -m_fMaxFallSpeed)     // Prevents passing max fall speed
@@ -462,19 +530,16 @@ public class LouisMovement : MonoBehaviour
         }
         else
         {
-
-
-
-
             //-------------------------------------------------------------------------------------------------------------------------------------//
-            if (movementDirection.x > 10)
+
+            if (movementDirection.x > m_fMaxMomentum)
             {
-                movementDirection.x = 10;                   // Max speed settings
+                movementDirection.x = m_fMaxMomentum;                   // Max speed settings
             }
 
-            else if (movementDirection.x < -10)
+            else if (movementDirection.x < -m_fMaxMomentum)
             {
-                movementDirection.x = -10;                   // Max speed settings
+                movementDirection.x = -m_fMaxMomentum;                   // Max speed settings
             }
         }
     }
@@ -571,16 +636,6 @@ public class LouisMovement : MonoBehaviour
                 ref_KickHitBox.SetActive(true);
                 m_bIsKicking = true;
                 m_cState = CStates.Kicking;
-            }
-        }
-    }
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.transform.tag == "Wall")
-        {
-            if ((m_cCharacterController.collisionFlags & CollisionFlags.Above) != 0)
-            {
-                movementDirection.y = 0;
             }
         }
     }

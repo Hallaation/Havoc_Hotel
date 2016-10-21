@@ -17,6 +17,8 @@ public class CharacterStates : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log(this.transform.forward);
+
         //RaycastHit hit;
         //if (Input.GetButtonDown(m_refMovement.playerNumber + "_AltFire"))
         //{
@@ -31,28 +33,19 @@ public class CharacterStates : MonoBehaviour
         //    }
         //}
     }
+
+
     //changes character state to wall jumping/sliding
     void OnTriggerEnter(Collider other)
     {
-        if (this.tag != "Kick")
-        {
-            if (other.tag == "Wall")
-            {
-                m_refMovement.m_cState = CStates.OnWall;
-            }
-
-        }
         if (this.tag == "Kick")
         {
-            
-
             if (other.tag == "Head")
             {
-                GetComponentInParent<LouisMovement>().movementDirection.y = GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
+                //GetComponentInParent<LouisMovement>().movementDirection.y += 500;
+                GetComponentInParent<CharacterController>().Move(new Vector3(0, 400));
+                //GetComponentInParent<LouisMovement>().movementDirection.y += GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
                 other.GetComponentInParent<LouisMovement>().m_cState = CStates.Stunned;
-   
-                //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
-                //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
                 m_refMovement.m_cState = CStates.OnFloor;
 
             }
@@ -68,26 +61,6 @@ public class CharacterStates : MonoBehaviour
         }
     }
 
-    void OnPlayerKick(Collider a_collision)
-    {
-        if (this.tag == "Player" && a_collision.tag == "Kick")
-        {
-            //a_collision.gameObject.GetComponent<LouisMovement>()
-        }
-    }
-
-
-
-    //check to see if the collider entered something
-    void OnCollisionEnter(Collision a_collision)
-    {
-        //Debug.Log("I entered something");
-        //if (this.tag == "Player" && a_collision.gameObject.tag == "Kick")
-        //{
-        //    a_collision.gameObject.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
-        //    Debug.Log("Yay");
-        //}
-    }
 
     /// <summary>
     /// while the trigger stays in a collider check if it is in another player, if so push them
@@ -99,12 +72,17 @@ public class CharacterStates : MonoBehaviour
         {
             if (other.tag == "Wall")
             {
-                m_refMovement.m_cState = CStates.OnWall;
+                if ((Input.GetAxis(m_refMovement.playerNumber + "_Horizontal") > 0 && this.transform.right.z > 0) || (Input.GetAxis(m_refMovement.playerNumber + "_Horizontal") < 0 && this.transform.right.z < 0))
+                {
+                    m_refMovement.m_cState = CStates.OnWall;
+    
+                }
             }
-
+    
         }
     }
-    
+
+
     //void Push(Collider a_collider)
     //{
     //    //a_collider.GetComponent<CharacterController>().Move(this.transform.forward * m_refMovement.m_fPushForce * Time.deltaTime) ;
