@@ -21,15 +21,7 @@ public class MoveLevel : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider a_collision)
-    {
-        Debug.Log("Delete this");
-        if(a_collision.tag == "Finish")
-        {
-            Destroy(this.gameObject);
-        }
 
-    }
    
 
 }
