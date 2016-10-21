@@ -58,6 +58,7 @@ GameObject:
   - 65: {fileID: 65000012636822720}
   - 54: {fileID: 54000010056115724}
   - 114: {fileID: 114000014064076548}
+  - 65: {fileID: 65000011675738272}
   m_Layer: 0
   m_Name: Kick
   m_TagString: Kick
@@ -121,10 +122,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013456751676}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 0, z: 0.19999999}
-  m_LocalScale: {x: 4, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalRotation: {x: 0.17781453, y: -0, z: -0, w: 0.98406404}
+  m_LocalPosition: {x: 0, y: 0.048, z: 0.063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 20.444, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000010250550418}
   m_RootOrder: 0
@@ -249,6 +250,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65000011675738272
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013456751676}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.5, z: 0.48}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65000012636822720
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -308,30 +321,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de0b9da723ab314c8fcdef6be96e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fMoveSpeed: 1
-  m_fJumpForce: 30
-  m_fDoubleJumpMoveForce: 20
-  m_fGravity: 100.15
-  m_fHeadBounceForce: 20
-  m_fMaxFallSpeed: 25
-  lookAt: {fileID: 0}
-  m_fMaxKickSpeed: 25
-  m_fPushForce: 10
-  m_fButtonDelay: 1
-  m_fGroundBuffer: 0.15
-  movementDirection: {x: 0, y: 0, z: 0}
-  HasDoubleJumped: 0
   playerNumber: 1
-  m_fAirBourneTime: 0
-  m_bAllowDoubleJumpAlways: 0
+  m_fGravity: 100
+  m_fMoveSpeed: 1.25
   m_cState: 0
-  m_fWallSlideSpeed: 0.5
-  m_fHorizontalWallJumpForce: 20
-  m_fVerticalWallJumpForce: 15
-  m_fMaxKickTime: 5
-  m_fMaxStunTime: 3
+  HasJumped: 0
+  m_bCanJump: 0
+  HasDoubleJumped: 0
+  m_bAllowDoubleJumpAlways: 0
+  m_fJumpForce: 25
+  m_fDoubleJumpMoveForce: 25
+  m_fMaxFallSpeed: 25
+  m_fPushDistance: 1
+  m_fPushForce: 40
+  m_fHorizontalWallJumpForce: 25
+  m_fVerticalWallJumpForce: 25
+  m_fTurnDelay: 1
+  m_fWallSlideSpeed: 2
+  m_bIsKicking: 0
+  m_fMaxKickSpeed: 25
+  m_fMaxStunTime: 5
+  m_fMaxKickTime: 0.5
+  m_fHeadBounceForce: 20
+  m_fKickYSpeed: 20
+  m_fKickXSpeed: 10
+  iReleaseCount: 5
   m_bIsStunned: 0
   m_bIsDead: 0
+  movementDirection: {x: 0, y: 0, z: 0}
+  ref_KickHitBox: {fileID: 1000013456751676}
   refPlayerStatus: {fileID: 0}
   iReleaseCount: 5
   ref_KickHitBox: {fileID: 1000013456751676}

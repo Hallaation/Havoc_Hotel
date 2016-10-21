@@ -74,7 +74,7 @@ GameObject:
   - 4: {fileID: 4000011385333072}
   - 143: {fileID: 143000010799377724}
   - 114: {fileID: 114000010501399198}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Player_003
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -161,10 +161,17 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013572976796}
+<<<<<<< .merge_file_a02164
   m_LocalRotation: {x: 0.17781453, y: -0, z: -0, w: 0.98406404}
   m_LocalPosition: {x: 0, y: 0.048, z: 0.063}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 20.444, y: 0, z: 0}
+=======
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 0, z: 0.19999999}
+  m_LocalScale: {x: 4, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+>>>>>>> .merge_file_a05208
   m_Children: []
   m_Father: {fileID: 4000012366228932}
   m_RootOrder: 2
@@ -283,7 +290,11 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
+<<<<<<< .merge_file_a02164
   m_Size: {x: 0.3, y: 0.5, z: 0.48}
+=======
+  m_Size: {x: 0.05, y: 0.5, z: 0.08}
+>>>>>>> .merge_file_a05208
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114000010501399198
 MonoBehaviour:
@@ -298,6 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fMoveSpeed: 1
   m_fJumpForce: 25
+<<<<<<< .merge_file_a02164
   m_fDoubleJumpMoveForce: 25
   m_fMaxFallSpeed: 25
   m_fPushDistance: 1
@@ -307,7 +319,27 @@ MonoBehaviour:
   m_fTurnDelay: 1
   m_fWallSlideSpeed: 2
   m_bIsKicking: 0
+=======
+  m_fDoubleJumpMoveForce: 20
+  m_fGravity: 100.15
+  m_fHeadBounceForce: 20
+  m_fMaxFallSpeed: 25
+  lookAt: {fileID: 0}
+>>>>>>> .merge_file_a05208
   m_fMaxKickSpeed: 25
+  m_fPushForce: 10
+  m_fButtonDelay: 1
+  m_fGroundBuffer: 0.15
+  movementDirection: {x: 0, y: 0, z: 0}
+  HasDoubleJumped: 0
+  playerNumber: 2
+  m_fAirBourneTime: 0
+  m_bAllowDoubleJumpAlways: 0
+  m_cState: 0
+  m_fWallSlideSpeed: 0.5
+  m_fHorizontalWallJumpForce: 20
+  m_fVerticalWallJumpForce: 15
+  m_fMaxKickTime: 5
   m_fMaxStunTime: 5
   m_fMaxKickTime: 5
   m_fHeadBounceForce: 20
@@ -316,8 +348,6 @@ MonoBehaviour:
   iReleaseCount: 5
   m_bIsStunned: 0
   m_bIsDead: 0
-  movementDirection: {x: 0, y: 0, z: 0}
-  ref_KickHitBox: {fileID: 1000013572976796}
   refPlayerStatus: {fileID: 0}
   iReleaseCount: 5
   ref_KickHitBox: {fileID: 1000013572976796}
