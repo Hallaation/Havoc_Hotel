@@ -92,7 +92,7 @@ GameObject:
   - 4: {fileID: 4000010023829386}
   - 143: {fileID: 143000011867964404}
   - 114: {fileID: 114000012768628688}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Player_004
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014203471078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 1.5, z: 0.5}
+  m_LocalPosition: {x: -0.56, y: 1.46, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -320,14 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de0b9da723ab314c8fcdef6be96e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 3
-  m_fGravity: 100
-  m_fMoveSpeed: 1.25
-  m_cState: 0
-  HasJumped: 0
-  m_bCanJump: 0
-  HasDoubleJumped: 0
-  m_bAllowDoubleJumpAlways: 0
+  m_fMoveSpeed: 1
   m_fJumpForce: 25
   m_fDoubleJumpMoveForce: 25
   m_fMaxFallSpeed: 25
@@ -339,6 +332,19 @@ MonoBehaviour:
   m_fWallSlideSpeed: 2
   m_bIsKicking: 0
   m_fMaxKickSpeed: 25
+  m_fPushForce: 10
+  m_fButtonDelay: 1
+  m_fGroundBuffer: 0.15
+  movementDirection: {x: 0, y: 0, z: 0}
+  HasDoubleJumped: 0
+  playerNumber: 5
+  m_fAirBourneTime: 0
+  m_bAllowDoubleJumpAlways: 0
+  m_cState: 0
+  m_fWallSlideSpeed: 0.5
+  m_fHorizontalWallJumpForce: 20
+  m_fVerticalWallJumpForce: 15
+  m_fMaxKickTime: 5
   m_fMaxStunTime: 5
   m_fMaxKickTime: 5
   m_fHeadBounceForce: 20
@@ -348,6 +354,8 @@ MonoBehaviour:
   m_bIsStunned: 0
   m_bIsDead: 0
   movementDirection: {x: 0, y: 0, z: 0}
+  refPlayerStatus: {fileID: 0}
+  iReleaseCount: 5
   ref_KickHitBox: {fileID: 1000013888145940}
   refPlayerStatus: {fileID: 0}
   ref_PlayerArray: {fileID: 0}

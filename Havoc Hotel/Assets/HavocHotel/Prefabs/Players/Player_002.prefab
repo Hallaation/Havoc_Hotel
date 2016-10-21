@@ -76,7 +76,7 @@ GameObject:
   - 4: {fileID: 4000012730136194}
   - 143: {fileID: 143000012752115492}
   - 114: {fileID: 114000013705924112}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Player_002
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013625616486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.5, z: 0.5}
+  m_LocalPosition: {x: 1.72, y: 1.46, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -272,7 +272,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.5, z: 0.2}
+  m_Size: {x: 0.05, y: 0.5, z: 0.08}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65000012667652962
 BoxCollider:
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_bIsKicking: 0
   m_fMaxKickSpeed: 25
   m_fMaxStunTime: 5
-  m_fMaxKickTime: 5
+  m_fMaxKickTime: 0.5
   m_fHeadBounceForce: 20
   m_fKickYSpeed: 20
   m_fKickXSpeed: 10
@@ -351,6 +351,8 @@ MonoBehaviour:
   movementDirection: {x: 0, y: 0, z: 0}
   ref_KickHitBox: {fileID: 1000013456751676}
   refPlayerStatus: {fileID: 0}
+  iReleaseCount: 5
+  ref_KickHitBox: {fileID: 1000013456751676}
   ref_PlayerArray: {fileID: 0}
   refBlockController: {fileID: 0}
 --- !u!114 &114000013834205958

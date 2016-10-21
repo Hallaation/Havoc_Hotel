@@ -3,11 +3,12 @@ using System.Collections;
 
 public class LouisMovement : MonoBehaviour
 {
+<<<<<<< HEAD
     //ALL THE PUBLIC VARIABLES.
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //** Ignore booleans
     public int playerNumber; //Input manager to know which joypad number to use
-    public float m_fGravity = 50f; 
+    public float m_fGravity = 50f;
     public float m_fMoveSpeed = 1.4f;
 
     public CStates m_cState;
@@ -67,6 +68,9 @@ public class LouisMovement : MonoBehaviour
 
     private float m_fAirBourneTime;
 
+=======
+
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
     //declaring variables
     public float m_fMoveSpeed = 1.4f;
     const int _ROTATION_SPEED = 20; // Not used yet.
@@ -91,9 +95,16 @@ public class LouisMovement : MonoBehaviour
     bool m_bIsKicking;
 
 
+<<<<<<< HEAD
     private float m_fMaxMomentum = 10.0f; //setting for setting the maximum amount of momentum allowed.
 
 
+=======
+    public bool HasDoubleJumped;
+    public int playerNumber; //Input manager to know which joypad number to use
+    public float m_fAirBourneTime;
+    public bool m_bAllowDoubleJumpAlways;
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
     //maximum downfall momentum
 
     public CStates m_cState;
@@ -125,6 +136,7 @@ public class LouisMovement : MonoBehaviour
 
     public PlayerTextController ref_PlayerArray;
     private bool m_bIsPlaying;
+    public GameObject gameobject;
     public BlockController refBlockController;
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
@@ -220,8 +232,12 @@ public class LouisMovement : MonoBehaviour
                         break;
                     case CStates.OnFloor:
                         OnFloor();
+<<<<<<< HEAD
+
                         Push();
-                       
+
+=======
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
                         break;
                     case CStates.Kicking:
                         if (m_bIsKicking == false)
@@ -235,7 +251,7 @@ public class LouisMovement : MonoBehaviour
                         temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                         break;
                     case CStates.OnWall:
-                        m_fAirBourneTime = 2;
+                        m_fAirBourneTime = 0;
                         if (!m_cCharacterController.isGrounded)
                         {
                             if (!(Input.GetAxis(playerNumber + "_Horizontal") == 0))
@@ -248,7 +264,7 @@ public class LouisMovement : MonoBehaviour
                             }
 
                         }
-                        else if (m_cCharacterController.isGrounded)
+                        else
                         {
                             OnFloor();
                         }
@@ -307,6 +323,12 @@ public class LouisMovement : MonoBehaviour
                 Debug.Log("bIsPressed");
                 ++m_iQuickRelease;
 
+                if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
+                {
+                   Debug.Log("bIsPressed");
+                   ++m_iQuickRelease;
+                }
+
             }
         }
     }
@@ -315,6 +337,7 @@ public class LouisMovement : MonoBehaviour
     //on floor movement
     void OnFloor()
     {
+<<<<<<< HEAD
         RaycastHit hit;
 
         Debug.DrawRay(this.transform.position + this.transform.up, Vector3.up, Color.black, 1);
@@ -330,23 +353,27 @@ public class LouisMovement : MonoBehaviour
 
 
         m_fTimeSinceLastKick += Time.deltaTime;
+=======
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
         m_fCurrentKickTime = 0;
         PlayerTurnAround();
 
-        Jump(m_cCharacterController);
+        CharacterController temp = GetComponent<CharacterController>();
+        Jump(temp);
         //
 
-        PlayerKick(m_cCharacterController);
+        PlayerKick(temp);
 
 
 
         //
-        DoubleJump(m_cCharacterController);
+        DoubleJump(temp);
 
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
         MovementCalculations();
-        m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+
+        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
 
         gameobject.SetActive(false);
     }
@@ -373,12 +400,9 @@ public class LouisMovement : MonoBehaviour
     //If the wall is hit, the character will slide slowly on the wall.
     public void WallSlide()
     {
-
-        m_fAirBourneTime = 2;
         m_bHitWall = true;
         if (m_bHitWall)
         {
-            m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + 1.5f;
             //short delay when moving away from wall
 
             bool horizontalActive = Input.GetAxis(playerNumber + "_Horizontal") != 0;
@@ -402,6 +426,14 @@ public class LouisMovement : MonoBehaviour
             }
 
         }
+<<<<<<< HEAD
+        gameobject.SetActive(true);
+=======
+        else
+        {
+            movementDirection.y = 0;
+        }
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
 
     }
 
@@ -410,43 +442,60 @@ public class LouisMovement : MonoBehaviour
     //TODO:// move in opposite direction, currently only moves up
     void WallJump()
     {
-
+<<<<<<< HEAD
         //HasJumped = false;
+=======
+
+        //movementDirection.y = m_fJumpSpeed;
+        //HasJumped = true;
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
         if (transform.rotation.eulerAngles.y >= 1.0f && transform.rotation.eulerAngles.y <= 91.0f)
         {
             movementDirection.x = -m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
+<<<<<<< HEAD
             //m_cCharacterController.Move(temp * Time.deltaTime);
+            m_fMaxMomentum = m_fHorizontalWallJumpForce;
+            m_bIsPushed = true;
             transform.rotation = Quaternion.Euler(0, -90, 0);
-
+            m_cState = CStates.OnFloor;
+=======
+            m_cCharacterController.Move(movementDirection * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0, -90, 0);
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
         }
         else if (transform.rotation.eulerAngles.y >= 181.0f && transform.rotation.eulerAngles.y <= 271.0f)
         {
             Debug.Log(transform.rotation.eulerAngles.y);
             movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
+<<<<<<< HEAD
+            m_fMaxMomentum = m_fHorizontalWallJumpForce;
+            m_bIsPushed = true;
             //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
+=======
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
             transform.rotation = Quaternion.Euler(0, 90, 0);
+<<<<<<< HEAD
+            m_cState = CStates.OnFloor;
+=======
+            m_cCharacterController.Move(movementDirection * Time.deltaTime);
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
         }
         m_bHitWall = false;
 
-        //movementDirection.x += -this.transform.forward * m_fHorizontalWallJumpForce;
-        //movementDirection.y += this.transform.up.y * m_fVerticalWallJumpForce;
-        //movementDirection = -this.transform.forward * m_fHorizontalWallJumpForce;
-        //m_bHitWall = false;
-        Debug.Log(movementDirection);
-        //m_cCharacterController.Move(movementDirection);
-        //movementDirection = Vector3.up * m_fVerticalWallJumpForce;
+<<<<<<< HEAD
         m_cState = CStates.OnFloor;
     }
 
     void Push()
     {
         int m_iLayerMask = 1 << 8;
-      
+
         RaycastHit hit;
+        LouisMovement referencedMovement;
         //shoots a raycast forward from the player, if it hits another player, it pushes them
         if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
         {
@@ -464,12 +513,19 @@ public class LouisMovement : MonoBehaviour
             {
                 if (hit.transform.tag == "Player")
                 {
-                    hit.transform.gameObject.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * this.m_fPushForce;
-                    Debug.Log("Push");
+                    referencedMovement = hit.transform.gameObject.GetComponent<LouisMovement>();
+                    //hit.transform.gameObject.GetComponent<LouisMovement>().m_cCharacterController.Move(new Vector3(m_fPushForce * Time.deltaTime, 0, 0));
+                    referencedMovement.m_bIsPushed = true;
+                    referencedMovement.movementDirection.x = this.transform.forward.x * m_fPushForce;
                 }
             }
         }
     }
+=======
+    }
+
+
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
     //Lincolns shit
     void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
     {
@@ -532,6 +588,7 @@ public class LouisMovement : MonoBehaviour
     }
     void MovementCalculations()
     {
+<<<<<<< HEAD
         if (m_cCharacterController.isGrounded)
         {
             movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
@@ -549,8 +606,14 @@ public class LouisMovement : MonoBehaviour
 
         if (m_fAirBourneTime <= m_fGroundBuffer) // && temp is grounded? 10/19/2016
         {
+            // Can't be equals
+            movementDirection.y -= (m_fGravity * Time.deltaTime);
+=======
+        if (m_fAirBourneTime <= m_fGroundBuffer ) // && temp is grounded? 10/19/2016
+        {
             movementDirection.y = -refBlockController.m_fOverworldSpeed;     // Can't be equals
             movementDirection.y -= (m_fGravity * Time.deltaTime);   
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
         }
 
         if (m_fAirBourneTime >= m_fGroundBuffer)
@@ -579,6 +642,13 @@ public class LouisMovement : MonoBehaviour
         }
         else
         {
+<<<<<<< HEAD
+=======
+
+            
+
+
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
             //-------------------------------------------------------------------------------------------------------------------------------------//
 
             if (movementDirection.x > m_fMaxMomentum)
@@ -627,23 +697,6 @@ public class LouisMovement : MonoBehaviour
         movementDirection.y = -5f;
 
     }
-
-    void StunRelease()
-    {
-        if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
-        {
-            m_bIsStunned = false;
-            m_cState = CStates.OnFloor;
-            m_iQuickRelease = 0;
-        }
-
-
-        if (Input.GetButtonDown(playerNumber + "_Release")) // xbox controles
-        {
-            ++m_iQuickRelease;
-
-        }
-    }
     public void PlayerKick(CharacterController Temp)
     {
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick"))
@@ -652,13 +705,13 @@ public class LouisMovement : MonoBehaviour
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
-                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
-                movementDirection.x = -m_fKickXSpeed; ;
+                movementDirection.y = -20f - refBlockController.m_fOverworldSpeed;
+                movementDirection.x = -10f;
             }
             else
             {
-                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
-                movementDirection.x = m_fKickXSpeed; ;
+                movementDirection.y = -20f - refBlockController.m_fOverworldSpeed;
+                movementDirection.x = 10f;
             }
         }
         m_fCurrentKickTime += Time.deltaTime;
@@ -671,7 +724,6 @@ public class LouisMovement : MonoBehaviour
                 ref_KickHitBox.SetActive(false);
                 m_fCurrentKickTime = 0f;
                 m_cState = CStates.OnFloor;
-                m_fTimeSinceLastKick = 0;
             }
             else
             {
@@ -688,16 +740,9 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
+<<<<<<< HEAD
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.transform.tag == "Wall")
-        {
-            if ((m_cCharacterController.collisionFlags & CollisionFlags.Above) != 0)
-            {
-                movementDirection.y = 0;
-            }
-        }
-    }
 
+=======
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
 }

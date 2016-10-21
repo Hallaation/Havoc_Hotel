@@ -46,10 +46,14 @@ public class CharacterStates : MonoBehaviour
                 GetComponentInParent<CharacterController>().Move(new Vector3(0, 400));
                 //GetComponentInParent<LouisMovement>().movementDirection.y += GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
                 other.GetComponentInParent<LouisMovement>().m_cState = CStates.Stunned;
+<<<<<<< HEAD
+                m_refMovement.m_cState = CStates.OnFloor;
+=======
    
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
                 this.m_refMovement.m_cState = CStates.OnFloor;
+>>>>>>> 95a46f332a3136b8dc4f09c0bb7a17f4bafa6641
 
             }
         }
