@@ -24,7 +24,7 @@ GameObject:
   - 114: {fileID: 114000012562426586}
   m_Layer: 0
   m_Name: WallCollideCheck
-  m_TagString: Wall
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,10 +132,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013888145940}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 0, z: 0.19999999}
-  m_LocalScale: {x: 4, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalRotation: {x: 0.17781453, y: -0, z: -0, w: 0.98406404}
+  m_LocalPosition: {x: 0, y: 0.048, z: 0.063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 20.444, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000013343914284}
   m_RootOrder: 0
@@ -271,7 +271,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.5, z: 0.08}
+  m_Size: {x: 0.3, y: 0.5, z: 0.48}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65000014245346694
 BoxCollider:
@@ -322,11 +322,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fMoveSpeed: 1
   m_fJumpForce: 25
-  m_fDoubleJumpMoveForce: 20
-  m_fGravity: 100.15
-  m_fHeadBounceForce: 20
+  m_fDoubleJumpMoveForce: 25
   m_fMaxFallSpeed: 25
-  lookAt: {fileID: 0}
+  m_fPushDistance: 1
+  m_fPushForce: 40
+  m_fHorizontalWallJumpForce: 25
+  m_fVerticalWallJumpForce: 25
+  m_fTurnDelay: 1
+  m_fWallSlideSpeed: 2
+  m_bIsKicking: 0
   m_fMaxKickSpeed: 25
   m_fPushForce: 10
   m_fButtonDelay: 1
@@ -342,11 +346,18 @@ MonoBehaviour:
   m_fVerticalWallJumpForce: 15
   m_fMaxKickTime: 5
   m_fMaxStunTime: 5
+  m_fMaxKickTime: 5
+  m_fHeadBounceForce: 20
+  m_fKickYSpeed: 20
+  m_fKickXSpeed: 10
+  iReleaseCount: 5
   m_bIsStunned: 0
   m_bIsDead: 0
+  movementDirection: {x: 0, y: 0, z: 0}
   refPlayerStatus: {fileID: 0}
   iReleaseCount: 5
   ref_KickHitBox: {fileID: 1000013888145940}
+  refPlayerStatus: {fileID: 0}
   ref_PlayerArray: {fileID: 0}
   refBlockController: {fileID: 0}
 --- !u!114 &114000014075513210
