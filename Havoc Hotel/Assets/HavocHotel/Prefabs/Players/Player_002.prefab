@@ -75,7 +75,7 @@ GameObject:
   - 4: {fileID: 4000012730136194}
   - 143: {fileID: 143000012752115492}
   - 114: {fileID: 114000013705924112}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Player_002
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013625616486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.5, z: 0.5}
+  m_LocalPosition: {x: 1.72, y: 1.46, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -308,36 +308,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de0b9da723ab314c8fcdef6be96e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 1
-  m_fGravity: 100
-  m_fMoveSpeed: 1.25
-  m_cState: 0
-  HasJumped: 0
-  m_bCanJump: 0
-  HasDoubleJumped: 0
-  m_bAllowDoubleJumpAlways: 0
-  m_fJumpForce: 25
+  m_fMoveSpeed: 1
+  m_fJumpForce: 30
   m_fDoubleJumpMoveForce: 20
-  m_fMaxFallSpeed: 25
-  m_fPushDistance: 0.5
-  m_fPushForce: 10
-  m_fHorizontalWallJumpForce: 20
-  m_fVerticalWallJumpForce: 25
-  m_fTurnDelay: 1
-  m_fWallSlideSpeed: 2
-  m_bIsKicking: 0
-  m_fMaxKickSpeed: 25
-  m_fMaxStunTime: 5
-  m_fMaxKickTime: 5
+  m_fGravity: 100.15
   m_fHeadBounceForce: 20
-  m_fKickYSpeed: 20
-  m_fKickXSpeed: 10
-  iReleaseCount: 5
+  m_fMaxFallSpeed: 25
+  lookAt: {fileID: 0}
+  m_fMaxKickSpeed: 25
+  m_fPushForce: 10
+  m_fButtonDelay: 1
+  m_fGroundBuffer: 0.15
+  movementDirection: {x: 0, y: 0, z: 0}
+  HasDoubleJumped: 0
+  playerNumber: 1
+  m_fAirBourneTime: 0
+  m_bAllowDoubleJumpAlways: 0
+  m_cState: 0
+  m_fWallSlideSpeed: 0.5
+  m_fHorizontalWallJumpForce: 20
+  m_fVerticalWallJumpForce: 15
+  m_fMaxKickTime: 5
+  m_fMaxStunTime: 3
   m_bIsStunned: 0
   m_bIsDead: 0
-  movementDirection: {x: 0, y: 0, z: 0}
-  ref_KickHitBox: {fileID: 1000013456751676}
   refPlayerStatus: {fileID: 0}
+  iReleaseCount: 5
+  ref_KickHitBox: {fileID: 1000013456751676}
   ref_PlayerArray: {fileID: 0}
   refBlockController: {fileID: 0}
 --- !u!114 &114000013834205958
