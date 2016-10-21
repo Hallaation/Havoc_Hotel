@@ -97,7 +97,7 @@ public class LouisMovement : MonoBehaviour
     float m_fCurrentKickTime;
 
     private bool m_bIsPlaying;
-    public GameObject gameobject;
+
     public BlockController refBlockController;
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
@@ -294,7 +294,6 @@ public class LouisMovement : MonoBehaviour
         MovementCalculations();
         m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
 
-        gameobject.SetActive(false);
     }
 
     void PushCheck()
@@ -349,7 +348,7 @@ public class LouisMovement : MonoBehaviour
             }
 
         }
-        gameobject.SetActive(true);
+
 
     }
 
@@ -470,7 +469,7 @@ public class LouisMovement : MonoBehaviour
                 }
                 if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
                 {
-                    gameobject.SetActive(true);
+
                     movementDirection.y = m_fDoubleJumpMoveForce;
 
                     HasDoubleJumped = true;
