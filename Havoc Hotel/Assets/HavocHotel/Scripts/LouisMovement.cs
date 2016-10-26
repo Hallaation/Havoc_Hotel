@@ -22,7 +22,9 @@ public class LouisMovement : MonoBehaviour
     public float m_fJumpForce = 25f; //how far the player moves up in a normal jump
     public float m_fDoubleJumpMoveForce = 15f; //how far the player moves up in a double jump
     public float m_fMaxFallSpeed = 15f; //maximum falling speed *terminal velocity
-
+    public float m_fMaxSpeedX = 10.0f; //setting for setting the maximum amount of momentum allowed.
+    float m_fTempFallSpeed; // Do not initialize/edit
+    float m_fTempMoveSpeedX;
     //pushing stuff
     public float m_fPushDistance = 0.5f; //determines how far the raycast will travel
     public float m_fPushForce = 10.0f; //determines how far the player pushes the other player.
@@ -35,12 +37,18 @@ public class LouisMovement : MonoBehaviour
 
     //dive kick stuff
     public bool m_bIsKicking;
-    public float m_fMaxKickSpeed = 25.0f;
+    public float m_fMaxKickSpeedY = 25.0f;
+    public float m_fMaxKickSpeedX = 25.0f;
     public float m_fMaxStunTime = 15.0f; //how long the player is stunned for.
     public float m_fMaxKickTime = 5f;  //
     public float m_fHeadBounceForce = 20f; //player head bounce when stunning another player
     public float m_fKickYSpeed = 20; //
     public float m_fKickXSpeed = 10; //
+
+    float m_fTimeSinceLastKick;
+    float m_fKickCoolDown;
+    float m_fCurrentKickTime;
+
 
     //quick release
     private int m_iQuickRelease;
@@ -79,8 +87,7 @@ public class LouisMovement : MonoBehaviour
     private float m_fJumpTimer;
     bool m_bJumpKeyReleased;
 
-
-    private float m_fMaxMomentum = 10.0f; //setting for setting the maximum amount of momentum allowed.
+   
 
 
     //maximum downfall momentum
@@ -93,9 +100,6 @@ public class LouisMovement : MonoBehaviour
     private CharacterController m_cCharacterController; //character controller reference
     float m_fCurrentStunTime;
 
-    float m_fTimeSinceLastKick;
-    float m_fKickCoolDown;
-    float m_fCurrentKickTime;
 
     private bool m_bIsPlaying;
 
@@ -103,6 +107,8 @@ public class LouisMovement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
+        m_fTempFallSpeed = m_fMaxFallSpeed;
+        m_fTempMoveSpeedX = m_fMaxSpeedX;
         //GameObject[] list = GameObject.FindObjectsOfType<GameObject>();
         //list[0].name.Contains
         m_bIsPushed = false;
@@ -301,7 +307,7 @@ public class LouisMovement : MonoBehaviour
     {
         if (m_bIsPushed)
         {
-            m_fMaxMomentum = int.MaxValue;
+            m_fMaxSpeedX = int.MaxValue;
             m_fPushTimer += Time.deltaTime;
             if (m_fPushTimer >= m_fPushTime)
             {
@@ -311,7 +317,7 @@ public class LouisMovement : MonoBehaviour
         }
         else
         {
-            m_fMaxMomentum = 10;
+            m_fMaxSpeedX = m_fTempMoveSpeedX;
         }
 
     }
@@ -367,7 +373,7 @@ public class LouisMovement : MonoBehaviour
             //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
             //m_cCharacterController.Move(temp * Time.deltaTime);
-            m_fMaxMomentum = m_fHorizontalWallJumpForce;
+            m_fMaxSpeedX = m_fHorizontalWallJumpForce;
             m_bIsPushed = true;
             transform.rotation = Quaternion.Euler(0, -90, 0);
             m_cState = CStates.OnFloor;
@@ -377,7 +383,7 @@ public class LouisMovement : MonoBehaviour
             //movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
-            m_fMaxMomentum = m_fHorizontalWallJumpForce;
+            m_fMaxSpeedX = m_fHorizontalWallJumpForce;
             m_bIsPushed = true;
             //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
@@ -533,14 +539,14 @@ public class LouisMovement : MonoBehaviour
         {
             //-------------------------------------------------------------------------------------------------------------------------------------//
 
-            if (movementDirection.x > m_fMaxMomentum)
+            if (movementDirection.x > m_fMaxSpeedX)
             {
-                movementDirection.x = m_fMaxMomentum;                   // Max speed settings
+                movementDirection.x = m_fMaxSpeedX;                   // Max speed settings
             }
 
-            else if (movementDirection.x < -m_fMaxMomentum)
+            else if (movementDirection.x < -m_fMaxSpeedX)
             {
-                movementDirection.x = -m_fMaxMomentum;                   // Max speed settings
+                movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
         }
     }
@@ -598,19 +604,20 @@ public class LouisMovement : MonoBehaviour
     }
     public void PlayerKick(CharacterController Temp)
     {
+        
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick"))
         {
             m_bIsKicking = true;
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
-                movementDirection.y += m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
-                movementDirection.x += -m_fKickXSpeed; ;
+                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
+                movementDirection.x = -m_fKickXSpeed; ;
             }
             else
             {
-                movementDirection.y += m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
-                movementDirection.x += m_fKickXSpeed; ;
+                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
+                movementDirection.x = m_fKickXSpeed; 
             }
         }
         m_fCurrentKickTime += Time.deltaTime;
@@ -619,6 +626,8 @@ public class LouisMovement : MonoBehaviour
         {
             if (m_fCurrentKickTime >= m_fMaxKickTime || Temp.isGrounded)
             {
+                m_fMaxFallSpeed = m_fTempFallSpeed;
+                m_fMaxSpeedX = m_fTempMoveSpeedX;
                 m_bIsKicking = false;
                 ref_KickHitBox.SetActive(false);
                 m_fCurrentKickTime = 0f;
@@ -627,13 +636,15 @@ public class LouisMovement : MonoBehaviour
             }
             else
             {
-                movementDirection.y = -20f;
+                m_fMaxFallSpeed = m_fMaxKickSpeedY;
+                m_fMaxSpeedX = m_fMaxKickSpeedX;
+                movementDirection.y = -m_fKickYSpeed;
                 if (movementDirection.x > 0)
                 {
-                    movementDirection.x = 10f;
+                    movementDirection.x = m_fKickXSpeed;
                 }
                 else
-                    movementDirection.x = -10f;
+                    movementDirection.x = -m_fKickXSpeed;
                 ref_KickHitBox.SetActive(true);
                 m_bIsKicking = true;
                 m_cState = CStates.Kicking;
