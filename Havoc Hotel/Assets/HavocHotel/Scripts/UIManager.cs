@@ -3,10 +3,11 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
-    public Canvas refPopUpPanel; // ANY panel canvas that pops up.
+    //public Canvas refPopUpPanel; // ANY panel canvas that pops up.
     public GameObject refCreditsPanel;
     public GameObject refQuitPanel;
     public GameObject refPausePanel;
+    public GameObject mainMenuPanel;
 
 
     // Use this for initialization
@@ -20,7 +21,7 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown("p"))
         {
-            pauseButton();
+            Pause();
         }
     }
 
@@ -34,6 +35,11 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void play()
+    {
+        mainMenuPanel.SetActive(false);
+    }
+
     public void quitButton()
     {
         Debug.Log("quitpanel was called");
@@ -41,7 +47,7 @@ public class UIManager : MonoBehaviour
     }
     public void declineQuitButton()
     {
-        Debug.Log("quitpanel was called");
+        Debug.Log("decline quit was called");
         refQuitPanel.SetActive(false);
     }
 
@@ -51,13 +57,18 @@ public class UIManager : MonoBehaviour
         Debug.Log("quit was called");
     }
 
+    public void Restart()
+    {
+        Debug.Log("restart called");
+    }
+
     //public void QuiteCancel()
     //{
     //    Debug.Log("cancel was called");
     //    refPopUpPanel.enabled = false;
     //}
 
-    public void pauseButton()
+    public void Pause()
     {
         Debug.Log("paused");
         refPausePanel.SetActive(true);
@@ -65,16 +76,16 @@ public class UIManager : MonoBehaviour
  
     }
 
-    public void playButton()
+    public void resumePlayButton()
     {
-        Debug.Log("played");
+        Debug.Log("resumed");
         Time.timeScale = 1;
         refPausePanel.SetActive(false);
     }
 
     public void Credits()
     {
-        Debug.Log("cradits");
+        Debug.Log("credits");
         refCreditsPanel.SetActive(true);
     }
     public void creditsBack()
