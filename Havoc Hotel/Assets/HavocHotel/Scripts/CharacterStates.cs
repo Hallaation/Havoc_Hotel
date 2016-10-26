@@ -11,6 +11,8 @@ public class CharacterStates : MonoBehaviour
     void Start()
     {
         //returns to dev if the script is properly being made/instanced
+        //looks for a movement script in the parents
+        m_refMovement = GetComponentInParent<LouisMovement>();
 
     }
 
