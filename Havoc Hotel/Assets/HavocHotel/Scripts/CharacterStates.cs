@@ -42,8 +42,8 @@ public class CharacterStates : MonoBehaviour
         {
             if (other.tag == "Head")
             {
-                //GetComponentInParent<LouisMovement>().movementDirection.y += 500;
-                GetComponentInParent<CharacterController>().Move(new Vector3(0, 400));
+                LouisMovement hitTemp = other.GetComponent<LouisMovement>();
+                this.m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
                 //GetComponentInParent<LouisMovement>().movementDirection.y += GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
                 other.GetComponentInParent<LouisMovement>().m_cState = CStates.Stunned;
    

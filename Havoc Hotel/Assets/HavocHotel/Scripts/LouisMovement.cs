@@ -18,6 +18,7 @@ public class LouisMovement : MonoBehaviour
     public bool m_bCanJump;
     public bool HasDoubleJumped;
     public bool m_bAllowDoubleJumpAlways;
+    public bool m_bIsPushed = false;
     public float m_fJumpForce = 25f; //how far the player moves up in a normal jump
     public float m_fDoubleJumpMoveForce = 15f; //how far the player moves up in a double jump
     public float m_fMaxFallSpeed = 15f; //maximum falling speed *terminal velocity
@@ -65,7 +66,7 @@ public class LouisMovement : MonoBehaviour
     private float m_fGroundBuffer = 0.036f;
 
     private float m_fPushTimer;
-    private bool m_bIsPushed = false;
+
 
     private float m_fAirBourneTime;
 
@@ -163,10 +164,10 @@ public class LouisMovement : MonoBehaviour
             {
                 PushCheck(); //check to see if still pushed
 
-                if (m_bIsKicking)
-                {
-                    PlayerKick(m_cCharacterController);
-                }
+                //if (m_bIsKicking)
+                //{
+                //    PlayerKick(m_cCharacterController);
+                //}
 
                 // end of mess
                 if (temp.isGrounded)
@@ -411,6 +412,7 @@ public class LouisMovement : MonoBehaviour
             {
                 if (hit.transform.tag == "Player")
                 {
+                    Debug.Log("Hit");
                     referencedMovement = hit.transform.gameObject.GetComponent<LouisMovement>();
                     //hit.transform.gameObject.GetComponent<LouisMovement>().m_cCharacterController.Move(new Vector3(m_fPushForce * Time.deltaTime, 0, 0));
                     referencedMovement.m_bIsPushed = true;
@@ -602,13 +604,13 @@ public class LouisMovement : MonoBehaviour
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
-                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
-                movementDirection.x = -m_fKickXSpeed; ;
+                movementDirection.y += m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
+                movementDirection.x += -m_fKickXSpeed; ;
             }
             else
             {
-                movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
-                movementDirection.x = m_fKickXSpeed; ;
+                movementDirection.y += m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
+                movementDirection.x += m_fKickXSpeed; ;
             }
         }
         m_fCurrentKickTime += Time.deltaTime;
