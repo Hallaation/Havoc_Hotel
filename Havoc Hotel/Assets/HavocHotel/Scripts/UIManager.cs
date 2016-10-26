@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
     public GameObject refCreditsPanel;
     public GameObject refQuitPanel;
     public GameObject refPausePanel;
-
+    public GameObject refStartMenu;
 
     // Use this for initialization
     void Start()
@@ -82,5 +82,11 @@ public class UIManager : MonoBehaviour
         Debug.Log("cradits back");
         refCreditsPanel.SetActive(false);
     }
+
+    public void CloseMainMenu()
+    {
+        refStartMenu.SetActive(false);
+    }
+
 }
 

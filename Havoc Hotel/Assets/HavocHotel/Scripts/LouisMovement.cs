@@ -101,6 +101,10 @@ public class LouisMovement : MonoBehaviour
     private bool m_bIsPlaying;
 
     public BlockController refBlockController;
+    
+    public GameObject refPlayerStartText;
+
+    public bool m_bGameRunning = false;
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
@@ -114,8 +118,9 @@ public class LouisMovement : MonoBehaviour
         m_cCharacterController = GetComponent<CharacterController>();
         m_bIsDead = false;
 
-
+        refPlayerStartText.SetActive(false);
     }
+
 
 
     void OnTriggerEnter(Collider other)
@@ -227,14 +232,15 @@ public class LouisMovement : MonoBehaviour
 
 
         }
-        else
+        else if (m_bGameRunning)
         {
             refPlayerStatus.text = "Press Start to join";
             if (Input.GetButtonDown(playerNumber + "_Start"))
             {
+
                 m_bIsPlaying = true;
                 ref_PlayerArray.refPlayers.Add(this);
-
+                refPlayerStartText.SetActive(false);
             }
         }
         // }
@@ -263,7 +269,7 @@ public class LouisMovement : MonoBehaviour
         Debug.DrawRay(this.transform.position + this.transform.up, Vector3.up, Color.black, 1);
         if (Physics.Raycast(this.transform.position + this.transform.up, Vector3.up, out hit, 0.2f))
         {
-            Debug.Log(hit.transform.tag);
+
             if (hit.transform.tag == "Wall")
             {
                 movementDirection.y = 0;
@@ -630,6 +636,4 @@ public class LouisMovement : MonoBehaviour
             }
         }
     }
-
-
 }
