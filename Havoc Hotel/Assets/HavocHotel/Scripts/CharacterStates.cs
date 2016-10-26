@@ -11,7 +11,7 @@ public class CharacterStates : MonoBehaviour
     void Start()
     {
         //returns to dev if the script is properly being made/instanced
-
+        m_refMovement = GetComponentInParent<LouisMovement>();
     }
 
 
@@ -75,11 +75,11 @@ public class CharacterStates : MonoBehaviour
         {
             if (other.tag == "Wall")
             {
-                if ((Input.GetAxis(m_refMovement.playerNumber + "_Horizontal") > 0 && this.transform.right.z > 0) || (Input.GetAxis(m_refMovement.playerNumber + "_Horizontal") < 0 && this.transform.right.z < 0))
-                {
+                //if ((Input.GetAxis(m_refMovement.playerNumber + "_Horizontal") > 0 && this.transform.right.z > 0) || (Input.GetAxis(m_refMovement.playerNumber + "_Horizontal") < 0 && this.transform.right.z < 0))
+                //{
                     m_refMovement.m_cState = CStates.OnWall;
     
-                }
+                //}
             }
     
         }

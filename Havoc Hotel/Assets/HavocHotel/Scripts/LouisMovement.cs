@@ -67,6 +67,7 @@ public class LouisMovement : MonoBehaviour
 
     private float m_fPushTimer;
 
+    private bool isWallJump;
 
     private float m_fAirBourneTime;
 
@@ -205,14 +206,9 @@ public class LouisMovement : MonoBehaviour
                         m_fAirBourneTime = 2;
                         if (!m_cCharacterController.isGrounded)
                         {
-                            if (!(Input.GetAxis(playerNumber + "_Horizontal") == 0))
-                            {
-                                WallSlide();
-                            }
-                            else
-                            {
-                                OnFloor();
-                            }
+
+                            WallSlide();
+
 
                         }
                         else if (m_cCharacterController.isGrounded)
@@ -364,11 +360,8 @@ public class LouisMovement : MonoBehaviour
             //movementDirection.x = -m_fHorizontalWallJumpForce;
             movementDirection.x = -m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
-            //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
-            //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
-            //m_cCharacterController.Move(temp * Time.deltaTime);
             m_fMaxMomentum = m_fHorizontalWallJumpForce;
-            m_bIsPushed = true;
+            //m_bIsPushed = true;
             transform.rotation = Quaternion.Euler(0, -90, 0);
             m_cState = CStates.OnFloor;
         }
@@ -378,10 +371,7 @@ public class LouisMovement : MonoBehaviour
             movementDirection.x = m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
             m_fMaxMomentum = m_fHorizontalWallJumpForce;
-            m_bIsPushed = true;
-            //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
-            //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
-            //m_cCharacterController.Move(temp * Time.deltaTime);
+            //m_bIsPushed = true;
             transform.rotation = Quaternion.Euler(0, 90, 0);
             m_cState = CStates.OnFloor;
         }
