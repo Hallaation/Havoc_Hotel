@@ -7,7 +7,7 @@ public class SubStringReplace : ScriptableWizard
 {
 
     public string NameToFind = "Column_002";
-    public bool copyValues = true;
+    public bool FindExactName = true;
     public GameObject NewType;
     public List<GameObject> oldObjects = new List<GameObject>();
 
@@ -46,10 +46,21 @@ public class SubStringReplace : ScriptableWizard
             oldObjects.Clear();
             foreach (GameObject goItem in GameObject.FindObjectsOfType(typeof(GameObject)))
             {
-                if (goItem.name.Contains(NameToFind))
+                if (!FindExactName)
                 {
-                    ++m_iCounter;
-                    oldObjects.Add(goItem);
+                    if (goItem.name.Contains(NameToFind))
+                    {
+                        ++m_iCounter;
+                        oldObjects.Add(goItem);
+                    }
+                }
+                else
+                {
+                    if (goItem.name == NameToFind)
+                    {
+                        ++m_iCounter;
+                        oldObjects.Add(goItem);
+                    }
                 }
             }
             foreach (GameObject go in oldObjects)

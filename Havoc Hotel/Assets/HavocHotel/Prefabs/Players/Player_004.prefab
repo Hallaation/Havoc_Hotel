@@ -40,6 +40,8 @@ GameObject:
   - 223: {fileID: 223000010491159900}
   - 114: {fileID: 114000013181272496}
   - 114: {fileID: 114000012028214894}
+  - 114: {fileID: 114000013809182040}
+  - 114: {fileID: 114000010498770700}
   m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
@@ -64,7 +66,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1000012683943256
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +78,7 @@ GameObject:
   - 33: {fileID: 33000013476329118}
   - 23: {fileID: 23000012771405902}
   m_Layer: 0
-  m_Name: Player_004
+  m_Name: Player_004_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,7 +130,7 @@ GameObject:
   - 4: {fileID: 4000010023829386}
   - 143: {fileID: 143000011867964404}
   - 114: {fileID: 114000012768628688}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player_004
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -334,6 +336,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_refMovement: {fileID: 114000012768628688}
+--- !u!114 &114000010498770700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012149087936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131838d6e5e195244963a19535077bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000011322529112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -408,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de0b9da723ab314c8fcdef6be96e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 3
+  playerNumber: 5
   m_fGravity: 100
   m_fMoveSpeed: 1.25
   m_cState: 0
@@ -416,9 +429,11 @@ MonoBehaviour:
   m_bCanJump: 0
   HasDoubleJumped: 0
   m_bAllowDoubleJumpAlways: 0
+  m_bIsPushed: 0
   m_fJumpForce: 25
   m_fDoubleJumpMoveForce: 25
   m_fMaxFallSpeed: 25
+  m_fMaxSpeedX: 10
   m_fPushDistance: 1
   m_fPushForce: 40
   m_fPushTime: 0.5
@@ -427,7 +442,8 @@ MonoBehaviour:
   m_fTurnDelay: 1
   m_fWallSlideSpeed: 2
   m_bIsKicking: 0
-  m_fMaxKickSpeed: 25
+  m_fMaxKickSpeedY: 25
+  m_fMaxKickSpeedX: 25
   m_fMaxStunTime: 5
   m_fMaxKickTime: 5
   m_fHeadBounceForce: 20
@@ -441,6 +457,8 @@ MonoBehaviour:
   refPlayerStatus: {fileID: 0}
   ref_PlayerArray: {fileID: 0}
   refBlockController: {fileID: 0}
+  refPlayerStartText: {fileID: 1000012149087936}
+  m_bGameRunning: 0
 --- !u!114 &114000013181272496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -462,6 +480,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 5
+--- !u!114 &114000013809182040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012149087936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131838d6e5e195244963a19535077bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000014075513210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -570,5 +599,5 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 1.5999985}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 50, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
