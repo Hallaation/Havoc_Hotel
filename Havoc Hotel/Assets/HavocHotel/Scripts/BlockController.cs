@@ -88,13 +88,15 @@ public class BlockController : MonoBehaviour
 
     void Spawn()
     {
-        int iRandIndex = Random.Range(0, m_LevelChunk.Length); // rand list to choose level block or in this case "chunk"
+        if (m_LevelChunk.Length != 0)
+        {
+            int iRandIndex = Random.Range(0, m_LevelChunk.Length); // rand list to choose level block or in this case "chunk"
 
-        m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().refController = this; //Make it reference this.
+            m_LevelChunk[iRandIndex].GetComponent<MoveLevel>().refController = this; //Make it reference this.
 
-        go = Instantiate(m_LevelChunk[iRandIndex], go.transform.position + Vector3.up * 8, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
+            go = Instantiate(m_LevelChunk[iRandIndex], go.transform.position + Vector3.up * 8, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
 
-
+        }
     }
 }
 
