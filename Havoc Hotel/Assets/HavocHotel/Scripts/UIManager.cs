@@ -11,19 +11,26 @@ public class UIManager : MonoBehaviour
     public GameObject mainMenuPanel;
 
     private BlockController ref_BlockController;
+
     private List<GameObject> m_playerList = new List<GameObject>();
 
-    bool openPauseMenu; //bool to determin weather or not quit() was called from the pause menu or not
+    private bool openPauseMenu; //bool to determin weather or not quit() was called from the pause menu or not
 
-    GameObject EventSystem;
+    private GameObject EventSystem;
 
-    private bool m_bGameStarted;
+    private bool m_bGameStarted = false;
+    
+    private bool m_PlayersInGameScene = false;
+
+    public bool GameStarted { get { return m_bGameStarted; } set { m_bGameStarted = value; } }
+
+    public bool PlayersInScene { get { return m_PlayersInGameScene; } set { m_PlayersInGameScene = value; } }
     // Use this for initialization
     void Start()
     {
-        m_bGameStarted = false; 
         EventSystem = GameObject.Find("EventSystem");
         ref_BlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
+
         foreach (GameObject item in GameObject.FindGameObjectsWithTag("Player"))
         {
             m_playerList.Add(item);
@@ -34,15 +41,16 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if (m_bGameStarted)
+        if (GameStarted && m_PlayersInGameScene)
         {
-            if (Input.GetButtonDown("Cancel"))
+            if (Input.GetButtonUp("Cancel"))
+            //if(Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
             }
         }
     }
+
 
     public void LoadLevel()
     {
@@ -67,7 +75,7 @@ public class UIManager : MonoBehaviour
     {
         // Debug.Log("quitpanel was called");
         refQuitPanel.SetActive(true);
-
+        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
         //resume game code to make sure you can quit game
         //Debug.Log("resumed");
         //Time.timeScale = 1;
@@ -82,8 +90,27 @@ public class UIManager : MonoBehaviour
         {
             refPausePanel.SetActive(true);
         }
+
     }
 
+    public void MainMenuQuit()
+    {
+        // Debug.Log("quitpanel was called");
+        refQuitPanel.SetActive(true);
+        mainMenuPanel.SetActive(false);
+        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
+        //resume game code to make sure you can quit game
+        //Debug.Log("resumed");
+        //Time.timeScale = 1;
+    }
+    public void MainMenuDeclineQuitButton()
+    {
+        // Debug.Log("decline quit was called");
+        refQuitPanel.SetActive(false);
+        mainMenuPanel.SetActive(true);
+        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
+
+    }
     public void quit()
     {
         Application.Quit();
@@ -91,7 +118,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void Restart()
-    { 
+    {
         SceneManager.LoadScene(0); //loads scene (change number depending on scene index that is playing game)
     }                               //find scene index in build settings
 
@@ -107,10 +134,11 @@ public class UIManager : MonoBehaviour
         refPausePanel.SetActive(true);
         Time.timeScale = 0;
         openPauseMenu = true;
-        ref_BlockController.m_bIsPaused = true;
+        ref_BlockController.m_bIsPaused = false;
+
         foreach (GameObject item in m_playerList)
         {
-            item.GetComponent<LouisMovement>().m_bGameRunning = false; 
+            item.GetComponent<Movement>().m_bGameRunning = false;
         }
     }
     public void resumePlayButton()
@@ -122,7 +150,7 @@ public class UIManager : MonoBehaviour
         ref_BlockController.m_bIsPaused = false;
         foreach (GameObject item in m_playerList)
         {
-            item.GetComponent<LouisMovement>().m_bGameRunning = true;
+            item.GetComponent<Movement>().m_bGameRunning = true;
         }
     }
 
@@ -130,12 +158,15 @@ public class UIManager : MonoBehaviour
     {
         //  Debug.Log("credits");
         refCreditsPanel.SetActive(true);
+        mainMenuPanel.SetActive(false);
+        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("CreditsBackButton"));
     }
     public void creditsBack()
     {
         //  Debug.Log("cradits back");
         refCreditsPanel.SetActive(false);
-        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("playButton"));
+        mainMenuPanel.SetActive(true);
+        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
     }
 
     public void CloseMainMenu()

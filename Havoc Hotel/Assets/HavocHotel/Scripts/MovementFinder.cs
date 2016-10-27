@@ -6,7 +6,7 @@ public class MovementFinder : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        GetComponentInParent<LouisMovement>().refPlayerStartText = this.gameObject;
+        GetComponentInParent<Movement>().refPlayerStartText = this.gameObject;
 	}
 	
 	// Update is called once per frame
