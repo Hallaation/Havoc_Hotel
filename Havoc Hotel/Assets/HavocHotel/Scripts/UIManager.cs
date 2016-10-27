@@ -9,12 +9,13 @@ public class UIManager : MonoBehaviour
     public GameObject refPausePanel;
     public GameObject mainMenuPanel;
 
+    private BlockController ref_BlockController;
     bool openPauseMenu; //bool to determin weather or not quit() was called from the pause menu or not
 
     // Use this for initialization
     void Start()
     {
-
+        ref_BlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
     }
 
     // Update is called once per frame
@@ -31,10 +32,13 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(0); // loads scene with index of zero (can find index of scene with the build settings)
     }
 
+
     public void LoadMainMenu()
     {
         SceneManager.LoadScene(1);
     }
+
+
 
     public void play()
     {
