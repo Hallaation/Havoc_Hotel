@@ -73,9 +73,9 @@ public class CharacterStates : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerStay(Collider other)
     {
-        if (this.tag != "Kick")
-        {
-            if (other.tag == "Wall")
+  
+        
+           if (other.tag == "Wall")
             {
 
                 m_refMovement.m_cState = CStates.OnWall;
@@ -83,7 +83,7 @@ public class CharacterStates : MonoBehaviour
 
             }
 
-        }
+        
     }
 
 
