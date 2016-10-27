@@ -63,9 +63,9 @@ public class LouisMovement : MonoBehaviour
     public float m_fHeadBounceForce = 20f; //player head bounce when stunning another player
     public float m_fKickYSpeed = 20; //
     public float m_fKickXSpeed = 10; //
-
+    public float m_fKickKnockBack = 10;
     float m_fTimeSinceLastKick;
-    float m_fKickCoolDown;
+    float m_fKickCoolDown = 5;
     float m_fCurrentKickTime;
     float m_fCurrentStunTime;
     #endregion
@@ -130,6 +130,7 @@ public class LouisMovement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
+        m_bGameRunning = true;
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
@@ -289,8 +290,10 @@ public class LouisMovement : MonoBehaviour
 
             if (hit.transform.tag == "Wall")
             {
+                
                 movementDirection.y = 0;
                 movementDirection.y -= 1;
+               // m_bIsKicking = false;
             }
         }
 
@@ -343,12 +346,17 @@ public class LouisMovement : MonoBehaviour
     public void WallSlide()
     {
         #region
+ 
         m_fAirBourneTime = 2;
         m_bHitWall = true;
+
         if (m_bHitWall)
         {
+            m_bIsKicking = false;
+            ref_KickHitBox.SetActive(false);
             m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + 1.5f;
             //short delay when moving away from wall
+
 
             bool horizontalActive = Input.GetAxis(playerNumber + "_Horizontal") != 0;
             m_fButtonTimer += 0.05f * System.Convert.ToByte(horizontalActive);
@@ -362,7 +370,7 @@ public class LouisMovement : MonoBehaviour
             float tempGravity = m_fWallSlideSpeed;
 
             movementDirection.y = -tempGravity;
-            m_cCharacterController.Move(movementDirection * Time.deltaTime);
+            m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
             if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
@@ -458,7 +466,7 @@ public class LouisMovement : MonoBehaviour
         if (HasJumped == true && m_bShortHop == false)
         {
             m_fTimeSinceJump += Time.deltaTime;
-            if (m_fTimeSinceJump < m_fJumpHeightBuffer && Input.GetButton(playerNumber + "_Fire"))
+            if (m_fTimeSinceJump < m_fJumpHeightBuffer && Input.GetButtonUp(playerNumber + "_Fire"))
             {
                 movementDirection.y = movementDirection.y * 0.5f;
                 m_bShortHop = true;
@@ -608,6 +616,10 @@ public class LouisMovement : MonoBehaviour
     public void PlayerStun()
     {
         #region
+        if (m_bIsStunned == false)
+        {
+            movementDirection.y = -m_fKickKnockBack + -refBlockController.m_fOverworldSpeed;  // fall speed when kicked is the kick force with the stage fall speed.
+        }
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
@@ -618,7 +630,7 @@ public class LouisMovement : MonoBehaviour
             Debug.Log(playerNumber + " Leave stun");
             m_fCurrentStunTime = 0;
         }
-        movementDirection.y = -5f;
+
         #endregion
     }
 
@@ -643,8 +655,9 @@ public class LouisMovement : MonoBehaviour
     public void PlayerKick(CharacterController Temp)
     {
         #region
-        if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick"))
+        if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
         {
+            
             m_bIsKicking = true;
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
@@ -658,7 +671,8 @@ public class LouisMovement : MonoBehaviour
                 movementDirection.x = m_fKickXSpeed;
             }
         }
-        m_fCurrentKickTime += Time.deltaTime;
+      
+     
         // m_fMaxFallSpeed = 20f;
         if (m_bIsKicking == true)
         {
@@ -686,8 +700,10 @@ public class LouisMovement : MonoBehaviour
                 ref_KickHitBox.SetActive(true);
                 m_bIsKicking = true;
                 m_cState = CStates.Kicking;
+                m_fCurrentKickTime += Time.deltaTime;
             }
         }
+        m_fTimeSinceLastKick += Time.deltaTime;
         #endregion
     }
 
