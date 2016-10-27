@@ -9,22 +9,23 @@ public class UIManager : MonoBehaviour
     public GameObject refPausePanel;
     public GameObject mainMenuPanel;
 
+    bool openPauseMenu; //bool to determin weather or not quit() was called from the pause menu or not
 
     // Use this for initialization
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("p"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
         }
     }
-
+    
     public void LoadLevel()
     {
         SceneManager.LoadScene(0); // loads scene with index of zero (can find index of scene with the build settings)
@@ -42,13 +43,23 @@ public class UIManager : MonoBehaviour
 
     public void quitButton()
     {
-        Debug.Log("quitpanel was called");
+        // Debug.Log("quitpanel was called");
         refQuitPanel.SetActive(true);
+
+        //resume game code to make sure you can quit game
+        //Debug.Log("resumed");
+        //Time.timeScale = 1;
+        refPausePanel.SetActive(false);
     }
     public void declineQuitButton()
     {
-        Debug.Log("decline quit was called");
+        // Debug.Log("decline quit was called");
         refQuitPanel.SetActive(false);
+
+        if (openPauseMenu == true)
+        {
+            refPausePanel.SetActive(true);
+        }
     }
 
     public void quit()
@@ -60,7 +71,8 @@ public class UIManager : MonoBehaviour
     public void Restart()
     {
         Debug.Log("restart called");
-    }
+        SceneManager.LoadScene(0); //loads scene (change number depending on scene index that is playing game)
+    }                               //find scene index in build settings
 
     //public void QuiteCancel()
     //{
@@ -73,30 +85,30 @@ public class UIManager : MonoBehaviour
         Debug.Log("paused");
         refPausePanel.SetActive(true);
         Time.timeScale = 0;
- 
+        openPauseMenu = true;
     }
-
     public void resumePlayButton()
     {
         Debug.Log("resumed");
         Time.timeScale = 1;
         refPausePanel.SetActive(false);
+        openPauseMenu = false;
     }
 
     public void Credits()
     {
-        Debug.Log("credits");
+        //  Debug.Log("credits");
         refCreditsPanel.SetActive(true);
     }
     public void creditsBack()
     {
-        Debug.Log("cradits back");
+        //  Debug.Log("cradits back");
         refCreditsPanel.SetActive(false);
     }
 
     public void CloseMainMenu()
     {
-       mainMenuPanel.SetActive(false);
+        mainMenuPanel.SetActive(false);
     }
 
 }
