@@ -120,20 +120,16 @@ public class UIManager : MonoBehaviour
     public void Restart()
     {
         //get every current player's movement script and reset their position to the spawn points in the map
-        Movement temp;
-        foreach (GameObject player in m_playerList)
-        {
-            temp = player.GetComponent<Movement>();
-            temp.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
-        }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //loads scene (change number depending on scene index that is playing game)
-    }                               //find scene index in build settings
+        //Movement temp;
+        //foreach (GameObject player in m_playerList)
+        //{
+        //    temp = player.GetComponent<Movement>();
+        //    temp.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+        //}
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameObject.Find("PlayerController").GetComponent<UIManager>().Restart();
+    }
 
-    //public void QuiteCancel()
-    //{
-    //    Debug.Log("cancel was called");
-    //    refPopUpPanel.enabled = false;
-    //}
 
     public void Pause()
     {
