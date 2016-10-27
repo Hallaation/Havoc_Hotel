@@ -30,6 +30,8 @@ public class BlockController : MonoBehaviour
     public GameObject[] m_LevelChunk; // array to have list of modular level pieces
 
     public bool m_bRunning; // bool to control leel movent
+
+    public bool m_bIsPaused; // seeing if game is paused
     #endregion
     // Use this for initialization
     void Start()
@@ -77,11 +79,10 @@ public class BlockController : MonoBehaviour
             m_bRunning = true;
         }
 
-        if (m_bRunning)
+        if (m_bRunning && m_bIsPaused)
         {
             if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
             {
-
                 m_fOverworldSpeed += m_fSpeedIncrease * Time.deltaTime;
             }
         }

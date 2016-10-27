@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 
 
 public class LouisMovement : MonoBehaviour
@@ -85,11 +85,11 @@ public class LouisMovement : MonoBehaviour
     #region
     public GameObject ref_KickHitBox;
     private CharacterController m_cCharacterController; //character controller reference
-    public UnityEngine.UI.Text refPlayerStatus;
-    public BlockController refBlockController;
+    public UnityEngine.UI.Text refPlayerStatus; //Text to show the player status. 
+    public BlockController refBlockController; //Block controller reference to know what the world speed is.
 
     public GameObject refPlayerStartText;
-    public PlayerTextController ref_PlayerArray;
+    public PlayerTextController ref_PlayerArray; //Now unused. Was used to control the players to "press start" to join. this is now done in the main menu. Should be used show player death messages.
     #endregion
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -268,7 +268,7 @@ public class LouisMovement : MonoBehaviour
             {
 
                 m_bIsPlaying = true;
-                ref_PlayerArray.refPlayers.Add(this);
+                //ref_PlayerArray.refPlayers.Add(this);
                 refPlayerStartText.SetActive(false);
             }
         }
@@ -314,6 +314,8 @@ public class LouisMovement : MonoBehaviour
         MovementCalculations();
         m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
         #endregion
+
+
     }
 
     void PushCheck()
@@ -699,4 +701,15 @@ public class LouisMovement : MonoBehaviour
         #endregion
     }
 
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += LookForObjects;
+    }
+
+    void LookForObjects(Scene a_scene, LoadSceneMode a_loadSceneMode)
+    {
+        refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
+        
+    }
 }
