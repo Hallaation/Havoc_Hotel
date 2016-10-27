@@ -184,7 +184,9 @@ public class LouisMovement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
+        #region
 
+        
         //begin of mess
         CharacterController temp = GetComponent<CharacterController>();
 
