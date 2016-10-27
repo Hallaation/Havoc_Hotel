@@ -36,24 +36,27 @@ public class UIManager : MonoBehaviour
             m_playerList.Add(item);
         }
 
-        if(this.gameObject.scene.name == "Game_scene")
-        {
-            resumePlayButton();
-        }
+  
 
     }
 
+    void Awake()
+    {
+        ref_BlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
+        resumePlayButton();
+    }
     // Update is called once per frame
     void Update()
     {
         if (GameStarted && m_PlayersInGameScene)
         {
-            if (Input.GetButtonUp("Cancel"))
+            if (Input.GetButtonDown("Cancel"))
             //if(Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
             }
         }
+
     }
 
 
@@ -176,5 +179,13 @@ public class UIManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
     }
 
+    public void ReturnToMainMenu()
+    {
+        for (int i = 0; i < m_playerList.Count; ++i)
+        {
+            DestroyImmediate(m_playerList[i]);
+        }
+        SceneManager.LoadScene(1);
+    }
 }
 
