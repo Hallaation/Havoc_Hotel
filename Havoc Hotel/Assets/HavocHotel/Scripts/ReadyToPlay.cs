@@ -21,7 +21,7 @@ public class ReadyToPlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_iCounter >= 2 || Debug.isDebugBuild)
+        if (m_iCounter >= 2 ||( Debug.isDebugBuild && m_iCounter >= 1))
         {
             refOneMorePlayer.SetActive(false);
             refreadyToPlay.SetActive(true);
