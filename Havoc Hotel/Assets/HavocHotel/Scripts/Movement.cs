@@ -58,8 +58,11 @@ public class Movement : MonoBehaviour
     public float m_fHorizontalWallJumpForce = 20.0f; //how far the wall jump pushes it away from the wall horizontally --> || <--
     public float m_fVerticalWallJumpForce = 15.0f; //how far it pushes the player up from the wall. ^ || v
     public float m_fTurnDelay = 1.0f; //Delay when turning away from the wall
-    public float m_fWallSlidingSpeed;
+    public float m_fWallSlidingSpeed = 0.5f;
     private float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
+    public float m_fNoSpeedLimitDuration; // how long does the player have no x speed limit after wall jumping.
+    private float m_fTimeSinceWallJump = 999;
+    
     #endregion
     //dive kick stuff
     #region
@@ -138,7 +141,7 @@ public class Movement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
-
+        m_bGameRunning = true;
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
@@ -194,7 +197,7 @@ public class Movement : MonoBehaviour
     void Update()
     {
         #region
-
+        m_fTimeSinceWallJump += Time.deltaTime;
 
         //begin of mess
         CharacterController temp = GetComponent<CharacterController>();
@@ -400,6 +403,7 @@ public class Movement : MonoBehaviour
         //HasJumped = false;
         if (transform.rotation.eulerAngles.y >= 1.0f && transform.rotation.eulerAngles.y <= 91.0f)
         {
+            
             //movementDirection.x = -m_fHorizontalWallJumpForce;
             movementDirection.x = -m_fHorizontalWallJumpForce;
             movementDirection.y = m_fVerticalWallJumpForce;
@@ -424,6 +428,7 @@ public class Movement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0 , 90 , 0);
             m_cState = CStates.OnFloor;
         }
+        m_fTimeSinceWallJump = 0;
         m_cState = CStates.OnFloor;
         #endregion
     }
@@ -587,12 +592,12 @@ public class Movement : MonoBehaviour
         {
             //-------------------------------------------------------------------------------------------------------------------------------------//
 
-            if (movementDirection.x > m_fMaxSpeedX)
+            if (movementDirection.x > m_fMaxSpeedX && m_fTimeSinceWallJump > m_fNoSpeedLimitDuration )
             {
                 movementDirection.x = m_fMaxSpeedX;                   // Max speed settings
             }
 
-            else if (movementDirection.x < -m_fMaxSpeedX)
+            else if (movementDirection.x < -m_fMaxSpeedX && m_fTimeSinceWallJump > m_fNoSpeedLimitDuration)
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
