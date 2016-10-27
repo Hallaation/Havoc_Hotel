@@ -342,8 +342,7 @@ GameObject:
   - 223: {fileID: 223000010491159900}
   - 114: {fileID: 114000013181272496}
   - 114: {fileID: 114000012028214894}
-  - 114: {fileID: 114000013809182040}
-  - 114: {fileID: 114000010498770700}
+  - 114: {fileID: 114000013754841690}
   m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
@@ -743,7 +742,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000014203471078}
-  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.7071079}
+  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
   m_LocalPosition: {x: -6, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
@@ -1477,17 +1476,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_refMovement: {fileID: 114000012768628688}
---- !u!114 &114000010498770700
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012149087936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 131838d6e5e195244963a19535077bbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114000011322529112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1591,6 +1579,8 @@ MonoBehaviour:
   m_fHeadBounceForce: 20
   m_fKickYSpeed: 20
   m_fKickXSpeed: 10
+  m_fKickKnockBack: 10
+  m_fKickCoolDown: 5
   iReleaseCount: 5
   m_bIsStunned: 0
   m_bIsDead: 0
@@ -1622,7 +1612,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 5
---- !u!114 &114000013809182040
+--- !u!114 &114000013754841690
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

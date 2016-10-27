@@ -5,14 +5,14 @@ public class CharacterStates : MonoBehaviour
 {
 
     //reference to a movement script
-    public LouisMovement m_refMovement;
+    public Movement m_refMovement;
 
     // Use this for initialization
     void Start()
     {
         //returns to dev if the script is properly being made/instanced
         //looks for a movement script in the parents
-        m_refMovement = GetComponentInParent<LouisMovement>();
+        m_refMovement = GetComponentInParent<Movement>();
 
     }
 
@@ -44,10 +44,10 @@ public class CharacterStates : MonoBehaviour
         {
             if (other.tag == "Head")
             {
-                LouisMovement hitTemp = other.GetComponent<LouisMovement>();
+                Movement hitTemp = other.GetComponent<Movement>();
                 this.m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
                 //GetComponentInParent<LouisMovement>().movementDirection.y += GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
-                other.GetComponentInParent<LouisMovement>().m_cState = CStates.Stunned;
+                other.GetComponentInParent<Movement>().m_cState = CStates.Stunned;
 
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;

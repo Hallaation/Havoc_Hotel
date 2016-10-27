@@ -2,8 +2,15 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+public enum CStates
+{
+    OnFloor,
+    OnWall,
+    Kicking,
+    Stunned
+}
 
-public class LouisMovement : MonoBehaviour
+public class Movement : MonoBehaviour
 {
     //ALL THE PUBLIC VARIABLES.
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -65,7 +72,7 @@ public class LouisMovement : MonoBehaviour
     public float m_fKickXSpeed = 10; //
     public float m_fKickKnockBack = 10;
     float m_fTimeSinceLastKick;
-   public float m_fKickCoolDown = 5;
+    public float m_fKickCoolDown = 5;
     float m_fCurrentKickTime;
     float m_fCurrentStunTime;
     #endregion
@@ -130,7 +137,7 @@ public class LouisMovement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
-        
+
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
@@ -143,22 +150,24 @@ public class LouisMovement : MonoBehaviour
         //have the charactercontroller variable reference something
         m_cCharacterController = GetComponent<CharacterController>();
         m_bIsDead = false;
-
         refPlayerStartText.SetActive(false);
+
+
         #endregion
     }
 
     void OnTriggerEnter(Collider other)
     {
         #region
-        if (other.tag == "Finish")
+        if (other.tag == "Killer")
         {
             Debug.Log("Player " + playerNumber + " died!");
+            this.transform.position = new Vector3(0 , -60);
             m_bIsDead = true;
         }
         else
         {
-            Physics.IgnoreCollision(m_cCharacterController, other.GetComponentInParent<Collider>());
+            Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>());
 
 
         }
@@ -169,7 +178,7 @@ public class LouisMovement : MonoBehaviour
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
-        Physics.IgnoreCollision(m_cCharacterController, other.GetComponentInParent<Collider>(), false);
+        Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>() , false);
     }
 
 
@@ -178,7 +187,7 @@ public class LouisMovement : MonoBehaviour
     //reset the z position ... essentially clamping the player to the z, never falling forward.
     void FixedUpdate()
     {
-        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0.5f);
+        this.transform.position = new Vector3(this.transform.position.x , this.transform.position.y , 0.5f);
     }
     //Lincoln's messy code
     void Update()
@@ -215,7 +224,7 @@ public class LouisMovement : MonoBehaviour
                     case CStates.Stunned:
                         PlayerStun();
                         StunRelease();
-                        temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
+                        temp.Move(new Vector3(0 , Time.deltaTime * movementDirection.y));
                         break;
 
                     case CStates.OnFloor:
@@ -234,7 +243,7 @@ public class LouisMovement : MonoBehaviour
                         PlayerKick(temp);
                         MovementCalculations();
                         m_fAirBourneTime = 0;
-                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed , Time.deltaTime * movementDirection.y));
                         break;
 
                     case CStates.OnWall:
@@ -254,17 +263,13 @@ public class LouisMovement : MonoBehaviour
                 }
 
             }
-            else if (!m_bIsDead)
-            {
-                this.transform.position = new Vector3(20, -60, 20);
-            }
 
 
 
         }
         else if (m_bGameRunning)
         {
-            refPlayerStatus.text = "Press Start to join";
+            //refPlayerStatus.text = "Press Start to join";
             if (Input.GetButtonDown(playerNumber + "_Start"))
             {
 
@@ -284,16 +289,16 @@ public class LouisMovement : MonoBehaviour
         #region
         RaycastHit hit;
 
-        Debug.DrawRay(this.transform.position + this.transform.up, Vector3.up, Color.black, 1);
-        if (Physics.Raycast(this.transform.position + this.transform.up, Vector3.up, out hit, 0.2f))
+        Debug.DrawRay(this.transform.position + this.transform.up , Vector3.up , Color.black , 1);
+        if (Physics.Raycast(this.transform.position + this.transform.up , Vector3.up , out hit , 0.2f))
         {
 
             if (hit.transform.tag == "Wall")
             {
-                
+
                 movementDirection.y = 0;
                 movementDirection.y -= 1;
-               // m_bIsKicking = false;
+                // m_bIsKicking = false;
             }
         }
 
@@ -315,7 +320,7 @@ public class LouisMovement : MonoBehaviour
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
         MovementCalculations();
-        m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+        m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed , Time.deltaTime * movementDirection.y));
         #endregion
 
 
@@ -346,7 +351,7 @@ public class LouisMovement : MonoBehaviour
     public void WallSlide()
     {
         #region
- 
+
         m_fAirBourneTime = 2;
         m_bHitWall = true;
 
@@ -370,7 +375,7 @@ public class LouisMovement : MonoBehaviour
             float tempGravity = m_fWallSlideSpeed;
 
             movementDirection.y = -tempGravity;
-            m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
+            m_cCharacterController.Move(new Vector3(0 , Time.deltaTime * movementDirection.y));
 
             if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
@@ -401,7 +406,7 @@ public class LouisMovement : MonoBehaviour
             //m_cCharacterController.Move(temp * Time.deltaTime);
             //m_fMaxSpeedX = m_fHorizontalWallJumpForce;
             //m_bIsPushed = true;
-            transform.rotation = Quaternion.Euler(0, -90, 0);
+            transform.rotation = Quaternion.Euler(0 , -90 , 0);
             m_cState = CStates.OnFloor;
         }
         else if (transform.rotation.eulerAngles.y >= 181.0f && transform.rotation.eulerAngles.y <= 271.0f)
@@ -414,7 +419,7 @@ public class LouisMovement : MonoBehaviour
             //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
             //m_cCharacterController.Move(temp * Time.deltaTime);
-            transform.rotation = Quaternion.Euler(0, 90, 0);
+            transform.rotation = Quaternion.Euler(0 , 90 , 0);
             m_cState = CStates.OnFloor;
         }
         m_cState = CStates.OnFloor;
@@ -427,26 +432,26 @@ public class LouisMovement : MonoBehaviour
         int m_iLayerMask = 1 << 8;
 
         RaycastHit hit;
-        LouisMovement referencedMovement;
+        Movement referencedMovement;
         //shoots a raycast forward from the player, if it hits another player, it pushes them
         if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
         {
             //ray origin is from the middle of the player at 0.5f
-            Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
-            Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
-            Debug.DrawLine(this.transform.position - new Vector3(0f, 0f, 0f), (this.transform.position - new Vector3(0f, 0f, 0f) + this.transform.forward));
+            Vector3 rayOrigin = this.transform.position + new Vector3(0f , 0.5f , 0f);
+            Debug.DrawLine(rayOrigin , rayOrigin + this.transform.forward);
+            Debug.DrawLine(this.transform.position - new Vector3(0f , 0f , 0f) , (this.transform.position - new Vector3(0f , 0f , 0f) + this.transform.forward));
 
 
 
-            if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
-                || Physics.Raycast(this.transform.position - new Vector3(0f, 0.3f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
-                || Physics.Raycast(this.transform.position + new Vector3(0f, 0.8f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask))
+            if (Physics.Raycast(rayOrigin , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask)
+                || Physics.Raycast(this.transform.position - new Vector3(0f , 0.3f , 0f) , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask)
+                || Physics.Raycast(this.transform.position + new Vector3(0f , 0.8f , 0f) , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask))
 
             {
                 if (hit.transform.tag == "Player")
                 {
                     Debug.Log("Hit");
-                    referencedMovement = hit.transform.gameObject.GetComponent<LouisMovement>();
+                    referencedMovement = hit.transform.gameObject.GetComponent<Movement>();
                     //hit.transform.gameObject.GetComponent<LouisMovement>().m_cCharacterController.Move(new Vector3(m_fPushForce * Time.deltaTime, 0, 0));
                     referencedMovement.m_bIsPushed = true;
                     referencedMovement.movementDirection.x = this.transform.forward.x * m_fPushForce;
@@ -599,17 +604,20 @@ public class LouisMovement : MonoBehaviour
     void PlayerTurnAround()
     {
         #region
-        if (Input.GetAxis(playerNumber + "_Horizontal") > 0.5)
+        if (m_bGameRunning)
         {
-            //x y z
-            transform.rotation = Quaternion.Euler(0, -90, 0);
-        }
-        else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.7)
-        {
-            transform.rotation = Quaternion.Euler(0, 90, 0);
-        }
+            if (Input.GetAxis(playerNumber + "_Horizontal") > 0.5)
+            {
+                //x y z
+                transform.rotation = Quaternion.Euler(0 , -90 , 0);
+            }
+            else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.7)
+            {
+                transform.rotation = Quaternion.Euler(0 , 90 , 0);
+            }
 
-        m_bHitWall = false;
+            m_bHitWall = false;
+        }
         #endregion
     }
 
@@ -657,10 +665,10 @@ public class LouisMovement : MonoBehaviour
         #region
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
         {
-            
+
             m_bIsKicking = true;
             PlayerTurnAround();
-            if (transform.rotation == Quaternion.Euler(0, -90, 0))
+            if (transform.rotation == Quaternion.Euler(0 , -90 , 0))
             {
                 movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
                 movementDirection.x = -m_fKickXSpeed; ;
@@ -671,8 +679,8 @@ public class LouisMovement : MonoBehaviour
                 movementDirection.x = m_fKickXSpeed;
             }
         }
-      
-     
+
+
         // m_fMaxFallSpeed = 20f;
         if (m_bIsKicking == true)
         {
@@ -723,9 +731,27 @@ public class LouisMovement : MonoBehaviour
         SceneManager.sceneLoaded += LookForObjects;
     }
 
-    void LookForObjects(Scene a_scene, LoadSceneMode a_loadSceneMode)
+    void LookForObjects(Scene a_scene , LoadSceneMode a_loadSceneMode)
     {
+
         refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
-        
+
+
+        if (m_bDestroyOnLoad)
+        {
+            if (playerNumber > 3)
+            {
+                refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
+            }
+            else {
+                refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
+                refPlayerStatus.enabled = true;
+            }
+        }
+        if (a_scene.buildIndex == 2)
+        {
+            GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
+            GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
+        }
     }
 }

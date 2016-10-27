@@ -684,14 +684,14 @@ GameObject:
   - 223: {fileID: 223000011211303638}
   - 114: {fileID: 114000013189018542}
   - 114: {fileID: 114000012026934964}
-  - 114: {fileID: 114000012056448998}
+  - 114: {fileID: 114000013670708540}
   m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1000014210579296
 GameObject:
   m_ObjectHideFlags: 1
@@ -1152,7 +1152,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013625616486}
-  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.7071079}
+  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
   m_LocalPosition: {x: -4, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
@@ -1540,17 +1540,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114000012056448998
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014109412382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 131838d6e5e195244963a19535077bbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114000013189018542
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1572,6 +1561,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 5
+--- !u!114 &114000013670708540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014109412382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131838d6e5e195244963a19535077bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000013705924112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1612,6 +1612,8 @@ MonoBehaviour:
   m_fHeadBounceForce: 20
   m_fKickYSpeed: 20
   m_fKickXSpeed: 10
+  m_fKickKnockBack: 10
+  m_fKickCoolDown: 5
   iReleaseCount: 5
   m_bIsStunned: 0
   m_bIsDead: 0

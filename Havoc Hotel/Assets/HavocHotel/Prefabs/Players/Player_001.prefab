@@ -52,15 +52,14 @@ GameObject:
   - 223: {fileID: 223000013070358978}
   - 114: {fileID: 114000011453909560}
   - 114: {fileID: 114000010635947672}
-  - 114: {fileID: 114000012240273814}
-  - 114: {fileID: 114000010489633286}
+  - 114: {fileID: 114000013272830138}
   m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1000010090492660
 GameObject:
   m_ObjectHideFlags: 1
@@ -935,7 +934,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012159731240}
-  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.7071079}
+  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
   m_LocalPosition: {x: 4, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
@@ -1465,17 +1464,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114000010489633286
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010087773928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 131838d6e5e195244963a19535077bbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114000010635947672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1532,6 +1520,8 @@ MonoBehaviour:
   m_fHeadBounceForce: 20
   m_fKickYSpeed: 20
   m_fKickXSpeed: 10
+  m_fKickKnockBack: 10
+  m_fKickCoolDown: 5
   iReleaseCount: 5
   m_bIsStunned: 0
   m_bIsDead: 0
@@ -1587,17 +1577,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_refMovement: {fileID: 114000011023843160}
---- !u!114 &114000012240273814
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010087773928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 131838d6e5e195244963a19535077bbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114000012610136534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1633,6 +1612,17 @@ MonoBehaviour:
   m_Text: 'PRESS
 
     START'
+--- !u!114 &114000013272830138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010087773928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131838d6e5e195244963a19535077bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000013923405144
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -23,8 +23,8 @@ public class PlayerEnabler : MonoBehaviour
     {
         foreach (GameObject item in m_playerList)
         {
-            item.GetComponent<LouisMovement>().refPlayerStartText.SetActive(true);
-            item.GetComponent<LouisMovement>().m_bGameRunning = true;
+            item.GetComponent<Movement>().refPlayerStartText.SetActive(true);
+            item.GetComponent<Movement>().m_bGameRunning = true;
         }
 
     }

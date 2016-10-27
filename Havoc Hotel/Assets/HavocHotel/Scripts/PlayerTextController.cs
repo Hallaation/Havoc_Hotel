@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 public class PlayerTextController : MonoBehaviour
-{
-    public List<LouisMovement> refPlayers;
-    private List<LouisMovement> m_mDeadPlayers;
+{ 
+    public List<Movement> refPlayers;
+    private List<Movement> m_mDeadPlayers;
 
     private float m_fTimer;
     private float m_fWaitTime;
@@ -17,9 +17,16 @@ public class PlayerTextController : MonoBehaviour
     {
         m_bIsFinished = false;
         m_fWaitTime = 5.0f;
-        m_mDeadPlayers = new List<LouisMovement>();
+        m_mDeadPlayers = new List<Movement>();
     }
 
+    void Awake()
+    {
+        foreach (GameObject item in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            refPlayers.Add(item.GetComponent<Movement>());
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -44,9 +51,20 @@ public class PlayerTextController : MonoBehaviour
         }
         else
         {
+          
             m_fTimer += Time.deltaTime;
             if (m_fTimer > m_fWaitTime)
             {
+                foreach (Movement player in refPlayers)
+                {
+                    player.m_bIsDead = false;
+                    player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                }
+                foreach (Movement player in m_mDeadPlayers)
+                {
+                    player.m_bIsDead = false;
+                    player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                }
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }

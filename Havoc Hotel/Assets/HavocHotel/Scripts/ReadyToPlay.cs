@@ -9,10 +9,12 @@ public class ReadyToPlay : MonoBehaviour
     public GameObject refreadyToPlay;
     public GameObject[] refPlayers;
     private List<GameObject> playerList = new List<GameObject>();
+    private UIManager refUiManager;
     private int m_iCounter = 0;
     // Use this for initialization
     void Start()
     {
+        refUiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         m_iCounter = 0;
     }
 
@@ -24,11 +26,11 @@ public class ReadyToPlay : MonoBehaviour
             refOneMorePlayer.SetActive(false);
             refreadyToPlay.SetActive(true);
             //joystick button 7
-            if (Input.GetKeyDown(KeyCode.PageDown))
+            if (Input.GetButtonDown("Cancel"))
             {
                 foreach (GameObject item in playerList)
                 {
-                    item.GetComponent<LouisMovement>().DontDestroyOnLoad();
+                    item.GetComponent<Movement>().DontDestroyOnLoad();
                 }
                 SceneManager.LoadScene(2);
             }
@@ -55,7 +57,7 @@ public class ReadyToPlay : MonoBehaviour
             {
                 ++m_iCounter;
                 playerList.Add(a_collision.transform.parent.parent.gameObject);
-                a_collision.GetComponentInParent<LouisMovement>().DestroyOnLoad = true;
+                a_collision.GetComponentInParent<Movement>().DestroyOnLoad = true;
             }
         }
     }
@@ -66,14 +68,13 @@ public class ReadyToPlay : MonoBehaviour
     /// <param name="a_collision"></param>
     void OnTriggerExit(Collider a_collision)
     {
-        Debug.Log("OutOutOut");
         if (a_collision.tag == "Head")
         {
             if (playerList.Contains(a_collision.transform.parent.parent.gameObject))
             {
                 --m_iCounter;
                 playerList.Remove(a_collision.transform.parent.parent.gameObject);
-                a_collision.GetComponentInParent<LouisMovement>().DestroyOnLoad = false;
+                a_collision.GetComponentInParent<Movement>().DestroyOnLoad = false;
             }
         }
     }

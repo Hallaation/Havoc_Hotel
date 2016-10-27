@@ -1,13 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum CStates
-{
-    OnFloor,
-    OnWall,
-    Kicking,
-    Stunned
-}
 
 public class MovementTest : MonoBehaviour
 {
