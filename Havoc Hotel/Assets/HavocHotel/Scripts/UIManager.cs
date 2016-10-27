@@ -36,6 +36,11 @@ public class UIManager : MonoBehaviour
             m_playerList.Add(item);
         }
 
+        if(this.gameObject.scene.name == "Game_scene")
+        {
+            resumePlayButton();
+        }
+
     }
 
     // Update is called once per frame
@@ -119,15 +124,8 @@ public class UIManager : MonoBehaviour
 
     public void Restart()
     {
-        //get every current player's movement script and reset their position to the spawn points in the map
-        //Movement temp;
-        //foreach (GameObject player in m_playerList)
-        //{
-        //    temp = player.GetComponent<Movement>();
-        //    temp.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
-        //}
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        GameObject.Find("PlayerController").GetComponent<UIManager>().Restart();
+        GameObject.Find("PlayerController").GetComponent<PlayerTextController>().GameFinished = true;
+        GameObject.Find("PlayerController").GetComponent<PlayerTextController>().Timer = 50000;
     }
 
 
