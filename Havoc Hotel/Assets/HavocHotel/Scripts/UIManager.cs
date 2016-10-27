@@ -36,19 +36,27 @@ public class UIManager : MonoBehaviour
             m_playerList.Add(item);
         }
 
+  
+
     }
 
+    void Awake()
+    {
+        ref_BlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
+        resumePlayButton();
+    }
     // Update is called once per frame
     void Update()
     {
         if (GameStarted && m_PlayersInGameScene)
         {
-            if (Input.GetButtonUp("Cancel"))
+            if (Input.GetButtonDown("Cancel"))
             //if(Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
             }
         }
+
     }
 
 
@@ -119,15 +127,8 @@ public class UIManager : MonoBehaviour
 
     public void Restart()
     {
-        //get every current player's movement script and reset their position to the spawn points in the map
-        //Movement temp;
-        //foreach (GameObject player in m_playerList)
-        //{
-        //    temp = player.GetComponent<Movement>();
-        //    temp.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
-        //}
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        GameObject.Find("PlayerController").GetComponent<UIManager>().Restart();
+        GameObject.Find("PlayerController").GetComponent<PlayerTextController>().GameFinished = true;
+        GameObject.Find("PlayerController").GetComponent<PlayerTextController>().Timer = 50000;
     }
 
 
@@ -178,5 +179,13 @@ public class UIManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
     }
 
+    public void ReturnToMainMenu()
+    {
+        for (int i = 0; i < m_playerList.Count; ++i)
+        {
+            DestroyImmediate(m_playerList[i]);
+        }
+        SceneManager.LoadScene(1);
+    }
 }
 

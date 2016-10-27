@@ -12,6 +12,9 @@ public class PlayerTextController : MonoBehaviour
     public GameObject refWinMessage;
 
     private bool m_bIsFinished;
+
+    public bool GameFinished { get { return m_bIsFinished; } set { m_bIsFinished = value; } }
+    public float Timer { get { return m_fTimer; } set { m_fTimer = value; } }
     // Use this for initialization
     void Start()
     {
@@ -55,24 +58,20 @@ public class PlayerTextController : MonoBehaviour
             m_fTimer += Time.deltaTime;
             if (m_fTimer > m_fWaitTime)
             {
-                Restart();
+                foreach (Movement player in refPlayers)
+                {
+                    player.m_bIsDead = false;
+                    player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                }
+                foreach (Movement player in m_mDeadPlayers)
+                {
+                    player.m_bIsDead = false;
+                    player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                }
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
     }
 
-    public void Restart()
-    {
-        foreach (Movement player in refPlayers)
-        {
-            player.m_bIsDead = false;
-            player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
-        }
-        foreach (Movement player in m_mDeadPlayers)
-        {
-            player.m_bIsDead = false;
-            player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
-        }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 }
 

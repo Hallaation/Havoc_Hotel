@@ -737,9 +737,9 @@ public class Movement : MonoBehaviour
         refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
 
 
-        if (m_bDestroyOnLoad)
+        if (m_bDestroyOnLoad && a_scene.buildIndex == 2)
         {
-            if (playerNumber > 3)
+            if (playerNumber > 3 )
             {
                 refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
             }
