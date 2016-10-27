@@ -108,9 +108,15 @@ public class LouisMovement : MonoBehaviour
     public GameObject refPlayerStartText;
 
     public bool m_bGameRunning = false;
+
+    private bool m_bDestroyOnLoad;
+
+
+    public bool DestroyOnLoad { get { return m_bDestroyOnLoad; } set { m_bDestroyOnLoad = value; } }
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
+        m_bDestroyOnLoad = false;
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
         //GameObject[] list = GameObject.FindObjectsOfType<GameObject>();
@@ -125,9 +131,7 @@ public class LouisMovement : MonoBehaviour
 
         refPlayerStartText.SetActive(false);
     }
-
-
-
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Finish")
@@ -137,7 +141,6 @@ public class LouisMovement : MonoBehaviour
         }
         else
         {
-
             Physics.IgnoreCollision(m_cCharacterController, other.GetComponentInParent<Collider>());
 
 
@@ -162,12 +165,16 @@ public class LouisMovement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
+  
+        Debug.Log(m_bDestroyOnLoad);
 
         //begin of mess
         CharacterController temp = GetComponent<CharacterController>();
 
-        refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
-
+        if (refPlayerStatus)
+        {
+            refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
+        }
         if (m_bIsPlaying)
         {
 
@@ -310,6 +317,7 @@ public class LouisMovement : MonoBehaviour
         {
             m_fMaxSpeedX = int.MaxValue;
             m_fPushTimer += Time.deltaTime;
+
             if (m_fPushTimer >= m_fPushTime)
             {
                 m_fPushTimer = 0;
@@ -558,12 +566,12 @@ public class LouisMovement : MonoBehaviour
     void PlayerTurnAround()
     {
 
-        if (Input.GetAxis(playerNumber + "_Horizontal") > 0)
+        if (Input.GetAxis(playerNumber + "_Horizontal") > 0.5)
         {
             //x y z
             transform.rotation = Quaternion.Euler(0, -90, 0);
         }
-        else if (Input.GetAxis(playerNumber + "_Horizontal") < 0)
+        else if (Input.GetAxis(playerNumber + "_Horizontal") < 0.5)
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }

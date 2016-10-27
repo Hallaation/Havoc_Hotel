@@ -740,6 +740,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 603567249}
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!1 &557784866 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000013572976796, guid: ad6f421983ce87041b4e9fdd86018b0e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1219802350}
 --- !u!1 &601333587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,6 +1073,16 @@ Prefab:
       propertyPath: m_Name
       value: Platform_Full_001 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 65000012913322122, guid: 179cdb1bc6bed9d4c8e6eb639a5884d6,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65000011684975026, guid: 179cdb1bc6bed9d4c8e6eb639a5884d6,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 179cdb1bc6bed9d4c8e6eb639a5884d6, type: 2}
   m_IsPrefabParent: 0
@@ -1127,6 +1142,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refOneMorePlayer: {fileID: 1648133803}
   refreadyToPlay: {fileID: 626762921}
+--- !u!1 &753236391 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000013456751676, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+    type: 2}
+  m_PrefabInternal: {fileID: 1516173373}
 --- !u!1 &786085738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,6 +1414,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 26
+--- !u!1 &967089650 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000013888145940, guid: 5d23d997bda77b54a9c845682cba850c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1337640948}
 --- !u!1 &978095965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,7 +1743,7 @@ Prefab:
         type: 2}
       propertyPath: ref_KickHitBox
       value: 
-      objectReference: {fileID: 1343316979}
+      objectReference: {fileID: 557784866}
     - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
       propertyPath: refPlayerStatus
@@ -1734,6 +1759,11 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
+        type: 2}
+      propertyPath: m_fPushTime
+      value: 0.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
   m_IsPrefabParent: 0
@@ -1780,7 +1810,7 @@ Prefab:
         type: 2}
       propertyPath: ref_KickHitBox
       value: 
-      objectReference: {fileID: 1343316979}
+      objectReference: {fileID: 967089650}
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
       propertyPath: refPlayerStatus
@@ -1796,14 +1826,19 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
+    - target: {fileID: 143000011867964404, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_SlopeLimit
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_fPushTime
+      value: 0.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1343316979 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000013805785398, guid: e95f0347379baa24584537374e7c861c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1369804120}
 --- !u!1001 &1369804120
 Prefab:
   m_ObjectHideFlags: 0
@@ -1858,6 +1893,11 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: m_fPushTime
+      value: 0.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
   m_IsPrefabParent: 0
@@ -1941,7 +1981,7 @@ Prefab:
         type: 2}
       propertyPath: ref_KickHitBox
       value: 
-      objectReference: {fileID: 1343316979}
+      objectReference: {fileID: 753236391}
     - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
         type: 2}
       propertyPath: refPlayerStatus
@@ -1957,6 +1997,11 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fPushTime
+      value: 0.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
   m_IsPrefabParent: 0

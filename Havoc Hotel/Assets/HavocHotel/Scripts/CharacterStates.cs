@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CharacterStates : MonoBehaviour
 {
-   
+
     //reference to a movement script
     public LouisMovement m_refMovement;
 
@@ -48,7 +48,7 @@ public class CharacterStates : MonoBehaviour
                 this.m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
                 //GetComponentInParent<LouisMovement>().movementDirection.y += GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
                 other.GetComponentInParent<LouisMovement>().m_cState = CStates.Stunned;
-   
+
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
                 this.m_refMovement.m_cState = CStates.OnFloor;
@@ -77,13 +77,12 @@ public class CharacterStates : MonoBehaviour
         {
             if (other.tag == "Wall")
             {
-                if ((Input.GetAxis(m_refMovement.playerNumber + "_Horizontal") > 0 && this.transform.right.z > 0) || (Input.GetAxis(m_refMovement.playerNumber + "_Horizontal") < 0 && this.transform.right.z < 0))
-                {
-                    m_refMovement.m_cState = CStates.OnWall;
-    
-                }
+
+                m_refMovement.m_cState = CStates.OnWall;
+
+
             }
-    
+
         }
     }
 
