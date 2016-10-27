@@ -65,7 +65,7 @@ public class LouisMovement : MonoBehaviour
     public float m_fKickXSpeed = 10; //
     public float m_fKickKnockBack = 10;
     float m_fTimeSinceLastKick;
-    float m_fKickCoolDown = 5;
+   public float m_fKickCoolDown = 5;
     float m_fCurrentKickTime;
     float m_fCurrentStunTime;
     #endregion
@@ -130,7 +130,7 @@ public class LouisMovement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
-        m_bGameRunning = true;
+        
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
