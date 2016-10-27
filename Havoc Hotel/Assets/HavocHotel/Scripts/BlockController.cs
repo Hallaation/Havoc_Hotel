@@ -4,17 +4,33 @@ using UnityEngine.SceneManagement;
 
 public class BlockController : MonoBehaviour
 {
+    #region Variables
+
+    
+    /// <summary>
+    /// The default speed the levels will start with.
+    /// </summary>
     public float m_fOverworldSpeed = 5.0f; //start speed of levels
+
+    /// <summary>
+    /// A maximum world speed. *20 is already a high number
+    /// </summary>
     public float m_fOverworldMaxSpeed = 50.0f; //max speed overworld can go (for countering too high acceleration)
+    /// <summary>
+    /// Modifiable value to change how fast the world moves.
+    /// </summary>
     public float m_fSpeedIncrease = 1.0f; //-modifiable value to change rate at which level increases in speed
-    public float m_fTimeStart = 0.0f; //time 'til level starts moving
+    /// <summary>
+    /// Time until the game starts, the higher the number, the longer it will wait.
+    /// </summary>
+    public float m_fTimeStart = 0.0f;
 
     public GameObject go;
 
     public GameObject[] m_LevelChunk; // array to have list of modular level pieces
 
     public bool m_bRunning; // bool to control leel movent
-    
+    #endregion
     // Use this for initialization
     void Start()
     {
@@ -25,36 +41,42 @@ public class BlockController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F5))
+
+        if (Debug.isDebugBuild)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+
+            if (Input.GetButtonDown("0_LB"))
+            {
+                m_bRunning = false;
+                Debug.Log("Pressed");
+            }
+            else if (Input.GetButtonDown("0_RB"))
+            {
+                m_bRunning = true;
+                Debug.Log("Pressed");
+            }
+            if (Input.GetAxis("0_DpadH") > 0)
+            {
+                m_fOverworldSpeed += 1;
+            }
+            else if (Input.GetAxis("0_DpadH") < 0)
+            {
+                m_fOverworldSpeed -= 1;
+            }
         }
 
-        if (Input.GetButtonDown("0_LB"))
-        {
-            m_bRunning = false;
-            Debug.Log("Pressed");
-        }
-        else if (Input.GetButtonDown("0_RB"))
+
+        m_fTimeStart -= Time.deltaTime;//use delta time to have seconds until bRunning is true
+        
+        if (m_fTimeStart <= 0)
         {
             m_bRunning = true;
-            Debug.Log("Pressed");
         }
-        if (Input.GetAxis("0_DpadH") > 0)
-        {
-            m_fOverworldSpeed += 1;
-        }
-        else if (Input.GetAxis("0_DpadH") < 0 )
-        {
-            m_fOverworldSpeed -= 1;
-        }
-        
-        //m_fTimeStart -= Time.deltaTime;//use delta time to have seconds until bRunning is true
-        //
-        //if (m_fTimeStart <= 0)
-        //{
-        //    m_bRunning = true;
-        //}
+
         if (m_bRunning)
         {
             if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
@@ -66,6 +88,10 @@ public class BlockController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Used to control the spwaning. Once the spawned chunck moves away from the spawnbox, another one spawns.
+    /// </summary>
+    /// <param name="other"></param>
     void OnTriggerExit(Collider other) // when level block leave box collider activate
     {
         if (this.tag == "Player")
@@ -76,8 +102,6 @@ public class BlockController : MonoBehaviour
         {
             if (other.tag == "Level") // talking level block with "Level" tag
             {
-                Debug.Log(this.tag);       // things to see in console if this is activating
-                Debug.Log("Spawn level");  // things to see in console if this is activating
                 Spawn(); // activate Spawn() funct 
             }
         }
@@ -85,7 +109,9 @@ public class BlockController : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// This will instantiate a chunk randomly selecting what is in the array. Array objects are set in the Unity editor
+    /// </summary>
     void Spawn()
     {
         if (m_LevelChunk.Length != 0)

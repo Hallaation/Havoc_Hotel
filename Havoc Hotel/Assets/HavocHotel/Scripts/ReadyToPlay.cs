@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 public class ReadyToPlay : MonoBehaviour
 {
 
@@ -24,12 +25,10 @@ public class ReadyToPlay : MonoBehaviour
             refOneMorePlayer.SetActive(false);
             refreadyToPlay.SetActive(true);
             //joystick button 7
-            if (Input.GetKeyDown("joystick button"))
+            if (Input.GetKeyDown(KeyCode.PageDown))
             {
-                foreach (GameObject item in playerList)
-                {
-                    DontDestroyOnLoad(item);
-                }
+
+                SceneManager.LoadScene(2);
             }
 
         }
@@ -50,19 +49,28 @@ public class ReadyToPlay : MonoBehaviour
     {
         if (a_collision.tag == "Head")
         {
-            ++m_iCounter;
-            playerList.Add(a_collision.gameObject);
+            if (!(playerList.Contains(a_collision.gameObject)))
+            {
+                ++m_iCounter;
+                playerList.Add(a_collision.transform.parent.parent.gameObject);
+                a_collision.GetComponentInParent<LouisMovement>().DestroyOnLoad = true;
+            }
         }
     }
 
+    /// <summary>
+    /// Ontrigger exit, will look for a player's head collider. If it moves outside of the play box, it is no longer in play.
+    /// </summary>
+    /// <param name="a_collision"></param>
     void OnTriggerExit(Collider a_collision)
     {
         if (a_collision.tag == "Head")
         {
             --m_iCounter;
-            if(playerList.Contains(a_collision.gameObject))
+            if (playerList.Contains(a_collision.gameObject))
             {
-                playerList.Remove(a_collision.gameObject);
+                playerList.Remove(a_collision.transform.parent.parent.gameObject);
+                a_collision.GetComponentInParent<LouisMovement>().DestroyOnLoad = false;
             }
         }
     }
