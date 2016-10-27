@@ -74,12 +74,16 @@ public class BlockController : MonoBehaviour
 
         m_fTimeStart -= Time.deltaTime;//use delta time to have seconds until bRunning is true
         
-        if (m_fTimeStart <= 0)
+        if (m_fTimeStart <= 0 && !m_bIsPaused)
         {
             m_bRunning = true;
         }
+        else if (m_bIsPaused)
+        {
+            m_bRunning = false;
+        }
 
-        if (m_bRunning && m_bIsPaused)
+        if (m_bRunning)
         {
             if (m_fOverworldSpeed < m_fOverworldMaxSpeed) //if state to make max speed posible
             {
