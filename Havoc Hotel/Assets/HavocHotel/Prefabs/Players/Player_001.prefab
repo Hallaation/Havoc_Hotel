@@ -59,7 +59,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000010090492660
 GameObject:
   m_ObjectHideFlags: 1
@@ -1500,8 +1500,8 @@ MonoBehaviour:
   HasDoubleJumped: 0
   m_bAllowDoubleJumpAlways: 0
   m_bIsPushed: 0
-  m_fJumpForce: 40
-  m_fDoubleJumpMoveForce: 25
+  m_fJumpForce: 25
+  m_fDoubleJumpMoveForce: 20
   m_fMaxFallSpeed: 25
   m_fMaxSpeedX: 10
   m_fJumpHeightBuffer: 0.15
@@ -1521,8 +1521,8 @@ MonoBehaviour:
   m_fKickYSpeed: 20
   m_fKickXSpeed: 10
   m_fKickKnockBack: 10
-  m_fKickCoolDown: 5
-  iReleaseCount: 5
+  m_fKickCoolDown: 2
+  iReleaseCount: 7
   m_bIsStunned: 0
   m_bIsDead: 0
   movementDirection: {x: 0, y: 0, z: 0}
