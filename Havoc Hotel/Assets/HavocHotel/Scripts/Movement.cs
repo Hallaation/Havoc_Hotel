@@ -287,6 +287,7 @@ public class Movement : MonoBehaviour
     void OnFloor()
     {
         #region
+        //ray cast for head check to see if it is hitting a column to pull you down
         RaycastHit hit;
 
         Debug.DrawRay(this.transform.position + this.transform.up , Vector3.up , Color.black , 1);
@@ -297,7 +298,7 @@ public class Movement : MonoBehaviour
             {
 
                 movementDirection.y = 0;
-                movementDirection.y -= 1;
+                movementDirection.y -= 1 + refBlockController.m_fOverworldSpeed;
                 // m_bIsKicking = false;
             }
         }
