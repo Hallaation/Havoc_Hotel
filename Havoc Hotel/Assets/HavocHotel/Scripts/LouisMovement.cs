@@ -9,33 +9,53 @@ public class LouisMovement : MonoBehaviour
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //** Ignore booleans
     public int playerNumber; //Input manager to know which joypad number to use
-    public float m_fGravity = 50f;
-    public float m_fMoveSpeed = 1.4f;
+  
 
     public CStates m_cState;
     //movement stuff
+    #region
+    public float m_fGravity = 50f;
+    public float m_fMoveSpeed = 1.4f;
+
     public bool HasJumped;
     public bool m_bCanJump;
     public bool HasDoubleJumped;
     public bool m_bAllowDoubleJumpAlways;
     public bool m_bIsPushed = false;
-    public float m_fJumpForce = 25f; //how far the player moves up in a normal jump
+  
+    public float m_fJumpForce = 25f;  /// <summary>
+                                      
+                                      /// how far the player moves up in a normal jump
+                                      /// </summary>
     public float m_fDoubleJumpMoveForce = 15f; //how far the player moves up in a double jump
     public float m_fMaxFallSpeed = 15f; //maximum falling speed *terminal velocity
     public float m_fMaxSpeedX = 10.0f; //setting for setting the maximum amount of momentum allowed.
+    public float m_fJumpHeightBuffer = .15f;
+    private bool m_bShortHop = false;
+    bool m_bJumpKeyReleased;
+    float m_fJumpTimer;
     float m_fTempFallSpeed; // Do not initialize/edit
     float m_fTempMoveSpeedX;
+    float m_fTimeSinceJump;
+    private float m_fGroundBuffer = 0.036f;
+    private float m_fAirBourneTime;
+    #endregion
     //pushing stuff
+    #region
     public float m_fPushDistance = 0.5f; //determines how far the raycast will travel
     public float m_fPushForce = 10.0f; //determines how far the player pushes the other player.
     public float m_fPushTime = 0.5f; //time the player will be pushed for
+    float m_fPushTimer;
+    #endregion
     //wall jump stuff
+    #region
     public float m_fHorizontalWallJumpForce = 20.0f; //how far the wall jump pushes it away from the wall horizontally --> || <--
     public float m_fVerticalWallJumpForce = 15.0f; //how far it pushes the player up from the wall. ^ || v
     public float m_fTurnDelay = 1.0f; //Delay when turning away from the wall
     public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
-
+    #endregion
     //dive kick stuff
+    #region
     public bool m_bIsKicking;
     public float m_fMaxKickSpeedY = 25.0f;
     public float m_fMaxKickSpeedX = 25.0f;
@@ -44,48 +64,48 @@ public class LouisMovement : MonoBehaviour
     public float m_fHeadBounceForce = 20f; //player head bounce when stunning another player
     public float m_fKickYSpeed = 20; //
     public float m_fKickXSpeed = 10; //
-
+    
     float m_fTimeSinceLastKick;
     float m_fKickCoolDown;
     float m_fCurrentKickTime;
+    float m_fCurrentStunTime;
+    #endregion
 
-
-    //quick release
+    //quick release / Player Status
+    #region
     private int m_iQuickRelease;
     public int iReleaseCount = 10; //amount of times a player has to press to get out of stun.
-
-
-
 
     public bool m_bIsStunned;
     public bool m_bIsDead;
 
     public Vector3 movementDirection;
-
+    #endregion
 
     //references
+    #region
     public GameObject ref_KickHitBox;
-
+    private CharacterController m_cCharacterController; //character controller reference
     public UnityEngine.UI.Text refPlayerStatus;
+    public BlockController refBlockController;
 
+    public GameObject refPlayerStartText;
     public PlayerTextController ref_PlayerArray;
-
+    #endregion
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    private float m_fGroundBuffer = 0.036f;
-
-    private float m_fPushTimer;
+    
 
 
-    private float m_fAirBourneTime;
-
-    //declaring variables
+    //declaring time related variables
     const int _ROTATION_SPEED = 20; // Not used yet.
+    #region
     const float m_f1FramePasses = 0.0170f;
     float m_fButtonTimer = 0.0f;
 
     float timer = 0.0f;
-    private float m_fJumpTimer;
-    bool m_bJumpKeyReleased;
+    #endregion
+
+   
 
 
 
@@ -97,15 +117,11 @@ public class LouisMovement : MonoBehaviour
     /// Wall jumping forces, higher value for bigger push force, lower for less
     /// </summary>
 
-    private CharacterController m_cCharacterController; //character controller reference
-    float m_fCurrentStunTime;
+   
 
 
     private bool m_bIsPlaying;
 
-    public BlockController refBlockController;
-
-    public GameObject refPlayerStartText;
 
     public bool m_bGameRunning = false;
 
@@ -116,7 +132,7 @@ public class LouisMovement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
-        m_bDestroyOnLoad = false;
+        #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
         //GameObject[] list = GameObject.FindObjectsOfType<GameObject>();
@@ -130,10 +146,12 @@ public class LouisMovement : MonoBehaviour
         m_bIsDead = false;
 
         refPlayerStartText.SetActive(false);
+        #endregion
     }
     
     void OnTriggerEnter(Collider other)
     {
+        #region
         if (other.tag == "Finish")
         {
             Debug.Log("Player " + playerNumber + " died!");
@@ -145,6 +163,7 @@ public class LouisMovement : MonoBehaviour
 
 
         }
+        #endregion
     }
 
 
@@ -165,8 +184,6 @@ public class LouisMovement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
-  
-        Debug.Log(m_bDestroyOnLoad);
 
         //begin of mess
         CharacterController temp = GetComponent<CharacterController>();
@@ -255,27 +272,15 @@ public class LouisMovement : MonoBehaviour
                 refPlayerStartText.SetActive(false);
             }
         }
-        // }
-        //    }
 
-
-        //        else
-        //        {
-        //            refPlayerStatus.text = "Press Start to join";
-        //            if (Input.GetButtonDown(playerNumber + "_Start"))
-        //            {
-        //                m_bIsPlaying = true;
-        //                ref_PlayerArray.refPlayers.Add(this);
-        //}
-        //        }
-        //        //quick stun release. mash button to release stun (when in stun) 
-
+        #endregion
     }
 
-    //-------------------------------------------------------------------------------------------------------------------------------------//
+
     //on floor movement
     void OnFloor()
     {
+        #region
         RaycastHit hit;
 
         Debug.DrawRay(this.transform.position + this.transform.up, Vector3.up, Color.black, 1);
@@ -308,11 +313,12 @@ public class LouisMovement : MonoBehaviour
         timer += Time.deltaTime;
         MovementCalculations();
         m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
-
+        #endregion
     }
 
     void PushCheck()
     {
+        #region
         if (m_bIsPushed)
         {
             m_fMaxSpeedX = int.MaxValue;
@@ -328,13 +334,13 @@ public class LouisMovement : MonoBehaviour
         {
             m_fMaxSpeedX = m_fTempMoveSpeedX;
         }
-
+        #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //If the wall is hit, the character will slide slowly on the wall.
     public void WallSlide()
     {
-
+        #region
         m_fAirBourneTime = 2;
         m_bHitWall = true;
         if (m_bHitWall)
@@ -365,7 +371,7 @@ public class LouisMovement : MonoBehaviour
 
         }
 
-
+        #endregion
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -406,6 +412,7 @@ public class LouisMovement : MonoBehaviour
 
     void Push()
     {
+        #region
         int m_iLayerMask = 1 << 8;
 
         RaycastHit hit;
@@ -435,19 +442,29 @@ public class LouisMovement : MonoBehaviour
                 }
             }
         }
+        #endregion
     }
     //Lincolns shit
     void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
     {
-
+        #region
 
         // This is the Left/Right movement for X. always set Y to 0.
 
         m_fAirBourneTime += Time.deltaTime;
-
+        if (HasJumped == true && m_bShortHop == false)
+        {
+            m_fTimeSinceJump += Time.deltaTime;
+            if(m_fTimeSinceJump < m_fJumpHeightBuffer && Input.GetButton(playerNumber + "_Fire"))
+            {
+                movementDirection.y = movementDirection.y * 0.5f;
+                m_bShortHop = true;
+            }
+        }
         if (temp.isGrounded)
         {
             movementDirection.y = refBlockController.m_fOverworldSpeed;
+            
         }
 
         if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
@@ -455,13 +472,14 @@ public class LouisMovement : MonoBehaviour
 
             HasJumped = false;
             HasDoubleJumped = false;
-
+            m_bShortHop = false;
 
             if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
             {
 
                 movementDirection.y = m_fJumpForce;
                 m_fJumpTimer = 0.0f;
+                m_fTimeSinceJump = 0f;
                 m_fAirBourneTime = m_fGroundBuffer + 1f;
                 HasJumped = true;
 
@@ -469,6 +487,7 @@ public class LouisMovement : MonoBehaviour
             }
         }
 
+        #endregion
     }
     // Double Jump
     void DoubleJump(CharacterController temp)
@@ -498,6 +517,7 @@ public class LouisMovement : MonoBehaviour
     }
     void MovementCalculations()
     {
+        #region
         if (m_cCharacterController.isGrounded)
         {
             movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
@@ -558,6 +578,7 @@ public class LouisMovement : MonoBehaviour
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
         }
+        #endregion
     }
 
     /// <summary>
@@ -613,7 +634,7 @@ public class LouisMovement : MonoBehaviour
     }
     public void PlayerKick(CharacterController Temp)
     {
-
+        #region
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick"))
         {
             m_bIsKicking = true;
@@ -659,5 +680,8 @@ public class LouisMovement : MonoBehaviour
                 m_cState = CStates.Kicking;
             }
         }
+        #endregion
     }
+
+
 }
