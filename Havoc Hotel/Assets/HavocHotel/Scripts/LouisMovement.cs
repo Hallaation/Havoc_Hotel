@@ -9,7 +9,6 @@ public class LouisMovement : MonoBehaviour
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //** Ignore booleans
     public int playerNumber; //Input manager to know which joypad number to use
-  
 
     public CStates m_cState;
     //movement stuff
@@ -22,11 +21,11 @@ public class LouisMovement : MonoBehaviour
     public bool HasDoubleJumped;
     public bool m_bAllowDoubleJumpAlways;
     public bool m_bIsPushed = false;
-  
+
     public float m_fJumpForce = 25f;  /// <summary>
-                                      
-                                      /// how far the player moves up in a normal jump
-                                      /// </summary>
+
+    /// how far the player moves up in a normal jump
+    /// </summary>
     public float m_fDoubleJumpMoveForce = 15f; //how far the player moves up in a double jump
     public float m_fMaxFallSpeed = 15f; //maximum falling speed *terminal velocity
     public float m_fMaxSpeedX = 10.0f; //setting for setting the maximum amount of momentum allowed.
@@ -64,7 +63,7 @@ public class LouisMovement : MonoBehaviour
     public float m_fHeadBounceForce = 20f; //player head bounce when stunning another player
     public float m_fKickYSpeed = 20; //
     public float m_fKickXSpeed = 10; //
-    
+
     float m_fTimeSinceLastKick;
     float m_fKickCoolDown;
     float m_fCurrentKickTime;
@@ -93,7 +92,7 @@ public class LouisMovement : MonoBehaviour
     public PlayerTextController ref_PlayerArray;
     #endregion
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    
+
 
 
     //declaring time related variables
@@ -105,7 +104,7 @@ public class LouisMovement : MonoBehaviour
     float timer = 0.0f;
     #endregion
 
-   
+
 
 
 
@@ -117,11 +116,10 @@ public class LouisMovement : MonoBehaviour
     /// Wall jumping forces, higher value for bigger push force, lower for less
     /// </summary>
 
-   
+
 
 
     private bool m_bIsPlaying;
-
 
     public bool m_bGameRunning = false;
 
@@ -148,7 +146,7 @@ public class LouisMovement : MonoBehaviour
         refPlayerStartText.SetActive(false);
         #endregion
     }
-    
+
     void OnTriggerEnter(Collider other)
     {
         #region
@@ -186,7 +184,7 @@ public class LouisMovement : MonoBehaviour
     {
         #region
 
-        
+
         //begin of mess
         CharacterController temp = GetComponent<CharacterController>();
 
@@ -381,6 +379,7 @@ public class LouisMovement : MonoBehaviour
     //TODO:// move in opposite direction, currently only moves up
     void WallJump()
     {
+        #region
         //HasJumped = false;
         if (transform.rotation.eulerAngles.y >= 1.0f && transform.rotation.eulerAngles.y <= 91.0f)
         {
@@ -408,8 +407,8 @@ public class LouisMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 90, 0);
             m_cState = CStates.OnFloor;
         }
-
         m_cState = CStates.OnFloor;
+        #endregion
     }
 
     void Push()
@@ -457,7 +456,7 @@ public class LouisMovement : MonoBehaviour
         if (HasJumped == true && m_bShortHop == false)
         {
             m_fTimeSinceJump += Time.deltaTime;
-            if(m_fTimeSinceJump < m_fJumpHeightBuffer && Input.GetButton(playerNumber + "_Fire"))
+            if (m_fTimeSinceJump < m_fJumpHeightBuffer && Input.GetButton(playerNumber + "_Fire"))
             {
                 movementDirection.y = movementDirection.y * 0.5f;
                 m_bShortHop = true;
@@ -466,7 +465,7 @@ public class LouisMovement : MonoBehaviour
         if (temp.isGrounded)
         {
             movementDirection.y = refBlockController.m_fOverworldSpeed;
-            
+
         }
 
         if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
@@ -494,6 +493,7 @@ public class LouisMovement : MonoBehaviour
     // Double Jump
     void DoubleJump(CharacterController temp)
     {
+        #region
         if (!temp.isGrounded && m_fAirBourneTime >= m_fGroundBuffer)
         {
 
@@ -515,7 +515,7 @@ public class LouisMovement : MonoBehaviour
                 }
             }
         }
-
+        #endregion
     }
     void MovementCalculations()
     {
@@ -588,22 +588,24 @@ public class LouisMovement : MonoBehaviour
     /// </summary>
     void PlayerTurnAround()
     {
-
+        #region
         if (Input.GetAxis(playerNumber + "_Horizontal") > 0.5)
         {
             //x y z
             transform.rotation = Quaternion.Euler(0, -90, 0);
         }
-        else if (Input.GetAxis(playerNumber + "_Horizontal") < 0.5)
+        else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.7)
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }
 
         m_bHitWall = false;
+        #endregion
     }
 
     public void PlayerStun()
     {
+        #region
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
@@ -615,11 +617,12 @@ public class LouisMovement : MonoBehaviour
             m_fCurrentStunTime = 0;
         }
         movementDirection.y = -5f;
-
+        #endregion
     }
 
     void StunRelease()
     {
+        #region
         if (m_iQuickRelease >= iReleaseCount) //sets quick release to 0 and releases stun
         {
             m_bIsStunned = false;
@@ -633,6 +636,7 @@ public class LouisMovement : MonoBehaviour
             ++m_iQuickRelease;
 
         }
+        #endregion
     }
     public void PlayerKick(CharacterController Temp)
     {
@@ -685,5 +689,14 @@ public class LouisMovement : MonoBehaviour
         #endregion
     }
 
+    public void DontDestroyOnLoad()
+    {
+        #region
+        if (DestroyOnLoad)
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
+        #endregion
+    }
 
 }

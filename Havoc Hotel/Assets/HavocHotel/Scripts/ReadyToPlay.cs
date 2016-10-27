@@ -7,7 +7,7 @@ public class ReadyToPlay : MonoBehaviour
 
     public GameObject refOneMorePlayer;
     public GameObject refreadyToPlay;
-
+    public GameObject[] refPlayers;
     private List<GameObject> playerList = new List<GameObject>();
     private int m_iCounter = 0;
     // Use this for initialization
@@ -19,7 +19,6 @@ public class ReadyToPlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (m_iCounter >= 2)
         {
             refOneMorePlayer.SetActive(false);
@@ -27,7 +26,10 @@ public class ReadyToPlay : MonoBehaviour
             //joystick button 7
             if (Input.GetKeyDown(KeyCode.PageDown))
             {
-
+                foreach (GameObject item in playerList)
+                {
+                    item.GetComponent<LouisMovement>().DontDestroyOnLoad();
+                }
                 SceneManager.LoadScene(2);
             }
 
@@ -45,11 +47,11 @@ public class ReadyToPlay : MonoBehaviour
 
     }
 
-    void OnTriggerStay(Collider a_collision)
+    void OnTriggerEnter(Collider a_collision)
     {
         if (a_collision.tag == "Head")
         {
-            if (!(playerList.Contains(a_collision.gameObject)))
+            if (!(playerList.Contains(a_collision.transform.parent.parent.gameObject)))
             {
                 ++m_iCounter;
                 playerList.Add(a_collision.transform.parent.parent.gameObject);
@@ -64,16 +66,18 @@ public class ReadyToPlay : MonoBehaviour
     /// <param name="a_collision"></param>
     void OnTriggerExit(Collider a_collision)
     {
+        Debug.Log("OutOutOut");
         if (a_collision.tag == "Head")
         {
-            --m_iCounter;
-            if (playerList.Contains(a_collision.gameObject))
+            if (playerList.Contains(a_collision.transform.parent.parent.gameObject))
             {
+                --m_iCounter;
                 playerList.Remove(a_collision.transform.parent.parent.gameObject);
                 a_collision.GetComponentInParent<LouisMovement>().DestroyOnLoad = false;
             }
         }
     }
+
 
 
 
