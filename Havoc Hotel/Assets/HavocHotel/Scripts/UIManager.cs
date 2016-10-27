@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     private GameObject EventSystem;
 
     private bool m_bGameStarted = false;
-    
+
     private bool m_PlayersInGameScene = false;
 
     public bool GameStarted { get { return m_bGameStarted; } set { m_bGameStarted = value; } }
@@ -119,7 +119,14 @@ public class UIManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(0); //loads scene (change number depending on scene index that is playing game)
+        //get every current player's movement script and reset their position to the spawn points in the map
+        Movement temp;
+        foreach (GameObject player in m_playerList)
+        {
+            temp = player.GetComponent<Movement>();
+            temp.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //loads scene (change number depending on scene index that is playing game)
     }                               //find scene index in build settings
 
     //public void QuiteCancel()

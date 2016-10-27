@@ -55,19 +55,24 @@ public class PlayerTextController : MonoBehaviour
             m_fTimer += Time.deltaTime;
             if (m_fTimer > m_fWaitTime)
             {
-                foreach (Movement player in refPlayers)
-                {
-                    player.m_bIsDead = false;
-                    player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
-                }
-                foreach (Movement player in m_mDeadPlayers)
-                {
-                    player.m_bIsDead = false;
-                    player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
-                }
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Restart();
             }
         }
+    }
+
+    public void Restart()
+    {
+        foreach (Movement player in refPlayers)
+        {
+            player.m_bIsDead = false;
+            player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+        }
+        foreach (Movement player in m_mDeadPlayers)
+        {
+            player.m_bIsDead = false;
+            player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
 
