@@ -172,7 +172,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>());
+            Physics.IgnoreCollision(m_cCharacterController , other.GetComponent<Collider>());
 
 
         }
@@ -183,7 +183,7 @@ public class Movement : MonoBehaviour
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
-        Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>() , false);
+        Physics.IgnoreCollision(m_cCharacterController , other.GetComponent<Collider>() , false);
     }
 
 
@@ -730,25 +730,28 @@ public class Movement : MonoBehaviour
 
     void LookForObjects(Scene a_scene , LoadSceneMode a_loadSceneMode)
     {
-
-        refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
-
-
-        if (m_bDestroyOnLoad && a_scene.buildIndex == 2)
-        {
-            if (playerNumber > 3 )
-            {
-                refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
-            }
-            else {
-                refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
-                refPlayerStatus.enabled = true;
-            }
-        }
         if (a_scene.buildIndex == 2)
         {
-            GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
-            GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
+            refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
+
+
+            if (m_bDestroyOnLoad && a_scene.buildIndex == 2)
+            {
+                if (playerNumber > 3)
+                {
+                    refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
+                }
+                else
+                {
+                    refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
+                    refPlayerStatus.enabled = true;
+                }
+            }
+            if (a_scene.buildIndex == 2)
+            {
+                GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
+                GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
+            }
         }
     }
 }

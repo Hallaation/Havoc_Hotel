@@ -1,28 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class cutsceneScript : MonoBehaviour {
 
+    GameObject[] players ;
+    //players[0].SetActive(false);
+
     public MovieTexture movie;
-    private AudioSource audio;
+    //private AudioSource audio;
     // Use this for initialization
-    void Start () {
-        GetComponent<Renderer>().material.mainTexture = movie as MovieTexture;
-        audio = GetComponent<AudioSource>();
+    void Awake () {
+        GetComponent<RawImage>().texture = movie as MovieTexture;
+        players = GameObject.FindGameObjectsWithTag("Player");
+        //GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            player.SetActive(false);
+        }
+
+        movie.Play();
+        //audio = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        // when input enable players and load next scene
+
+        if(Input.GetKeyDown("p"))
+        {
+            movie.Stop();
+            players[0].SetActive(true);
+            SceneManager.LoadScene(2);
+        }
+
+        if(!movie.isPlaying)
+        {
+            foreach (GameObject player in players)
+            {
+                player.SetActive(true);
+            }
+            SceneManager.LoadScene(2);
+        }
 
     }
     
-   public void Play()
-   {
-       movie.Play();
-   }
-
-   // this line of code will make the Movie Texture begin playing
-    //((MovieTexture)GetComponent<Renderer>().material.mainTexture).Play();
+    
 
 
 }

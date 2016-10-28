@@ -12,7 +12,7 @@ public class CharacterStates : MonoBehaviour
     {
         //returns to dev if the script is properly being made/instanced
         //looks for a movement script in the parents
-        m_refMovement = GetComponentInParent<Movement>();
+        m_refMovement = transform.parent.GetComponentInParent<Movement>();
 
     }
 
@@ -48,6 +48,12 @@ public class CharacterStates : MonoBehaviour
                 m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
                 other.GetComponentInParent<Movement>().m_cState = CStates.Stunned;
                 m_refMovement.m_bIsKicking = false;
+
+                
+
+
+//this.m_refMovement.m_cState = CStates.OnFloor;
+
             }
         }
     }
