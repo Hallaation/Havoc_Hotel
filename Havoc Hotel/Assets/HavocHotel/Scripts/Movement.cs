@@ -170,7 +170,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>());
+            Physics.IgnoreCollision(m_cCharacterController , other.GetComponent<Collider>());
 
 
         }
@@ -181,7 +181,7 @@ public class Movement : MonoBehaviour
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
-        Physics.IgnoreCollision(m_cCharacterController , other.GetComponentInParent<Collider>() , false);
+        Physics.IgnoreCollision(m_cCharacterController , other.GetComponent<Collider>() , false);
     }
 
 

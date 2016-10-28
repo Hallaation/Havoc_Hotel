@@ -12,7 +12,7 @@ public class CharacterStates : MonoBehaviour
     {
         //returns to dev if the script is properly being made/instanced
         //looks for a movement script in the parents
-        m_refMovement = GetComponentInParent<Movement>();
+        m_refMovement = transform.parent.GetComponentInParent<Movement>();
 
     }
 
@@ -45,13 +45,13 @@ public class CharacterStates : MonoBehaviour
             if (other.tag == "Head")
             {
                 Movement hitTemp = other.GetComponent<Movement>();
-                this.m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
+                m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
                 //GetComponentInParent<LouisMovement>().movementDirection.y += GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
                 other.GetComponentInParent<Movement>().m_cState = CStates.Stunned;
 
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
                 //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
-                this.m_refMovement.m_cState = CStates.OnFloor;
+                m_refMovement.m_cState = CStates.OnFloor;
 
             }
         }
