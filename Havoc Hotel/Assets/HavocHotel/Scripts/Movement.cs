@@ -58,7 +58,8 @@ public class Movement : MonoBehaviour
     public float m_fHorizontalWallJumpForce = 20.0f; //how far the wall jump pushes it away from the wall horizontally --> || <--
     public float m_fVerticalWallJumpForce = 15.0f; //how far it pushes the player up from the wall. ^ || v
     public float m_fTurnDelay = 1.0f; //Delay when turning away from the wall
-    public float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
+    public float m_fWallSlidingSpeed = 0.5f;
+    private float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     public float m_fNoSpeedLimitDuration; // how long does the player have no x speed limit after wall jumping.
     private float m_fTimeSinceWallJump = 999;
     
@@ -363,7 +364,7 @@ public class Movement : MonoBehaviour
         {
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
-            m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + 1.5f;
+            m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
             //short delay when moving away from wall
 
 
@@ -739,25 +740,28 @@ public class Movement : MonoBehaviour
 
     void LookForObjects(Scene a_scene , LoadSceneMode a_loadSceneMode)
     {
-
-        refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
-
-
-        if (m_bDestroyOnLoad && a_scene.buildIndex == 2)
-        {
-            if (playerNumber > 3 )
-            {
-                refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
-            }
-            else {
-                refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
-                refPlayerStatus.enabled = true;
-            }
-        }
         if (a_scene.buildIndex == 2)
         {
-            GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
-            GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
+            refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
+
+
+            if (m_bDestroyOnLoad && a_scene.buildIndex == 2)
+            {
+                if (playerNumber > 3)
+                {
+                    refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
+                }
+                else
+                {
+                    refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
+                    refPlayerStatus.enabled = true;
+                }
+            }
+            if (a_scene.buildIndex == 2)
+            {
+                GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
+                GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
+            }
         }
     }
 }
