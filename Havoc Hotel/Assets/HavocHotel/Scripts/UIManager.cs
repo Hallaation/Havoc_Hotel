@@ -138,6 +138,7 @@ public class UIManager : MonoBehaviour
         refPausePanel.SetActive(true);
         Time.timeScale = 0;
         openPauseMenu = true;
+        GameObject.Find("Music").GetComponent<AudioSource>().Pause();
         ref_BlockController.m_bIsPaused = false;
 
         foreach (GameObject item in m_playerList)
@@ -152,6 +153,7 @@ public class UIManager : MonoBehaviour
         refPausePanel.SetActive(false);
         openPauseMenu = false;
         ref_BlockController.m_bIsPaused = false;
+        GameObject.Find("Music").GetComponent<AudioSource>().UnPause();
         foreach (GameObject item in m_playerList)
         {
             item.GetComponent<Movement>().m_bGameRunning = true;
