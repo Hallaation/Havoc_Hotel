@@ -45,14 +45,9 @@ public class CharacterStates : MonoBehaviour
             if (other.tag == "Head")
             {
                 Movement hitTemp = other.GetComponent<Movement>();
-                this.m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
-                //GetComponentInParent<LouisMovement>().movementDirection.y += GetComponentInParent<LouisMovement>().m_fHeadBounceForce;
+                m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
                 other.GetComponentInParent<Movement>().m_cState = CStates.Stunned;
-
-                //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
-                //other.GetComponent<LouisMovement>().m_cState = CStates.Stunned;
-                this.m_refMovement.m_cState = CStates.OnFloor;
-
+                m_refMovement.m_bIsKicking = false;
             }
         }
     }
@@ -64,6 +59,10 @@ public class CharacterStates : MonoBehaviour
         {
             m_refMovement.m_cState = CStates.OnFloor;
         }
+        //if(a_collision.tag == "Head")
+        //{
+        //    this.gameObject.SetActive(false);
+        //}
     }
 
 
@@ -73,17 +72,10 @@ public class CharacterStates : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerStay(Collider other)
     {
-  
-        
-           if (other.tag == "Wall")
-            {
-
-                m_refMovement.m_cState = CStates.OnWall;
-
-
-            }
-
-        
+        if (other.tag == "Wall")
+        {
+            m_refMovement.m_cState = CStates.OnWall;
+        }
     }
 
 

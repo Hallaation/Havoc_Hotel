@@ -59,6 +59,7 @@ public class Movement : MonoBehaviour
     public float m_fVerticalWallJumpForce = 15.0f; //how far it pushes the player up from the wall. ^ || v
     public float m_fTurnDelay = 1.0f; //Delay when turning away from the wall
     public float m_fWallSlidingSpeed = 0.5f;
+    public float m_fMaxWallSlideSpeed;
     private float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     public float m_fNoSpeedLimitDuration; // how long does the player have no x speed limit after wall jumping.
     private float m_fTimeSinceWallJump = 999;
@@ -198,7 +199,6 @@ public class Movement : MonoBehaviour
     {
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
-
         //begin of mess
         CharacterController temp = GetComponent<CharacterController>();
 
@@ -243,7 +243,6 @@ public class Movement : MonoBehaviour
                         {
                             m_cState = CStates.OnFloor;
                         }
-
                         PlayerKick(temp);
                         MovementCalculations();
                         m_fAirBourneTime = 0;
@@ -254,9 +253,7 @@ public class Movement : MonoBehaviour
                         m_fAirBourneTime = 2;
                         if (!m_cCharacterController.isGrounded)
                         {
-
                             WallSlide();
-
                         }
 
                         else if (m_cCharacterController.isGrounded)
@@ -267,9 +264,6 @@ public class Movement : MonoBehaviour
                 }
 
             }
-
-
-
         }
         else if (m_bGameRunning)
         {
@@ -291,7 +285,7 @@ public class Movement : MonoBehaviour
     void OnFloor()
     {
         #region
-        //ray cast for head check to see if it is hitting a column to pull you down
+        //ray cast head up to find if you are hitting something to pull you back down.
         RaycastHit hit;
 
         Debug.DrawRay(this.transform.position + this.transform.up , Vector3.up , Color.black , 1);
@@ -302,7 +296,7 @@ public class Movement : MonoBehaviour
             {
 
                 movementDirection.y = 0;
-                movementDirection.y -= 1 + refBlockController.m_fOverworldSpeed;
+                movementDirection.y -= (0.5f + refBlockController.m_fOverworldSpeed);
                 // m_bIsKicking = false;
             }
         }
@@ -359,14 +353,16 @@ public class Movement : MonoBehaviour
 
         m_fAirBourneTime = 2;
         m_bHitWall = true;
-
         if (m_bHitWall)
         {
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
-            m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
+            movementDirection.y *= 0.9f;
+            if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
+            {
+                m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
+            }
             //short delay when moving away from wall
-
 
             bool horizontalActive = Input.GetAxis(playerNumber + "_Horizontal") != 0;
             m_fButtonTimer += 0.05f * System.Convert.ToByte(horizontalActive);
@@ -376,19 +372,14 @@ public class Movement : MonoBehaviour
                 PlayerTurnAround();
                 m_fButtonTimer = 0.0f;
             }
-
-            float tempGravity = m_fWallSlideSpeed;
-
-            movementDirection.y = -tempGravity;
+            float tempYMovement = movementDirection.y;
+            movementDirection.y = tempYMovement - m_fWallSlideSpeed;
             m_cCharacterController.Move(new Vector3(0 , Time.deltaTime * movementDirection.y));
 
             if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
                 WallJump();
-
-                //movementDirection = Vector3.zero;
             }
-
         }
 
         #endregion
@@ -672,7 +663,6 @@ public class Movement : MonoBehaviour
         #region
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
         {
-
             m_bIsKicking = true;
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0 , -90 , 0))
