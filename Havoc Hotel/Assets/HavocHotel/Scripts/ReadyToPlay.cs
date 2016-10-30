@@ -11,6 +11,7 @@ public class ReadyToPlay : MonoBehaviour
     private List<GameObject> playerList = new List<GameObject>();
     private UIManager refUiManager;
     private int m_iCounter = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -21,18 +22,21 @@ public class ReadyToPlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_iCounter >= 2 ||( Debug.isDebugBuild && m_iCounter >= 1))
+        if (m_iCounter >= 2 || (Debug.isDebugBuild && m_iCounter >= 1))
         {
             refOneMorePlayer.SetActive(false);
             refreadyToPlay.SetActive(true);
-            //joystick button 7
-            if (Input.GetButtonDown("Cancel"))
+            foreach (GameObject player in playerList)
             {
-                foreach (GameObject item in playerList)
+                if (Input.GetButtonDown(player.GetComponent<Movement>().playerNumber + "_Start"))
                 {
-                    item.GetComponent<Movement>().DontDestroyOnLoad();
+                    foreach (GameObject item in playerList)
+                    {
+                        item.GetComponent<Movement>().DontDestroyOnLoad();
+                    }
+                    SceneManager.LoadScene(3);
                 }
-                SceneManager.LoadScene(3);
+
             }
 
         }

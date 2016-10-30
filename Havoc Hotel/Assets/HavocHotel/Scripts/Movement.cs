@@ -143,7 +143,6 @@ public class Movement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
-        m_bGameRunning = true;
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
@@ -728,12 +727,12 @@ public class Movement : MonoBehaviour
     //-------------------------------------------------------------------------------------------------------------------------------------//
     void LookForObjects(Scene a_scene , LoadSceneMode a_loadSceneMode)
     {
-        if (a_scene.buildIndex == 2)
+        if (a_scene.buildIndex == 3)
         {
             refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
 
 
-            if (m_bDestroyOnLoad && a_scene.buildIndex == 2)
+            if (m_bDestroyOnLoad)
             {
                 if (playerNumber > 3)
                 {
@@ -745,11 +744,9 @@ public class Movement : MonoBehaviour
                     refPlayerStatus.enabled = true;
                 }
             }
-            if (a_scene.buildIndex == 2)
-            {
                 GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
                 GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
-            }
+            
         }
     }
 }
