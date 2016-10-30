@@ -25,8 +25,13 @@ public class BlockController : MonoBehaviour
     /// </summary>
     public float m_fTimeStart = 0.0f;
 
+    public float m_fChunkHeight;
+
     public GameObject go;
 
+    /// <summary>
+    /// An array that randomly selects what to spawn. Be sure these are prefabs or everything breaks.
+    /// </summary>
     public GameObject[] m_LevelChunk; // array to have list of modular level pieces
 
     public bool m_bRunning; // bool to control leel movent
@@ -127,7 +132,7 @@ public class BlockController : MonoBehaviour
 
             if (go)
             {
-                go = Instantiate(m_LevelChunk[iRandIndex], go.transform.position + Vector3.up * 8, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
+                go = Instantiate(m_LevelChunk[iRandIndex], go.transform.position + Vector3.up * m_fChunkHeight, Quaternion.identity) as GameObject; //pick a level "chunk" from rand list
             }
         }
     }

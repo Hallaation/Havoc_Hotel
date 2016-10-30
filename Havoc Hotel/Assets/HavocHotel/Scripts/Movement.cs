@@ -139,6 +139,7 @@ public class Movement : MonoBehaviour
 
 
     public bool DestroyOnLoad { get { return m_bDestroyOnLoad; } set { m_bDestroyOnLoad = value; } }
+
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
@@ -160,7 +161,7 @@ public class Movement : MonoBehaviour
 
         #endregion
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     void OnTriggerEnter(Collider other)
     {
         #region
@@ -178,15 +179,12 @@ public class Movement : MonoBehaviour
         }
         #endregion
     }
-
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
         Physics.IgnoreCollision(m_cCharacterController , other.GetComponent<Collider>() , false);
     }
-
-
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //update every frame
     //reset the z position ... essentially clamping the player to the z, never falling forward.
@@ -194,6 +192,7 @@ public class Movement : MonoBehaviour
     {
         this.transform.position = new Vector3(this.transform.position.x , this.transform.position.y , 0.5f);
     }
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     //Lincoln's messy code
     void Update()
     {
@@ -279,8 +278,7 @@ public class Movement : MonoBehaviour
 
         #endregion
     }
-
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     //on floor movement
     void OnFloor()
     {
@@ -320,11 +318,11 @@ public class Movement : MonoBehaviour
         timer += Time.deltaTime;
         MovementCalculations();
         m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed , Time.deltaTime * movementDirection.y));
+
+        ref_KickHitBox.SetActive(false);
         #endregion
-
-
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     void PushCheck()
     {
         #region
@@ -384,7 +382,6 @@ public class Movement : MonoBehaviour
 
         #endregion
     }
-
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //wall jumping
     //TODO:// move in opposite direction, currently only moves up
@@ -423,7 +420,7 @@ public class Movement : MonoBehaviour
         m_cState = CStates.OnFloor;
         #endregion
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     void Push()
     {
         #region
@@ -458,7 +455,7 @@ public class Movement : MonoBehaviour
         }
         #endregion
     }
-    //Lincolns shit
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
     {
         #region
@@ -530,6 +527,7 @@ public class Movement : MonoBehaviour
         }
         #endregion
     }
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     void MovementCalculations()
     {
         #region
@@ -595,7 +593,7 @@ public class Movement : MonoBehaviour
         }
         #endregion
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     /// <summary>
     /// Turns the player around based on input.
     /// </summary>
@@ -618,7 +616,7 @@ public class Movement : MonoBehaviour
         }
         #endregion
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     public void PlayerStun()
     {
         #region
@@ -639,7 +637,7 @@ public class Movement : MonoBehaviour
 
         #endregion
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     void StunRelease()
     {
         #region
@@ -658,6 +656,7 @@ public class Movement : MonoBehaviour
         }
         #endregion
     }
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     public void PlayerKick(CharacterController Temp)
     {
         #region
@@ -711,7 +710,7 @@ public class Movement : MonoBehaviour
         m_fTimeSinceLastKick += Time.deltaTime;
         #endregion
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     public void DontDestroyOnLoad()
     {
         #region
@@ -721,13 +720,12 @@ public class Movement : MonoBehaviour
         }
         #endregion
     }
-
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     void OnEnable()
     {
         SceneManager.sceneLoaded += LookForObjects;
     }
-
+    //-------------------------------------------------------------------------------------------------------------------------------------//
     void LookForObjects(Scene a_scene , LoadSceneMode a_loadSceneMode)
     {
         if (a_scene.buildIndex == 2)

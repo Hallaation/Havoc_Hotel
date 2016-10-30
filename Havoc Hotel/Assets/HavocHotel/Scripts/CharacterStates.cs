@@ -37,7 +37,8 @@ public class CharacterStates : MonoBehaviour
     }
 
 
-    //changes character state to wall jumping/sliding
+    //changes character state to wall jumping/sliding 
+    //when your character kicks another player, its downward movementt is set to 0 and a bounce force is added
     void OnTriggerEnter(Collider other)
     {
         if (this.tag == "Kick")
@@ -45,15 +46,19 @@ public class CharacterStates : MonoBehaviour
             if (other.tag == "Head")
             {
                 Movement hitTemp = other.GetComponent<Movement>();
+                m_refMovement.movementDirection.y = 0;
                 m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
                 other.GetComponentInParent<Movement>().m_cState = CStates.Stunned;
                 m_refMovement.m_bIsKicking = false;
 
-                
-
-
-//this.m_refMovement.m_cState = CStates.OnFloor;
-
+                //reversing it
+                //Movement hitTemp = other.GetComponentInParent<Movement>();
+                //hitTemp.m_bIsKicking = false;
+                //hitTemp.movementDirection.y = 0;
+                //hitTemp.movementDirection.y += hitTemp.m_fHeadBounceForce;
+                //m_refMovement.m_cState = CStates.Stunned;
+                //other way around.
+                //this.m_refMovement.m_cState = CStates.OnFloor;
             }
         }
     }
