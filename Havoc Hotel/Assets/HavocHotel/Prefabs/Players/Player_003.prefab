@@ -1498,12 +1498,12 @@ MonoBehaviour:
   m_fWallSlidingSpeed: 0.7
   m_fMaxWallSlideSpeed: 0.5
   m_fNoSpeedLimitDuration: 0.08
-  m_fWallSlideUpReduction: 0
+  m_fWallSlideUpReduction: 90
   m_bIsKicking: 0
   m_fMaxKickSpeedY: 25
   m_fMaxKickSpeedX: 25
   m_fMaxStunTime: 5
-  m_fMaxKickTime: 0.4
+  m_fMaxKickTime: 0.2
   m_fHeadBounceForce: 22
   m_fKickYSpeed: 18
   m_fKickXSpeed: 15
@@ -1518,7 +1518,7 @@ MonoBehaviour:
   refBlockController: {fileID: 0}
   refPlayerStartText: {fileID: 1000012012759520}
   ref_PlayerArray: {fileID: 0}
-  m_bGameRunning: 1
+  m_bGameRunning: 0
 --- !u!114 &114000011329760874
 MonoBehaviour:
   m_ObjectHideFlags: 1

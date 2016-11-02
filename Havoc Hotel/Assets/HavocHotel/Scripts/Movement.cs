@@ -356,7 +356,7 @@ public class Movement : MonoBehaviour
         {
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
-            movementDirection.y *= (m_fWallSlideUpReduction / 100);
+            movementDirection.y *= ((100 - m_fWallSlideUpReduction) / 100);
             if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
                 m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;

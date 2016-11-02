@@ -66,6 +66,10 @@ public class UIManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        foreach (GameObject player in m_playerList)
+        {
+            DestroyImmediate(player);
+        }
         SceneManager.LoadScene(1);
     }
 
