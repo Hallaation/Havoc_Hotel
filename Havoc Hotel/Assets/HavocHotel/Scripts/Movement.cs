@@ -729,7 +729,7 @@ public class Movement : MonoBehaviour
     //-------------------------------------------------------------------------------------------------------------------------------------//
     void LookForObjects(Scene a_scene , LoadSceneMode a_loadSceneMode)
     {
-        if (a_scene.buildIndex == 3)
+        if (a_scene.buildIndex == 2)
         {
             refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
 
