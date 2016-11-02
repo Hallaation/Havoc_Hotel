@@ -104,7 +104,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011123208500}
   - 114: {fileID: 114000010987213584}
-  - 114: {fileID: 114000010235349204}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -279,7 +278,7 @@ GameObject:
   - 114: {fileID: 114000013848258312}
   - 114: {fileID: 114000013737590732}
   m_Layer: 5
-  m_Name: Resume
+  m_Name: ResumeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,7 +311,7 @@ GameObject:
   - 114: {fileID: 114000011580182974}
   - 114: {fileID: 114000013153763502}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: QuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -632,23 +631,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Credits
---- !u!114 &114000010235349204
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010584404202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 365e4829f59744943baefd78c5ced05e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_panelArray:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  currentlySelectedObject: {fileID: 1000012925200764}
 --- !u!114 &114000010322743428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -833,7 +815,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114000010987213584}
-        m_MethodName: declineQuitButton
+        m_MethodName: MainMenuDeclineQuitButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1847,7 +1829,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114000010987213584}
-        m_MethodName: quitButton
+        m_MethodName: MainMenuQuit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2268,7 +2250,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: -23}
+  m_AnchoredPosition: {x: -1, y: 58}
   m_SizeDelta: {x: 1502, y: 1231}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000012364574386
