@@ -569,6 +569,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
+        type: 2}
+      propertyPath: m_LevelChunk.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4000013633755038, guid: 97b7345ca97550f4384063012acf7831, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -615,7 +620,8 @@ Prefab:
         type: 2}
       propertyPath: m_LevelChunk.Array.data[1]
       value: 
-      objectReference: {fileID: 113083033}
+      objectReference: {fileID: 1000011910521862, guid: 7329ce3193b2d4a478cf9bd26d1474ad,
+        type: 2}
     - target: {fileID: 4000013370260988, guid: 97b7345ca97550f4384063012acf7831, type: 2}
       propertyPath: m_LocalScale.x
       value: 1
@@ -624,6 +630,30 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: -8.81
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
+        type: 2}
+      propertyPath: m_LevelChunk.Array.data[2]
+      value: 
+      objectReference: {fileID: 1000012309261126, guid: 39653a4841550654086b66aed7cc7671,
+        type: 2}
+    - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
+        type: 2}
+      propertyPath: m_LevelChunk.Array.data[3]
+      value: 
+      objectReference: {fileID: 1000010165113910, guid: 5059e0d45f1463a4780cefa0ba089d0d,
+        type: 2}
+    - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
+        type: 2}
+      propertyPath: m_LevelChunk.Array.data[4]
+      value: 
+      objectReference: {fileID: 1000013585765114, guid: a4515bc0d9aef91419a36309424ad7cb,
+        type: 2}
+    - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
+        type: 2}
+      propertyPath: m_LevelChunk.Array.data[5]
+      value: 
+      objectReference: {fileID: 1000012859917016, guid: f48a45707327a9d4486865d1e9a8b235,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97b7345ca97550f4384063012acf7831, type: 2}
   m_IsPrefabParent: 0
@@ -1334,7 +1364,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
