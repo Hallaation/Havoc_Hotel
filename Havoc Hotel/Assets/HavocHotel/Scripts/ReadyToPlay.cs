@@ -26,7 +26,7 @@ public class ReadyToPlay : MonoBehaviour
     {
         if (m_iCounter >= 2 || (Debug.isDebugBuild && m_iCounter >= 1))
         {
-            refArrowsText.color = new Color(0, 201/255f, 35/255f);
+            refArrowsText.gameObject.SetActive(true);
             refOneMorePlayer.SetActive(false);
             refEnterInstruction.SetActive(false);
             refreadyToPlay.SetActive(true);
@@ -47,15 +47,15 @@ public class ReadyToPlay : MonoBehaviour
         //one more player needed
         else if (m_iCounter == 1)
         {
-           // refArrowsText.transform.position = new Vector3(refArrowsText.transform.position.x , 7, refArrowsText.transform.position.z);
-            refArrowsText.color = new Color(1.0f , 0.72f , 0);
+            // refArrowsText.transform.position = new Vector3(refArrowsText.transform.position.x , 7, refArrowsText.transform.position.z);
+            refArrowsText.gameObject.SetActive(false);
             refOneMorePlayer.SetActive(true);
             refEnterInstruction.SetActive(false);
             refreadyToPlay.SetActive(false);
         }
         else
         {
-            refArrowsText.color = new Color(255/255 , 0 , 0);
+            refArrowsText.gameObject.SetActive(true);
             refEnterInstruction.SetActive(true);
             refOneMorePlayer.SetActive(false);
             refreadyToPlay.SetActive(false);
