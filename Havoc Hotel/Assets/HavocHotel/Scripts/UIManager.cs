@@ -35,9 +35,6 @@ public class UIManager : MonoBehaviour
         {
             m_playerList.Add(item);
         }
-
-  
-
     }
 
     void Awake()
@@ -45,6 +42,7 @@ public class UIManager : MonoBehaviour
         ref_BlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
         resumePlayButton();
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -134,8 +132,8 @@ public class UIManager : MonoBehaviour
 
     public void Pause()
     {
-        Debug.Log("paused");
         refPausePanel.SetActive(true);
+        GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeButton"));
         Time.timeScale = 0;
         openPauseMenu = true;
         GameObject.Find("Music").GetComponent<AudioSource>().Pause();
@@ -148,7 +146,6 @@ public class UIManager : MonoBehaviour
     }
     public void resumePlayButton()
     {
-        Debug.Log("resumed");
         Time.timeScale = 1;
         refPausePanel.SetActive(false);
         openPauseMenu = false;

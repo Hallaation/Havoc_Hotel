@@ -60,8 +60,9 @@ public class Movement : MonoBehaviour
     public float m_fTurnDelay = 1.0f; //Delay when turning away from the wall
     public float m_fWallSlidingSpeed = 0.5f;
     public float m_fMaxWallSlideSpeed;
-    private float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     public float m_fNoSpeedLimitDuration; // how long does the player have no x speed limit after wall jumping.
+    public float m_fWallSlideUpReduction;
+    private float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     private float m_fTimeSinceWallJump = 999;
     
     #endregion
@@ -144,6 +145,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         #region
+        Mathf.Clamp(m_fWallSlideUpReduction , 1 , 100);
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
         //GameObject[] list = GameObject.FindObjectsOfType<GameObject>();
@@ -354,7 +356,7 @@ public class Movement : MonoBehaviour
         {
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
-            movementDirection.y *= 0.9f;
+            movementDirection.y *= (m_fWallSlideUpReduction / 100);
             if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
                 m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
