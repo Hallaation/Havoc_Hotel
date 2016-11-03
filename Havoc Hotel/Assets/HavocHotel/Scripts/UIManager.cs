@@ -53,6 +53,12 @@ public class UIManager : MonoBehaviour
             {
                 Pause();
             }
+
+          //  if (Input.GetButtonDown())
+           //if(Input.GetKeyDown(KeyCode.Escape))
+          //  {
+           //     Pause();
+          //  }
         }
 
     }
@@ -131,6 +137,7 @@ public class UIManager : MonoBehaviour
     {
         GameObject.Find("PlayerController").GetComponent<PlayerTextController>().GameFinished = true;
         GameObject.Find("PlayerController").GetComponent<PlayerTextController>().Timer = 50000;
+        resumePlayButton();
     }
 
 
