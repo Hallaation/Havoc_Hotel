@@ -1476,7 +1476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 2
-  m_cState: 3
+  m_cState: 0
   m_fGravity: 100
   m_fMoveSpeed: 0.9
   HasJumped: 0
@@ -1492,13 +1492,15 @@ MonoBehaviour:
   m_fPushDistance: 1
   m_fPushForce: 20
   m_fPushTime: 0.15
+  m_fPushCooldown: 0
   m_fHorizontalWallJumpForce: 20
   m_fVerticalWallJumpForce: 25
   m_fTurnDelay: 1
   m_fWallSlidingSpeed: 0.7
-  m_fMaxWallSlideSpeed: 0.5
+  m_fMaxWallSlideSpeed: 0.7
   m_fNoSpeedLimitDuration: 0.08
-  m_fWallSlideUpReduction: 90
+  m_fWallSlideUpReduction: 10
+  m_bReductSpeed: 0
   m_bIsKicking: 0
   m_fMaxKickSpeedY: 25
   m_fMaxKickSpeedX: 25
