@@ -171,6 +171,7 @@ public class UIManager : MonoBehaviour
         }
         Time.timeScale = 0;
     }
+
     public void resumePlayButton()
     {
         Time.timeScale = 1;
