@@ -51,7 +51,9 @@ public class Movement : MonoBehaviour
     public float m_fPushDistance = 0.5f; //determines how far the raycast will travel
     public float m_fPushForce = 10.0f; //determines how far the player pushes the other player.
     public float m_fPushTime = 0.5f; //time the player will be pushed for
-    float m_fPushTimer;
+    public float m_fTimeSinceLastPush = 99;
+    public float m_fPushCoolDown = 1;
+    public bool m_bHasPushed = false;
     #endregion
     //wall jump stuff
     #region
@@ -103,7 +105,15 @@ public class Movement : MonoBehaviour
 
     public GameObject refPlayerStartText;
     public PlayerTextController ref_PlayerArray; //Now unused. Was used to control the players to "press start" to join. this is now done in the main menu. Should be used show player death messages.
+    public GameObject ref_WallHitBox;
     #endregion
+
+    //Animation
+    #region
+    Animator m_aAnimator;
+    public float m_fAnimationSpeed = 1f;
+    #endregion
+
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
@@ -158,8 +168,8 @@ public class Movement : MonoBehaviour
         m_cCharacterController = GetComponent<CharacterController>();
         m_bIsDead = false;
         refPlayerStartText.SetActive(false);
-
-
+        m_aAnimator = GetComponentInChildren<Animator>();
+        //ref_WallHitBox;
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -199,74 +209,84 @@ public class Movement : MonoBehaviour
     {
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
-        //begin of mess
-        CharacterController temp = GetComponent<CharacterController>();
-
-        if (refPlayerStatus)
+        if (m_bGameRunning == true)
         {
-            refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
-        }
-        if (m_bIsPlaying)
-        {
+            //begin of mess
+            CharacterController temp = GetComponent<CharacterController>();
 
-            if (!m_bIsDead)
+            if (refPlayerStatus)
             {
-                PushCheck(); //check to see if still pushed
+                refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
+            }
+            if (m_bIsPlaying)
+            {
 
-                //if (m_bIsKicking)
-                //{
-                //    PlayerKick(m_cCharacterController);
-                //}
-
-                // end of mess
-                if (temp.isGrounded)
+                if (!m_bIsDead)
                 {
-                    m_fAirBourneTime = 0f;
-                }
-                switch (m_cState)
-                {
-                    case CStates.Stunned:
-                        PlayerStun();
-                        StunRelease();
-                        temp.Move(new Vector3(0 , Time.deltaTime * movementDirection.y));
-                        break;
+                    PushCheck(); //check to see if still pushed
 
-                    case CStates.OnFloor:
-                        OnFloor();
+                    //if (m_bIsKicking)
+                    //{
+                    //    PlayerKick(m_cCharacterController);
+                    //}
 
-                        Push();
+                    // end of mess
+                    if (temp.isGrounded)
+                    {
+                        m_fAirBourneTime = 0f;
+                    }
+                    switch (m_cState)
+                    {
+                        case CStates.Stunned:
+                            PlayerStun();
+                            StunRelease();
+                            temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
+                            break;
 
-                        break;
-
-                    case CStates.Kicking:
-                        if (m_bIsKicking == false)
-                        {
-                            m_cState = CStates.OnFloor;
-                        }
-                        PlayerKick(temp);
-                        MovementCalculations();
-                        m_fAirBourneTime = 0;
-                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed , Time.deltaTime * movementDirection.y));
-                        break;
-
-                    case CStates.OnWall:
-                        m_fAirBourneTime = 2;
-                        if (!m_cCharacterController.isGrounded)
-                        {
-                            WallSlide();
-                        }
-
-                        else if (m_cCharacterController.isGrounded)
-                        {
+                        case CStates.OnFloor:
+                            m_aAnimator.SetBool("IsDiveKick", false);
+                            m_aAnimator.SetBool("IsWallGrab", false);
                             OnFloor();
-                        }
-                        break;
-                }
 
+                            Push();
+                            break;
+
+                        case CStates.Kicking:
+                            if (m_bIsKicking == false)
+                            {
+                                m_cState = CStates.OnFloor;
+                            }
+                            PlayerKick(temp);
+                            MovementCalculations();
+                            m_fAirBourneTime = 0;
+                            temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                            break;
+
+                        case CStates.OnWall:
+                            m_aAnimator.SetBool("IsDiveKick", false);
+
+                            m_fAirBourneTime = 2;
+                            if (!m_cCharacterController.isGrounded)
+                            {
+                                WallSlide();
+                            }
+
+                            else if (m_cCharacterController.isGrounded)
+                            {
+                                OnFloor();
+                            }
+                            break;
+                    }
+
+                }
             }
         }
-        else if (m_bGameRunning)
+        if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1) 
         {
+            m_aAnimator.SetBool("IsPushing", false);
+            m_bHasPushed = false;
+        }
+        m_fTimeSinceLastPush += Time.deltaTime;
             //refPlayerStatus.text = "Press Start to join";
             if (Input.GetButtonDown(playerNumber + "_Start"))
             {
@@ -275,7 +295,7 @@ public class Movement : MonoBehaviour
                 //ref_PlayerArray.refPlayers.Add(this);
                 refPlayerStartText.SetActive(false);
             }
-        }
+        
 
         #endregion
     }
@@ -330,11 +350,11 @@ public class Movement : MonoBehaviour
         if (m_bIsPushed)
         {
             m_fMaxSpeedX = int.MaxValue;
-            m_fPushTimer += Time.deltaTime;
+            m_fTimeSinceLastPush += Time.deltaTime;
 
-            if (m_fPushTimer >= m_fPushTime)
+            if (m_fTimeSinceLastPush >= m_fPushTime)
             {
-                m_fPushTimer = 0;
+                m_fTimeSinceLastPush = 0;
                 m_bIsPushed = false;
             }
         }
@@ -357,6 +377,7 @@ public class Movement : MonoBehaviour
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
             movementDirection.y *= ((100 - m_fWallSlideUpReduction) / 100);
+            m_aAnimator.SetBool("IsWallGrab", true);
             if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
                 m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
@@ -380,7 +401,12 @@ public class Movement : MonoBehaviour
                 WallJump();
             }
         }
+        //else if (ref_WallHitBox.ra)
+        {
+            m_bHitWall = false;
+            m_cState = CStates.OnFloor;
 
+        }
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -418,27 +444,31 @@ public class Movement : MonoBehaviour
             m_cState = CStates.OnFloor;
         }
         m_fTimeSinceWallJump = 0;
+        m_aAnimator.SetBool("IsWallGrab", false);
+        m_aAnimator.SetBool("IsJumping", true);
         m_cState = CStates.OnFloor;
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     void Push()
     {
+
+
         #region
         int m_iLayerMask = 1 << 8;
 
         RaycastHit hit;
         Movement referencedMovement;
         //shoots a raycast forward from the player, if it hits another player, it pushes them
-        if (Input.GetButtonDown(this.playerNumber + "_AltFire"))
+        if (Input.GetButtonDown(this.playerNumber + "_AltFire") && m_fTimeSinceLastPush >= m_fPushCoolDown)
         {
             //ray origin is from the middle of the player at 0.5f
             Vector3 rayOrigin = this.transform.position + new Vector3(0f , 0.5f , 0f);
             Debug.DrawLine(rayOrigin , rayOrigin + this.transform.forward);
             Debug.DrawLine(this.transform.position - new Vector3(0f , 0f , 0f) , (this.transform.position - new Vector3(0f , 0f , 0f) + this.transform.forward));
-
-
-
+            m_aAnimator.SetBool("IsPushing", true);
+            m_bHasPushed = true;
+            m_fTimeSinceLastPush = 0;
             if (Physics.Raycast(rayOrigin , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask)
                 || Physics.Raycast(this.transform.position - new Vector3(0f , 0.3f , 0f) , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask)
                 || Physics.Raycast(this.transform.position + new Vector3(0f , 0.8f , 0f) , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask))
@@ -454,6 +484,7 @@ public class Movement : MonoBehaviour
                 }
             }
         }
+       
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -476,12 +507,12 @@ public class Movement : MonoBehaviour
         if (temp.isGrounded)
         {
             movementDirection.y = refBlockController.m_fOverworldSpeed;
-
+            
         }
 
         if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
         {
-
+            m_aAnimator.SetBool("IsJumping", false);
             HasJumped = false;
             HasDoubleJumped = false;
             m_bShortHop = false;
@@ -494,11 +525,12 @@ public class Movement : MonoBehaviour
                 m_fTimeSinceJump = 0f;
                 m_fAirBourneTime = m_fGroundBuffer + 1f;
                 HasJumped = true;
-
+                m_aAnimator.SetBool("IsJumping", true);
 
             }
         }
-
+        
+      
         #endregion
     }
     // Double Jump
@@ -522,7 +554,8 @@ public class Movement : MonoBehaviour
                     movementDirection.y = m_fDoubleJumpMoveForce;
 
                     HasDoubleJumped = true;
-
+                    m_aAnimator.SetBool("IsJumping", false);
+                    m_aAnimator.SetBool("IsJumping", true);
                 }
             }
         }
@@ -572,17 +605,29 @@ public class Movement : MonoBehaviour
             movementDirection.x += 0.5f;                // if momemntum x < 0, reduce it.
         }
 
-
-        if (movementDirection.x > -0.26f && movementDirection.x < 0.26f && movementDirection.x != 0.0f)
+        if (movementDirection.x > -8f && movementDirection.x < 8f)
         {
+            if (movementDirection.x > -0.26f && movementDirection.x < 0.26f)
+            {
             movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+            m_aAnimator.SetBool("IsRunning", false);
+            
+            
+            }
+            else if  (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.2)
+            {
+                m_aAnimator.SetBool("IsRunning", true);
+                
+            }
 
+            m_aAnimator.SetBool("IsSliding", false);
         }
         else
         {
             //-------------------------------------------------------------------------------------------------------------------------------------//
 
-            if (movementDirection.x > m_fMaxSpeedX && m_fTimeSinceWallJump > m_fNoSpeedLimitDuration )
+            
+            if (movementDirection.x > m_fMaxSpeedX && m_fTimeSinceWallJump > m_fNoSpeedLimitDuration)
             {
                 movementDirection.x = m_fMaxSpeedX;                   // Max speed settings
             }
@@ -591,6 +636,13 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
+            if (-Input.GetAxis(playerNumber + "_Horizontal") < .9 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.9)
+            {
+                m_aAnimator.SetBool("IsSliding", true);
+                m_aAnimator.SetBool("IsRunning", false);
+                Debug.Log("Slide");
+            }
+
         }
         #endregion
     }
@@ -628,12 +680,14 @@ public class Movement : MonoBehaviour
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
+        m_aAnimator.SetBool("IsStunned", true);
         if (m_fCurrentStunTime >= m_fMaxStunTime)
         {
             m_bIsStunned = false;
             m_cState = CStates.OnFloor;
             Debug.Log(playerNumber + " Leave stun");
             m_fCurrentStunTime = 0;
+            m_aAnimator.SetBool("IsStunned", false);
         }
 
         #endregion
@@ -681,6 +735,7 @@ public class Movement : MonoBehaviour
         // m_fMaxFallSpeed = 20f;
         if (m_bIsKicking == true)
         {
+
             if (m_fCurrentKickTime >= m_fMaxKickTime || Temp.isGrounded)
             {
                 m_fMaxFallSpeed = m_fTempFallSpeed;
@@ -690,12 +745,14 @@ public class Movement : MonoBehaviour
                 m_fCurrentKickTime = 0f;
                 m_cState = CStates.OnFloor;
                 m_fTimeSinceLastKick = 0;
+                m_aAnimator.SetBool("IsDiveKick", false);
             }
             else
             {
                 m_fMaxFallSpeed = m_fMaxKickSpeedY;
                 m_fMaxSpeedX = m_fMaxKickSpeedX;
                 movementDirection.y = -m_fKickYSpeed;
+                m_aAnimator.SetBool("IsDiveKick", true);
                 if (movementDirection.x > 0)
                 {
                     movementDirection.x = m_fKickXSpeed;
@@ -709,6 +766,7 @@ public class Movement : MonoBehaviour
             }
         }
         m_fTimeSinceLastKick += Time.deltaTime;
+
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
