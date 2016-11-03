@@ -233,7 +233,7 @@ public class Movement : MonoBehaviour
 
                 if (!m_bIsDead)
                 {
-                    HeadCheck(); //check for head collisions
+                    //HeadCheck(); //check for head collisions
                     PushCheck(); //check to see if still pushed
 
                     //if (m_bIsKicking)

@@ -39,6 +39,14 @@ public class CharacterStates : MonoBehaviour
         //{
         //    m_refMovement.m_cState = CStates.OnFloor;
         //}
+        //if(!WallCheck())
+        //{
+        //    m_refMovement.m_cState = CStates.OnFloor;
+        //}
+        if (this.tag == "Head")
+        {
+            HeadCheck();
+        }
     }
 
 
@@ -55,15 +63,6 @@ public class CharacterStates : MonoBehaviour
                 m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
                 other.GetComponentInParent<Movement>().m_cState = CStates.Stunned;
                 m_refMovement.m_bIsKicking = false;
-
-                //reversing it
-                //Movement hitTemp = other.GetComponentInParent<Movement>();
-                //hitTemp.m_bIsKicking = false;
-                //hitTemp.movementDirection.y = 0;
-                //hitTemp.movementDirection.y += hitTemp.m_fHeadBounceForce;
-                //m_refMovement.m_cState = CStates.Stunned;
-                //other way around.
-                //this.m_refMovement.m_cState = CStates.OnFloor;
             }
         }
     }
@@ -88,10 +87,13 @@ public class CharacterStates : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Wall" && this.tag == "WallCheck")
+        if (this.tag == "WallCheck")
         {
-            m_bIsInWall = true;
-            m_refMovement.m_cState = CStates.OnWall;
+            if (other.tag == "Wall" && this.tag == "WallCheck")
+            {
+                m_bIsInWall = true;
+                m_refMovement.m_cState = CStates.OnWall;
+            }
         }
 
     }
@@ -103,23 +105,38 @@ public class CharacterStates : MonoBehaviour
         {
             RaycastHit hit;
             Debug.DrawRay(this.transform.position + this.transform.forward, Vector3.right, Color.red, 1);
-            if (Physics.Raycast(this.transform.position + this.transform.forward, Vector3.right, out hit, 0.02f))
+            if (Physics.Raycast(this.transform.position + this.transform.forward, Vector3.right, out hit, 0.2f))
             {
                 if (hit.transform.tag == "Wall")
                 {
-                    Debug.Log("ZHIT");
                     return true;
                 }
+                else
+                {
+                    return false;
+                }
             }
-            return false;
         }
         return false;
         #endregion
     }
-    //void Push(Collider a_collider)
-    //{
-    //    //a_collider.GetComponent<CharacterController>().Move(this.transform.forward * m_refMovement.m_fPushForce * Time.deltaTime) ;
-    //    a_collider.GetComponent<LouisMovement>().movementDirection.x += this.transform.forward.x * m_refMovement.m_fPushForce;
-    //}
 
+    void HeadCheck()
+    {
+        #region
+        RaycastHit hit;
+        Debug.DrawRay(this.transform.position, Vector3.up, Color.yellow, 1);
+        if (Physics.Raycast(this.transform.position, Vector3.up, out hit, 0.4f))
+        {
+            if (hit.transform.tag == "Wall")
+            {
+                Debug.Log("Head is htting something");
+                m_refMovement.m_cState = CStates.OnFloor;
+                //m_cCharacterController.Move(Vector3.down * 0.2f);
+                m_refMovement.movementDirection.y = 0 - m_refMovement.refBlockController.m_fOverworldSpeed;
+                // m_bIsKicking = false;
+            }
+        }
+        #endregion
+    }
 }
