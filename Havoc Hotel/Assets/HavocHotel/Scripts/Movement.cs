@@ -363,15 +363,15 @@ public class Movement : MonoBehaviour
         }
 
         //Cooldown stuff;
-        if (m_bHasPushed)
-        {
-            m_fPushCooldownTimer += Time.deltaTime;
-            if (m_fPushCooldownTimer >= m_fPushCooldown)
-            {
-                m_bHasPushed = false;
-                m_fPushCooldownTimer = 0;
-            }
-        }
+        //if (m_bHasPushed)
+        //{
+        //    m_fPushCooldownTimer += Time.deltaTime;
+        //    if (m_fPushCooldownTimer >= m_fPushCooldown)
+        //    {
+        //        m_bHasPushed = false;
+        //        m_fPushCooldownTimer = 0;
+        //    }
+        //}
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//

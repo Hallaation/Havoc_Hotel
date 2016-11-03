@@ -35,14 +35,10 @@ public class CharacterStates : MonoBehaviour
         //        }
         //    }
         //}
-        if (WallCheck())
-        {
-            m_refMovement.m_cState = CStates.OnWall;
-        }
-        else
-        {
-            m_refMovement.m_cState = CStates.OnFloor;
-        }
+        //else
+        //{
+        //    m_refMovement.m_cState = CStates.OnFloor;
+        //}
     }
 
 
@@ -92,29 +88,30 @@ public class CharacterStates : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Wall")
+        if (other.tag == "Wall" && this.tag == "WallCheck")
         {
             m_bIsInWall = true;
             m_refMovement.m_cState = CStates.OnWall;
-
-
         }
-  
+
     }
 
     bool WallCheck()
     {
-
         #region
-        RaycastHit hit;
-        Debug.DrawRay(this.transform.position + this.transform.forward, Vector3.forward, Color.red, 1);
-        if (Physics.Raycast(this.transform.position + this.transform.forward, Vector3.forward, out hit, 0.4f))
+        if (this.tag == "WallCheck")
         {
-
-            if (hit.transform.tag == "Wall")
+            RaycastHit hit;
+            Debug.DrawRay(this.transform.position + this.transform.forward, Vector3.right, Color.red, 1);
+            if (Physics.Raycast(this.transform.position + this.transform.forward, Vector3.right, out hit, 0.02f))
             {
-                return true;
+                if (hit.transform.tag == "Wall")
+                {
+                    Debug.Log("ZHIT");
+                    return true;
+                }
             }
+            return false;
         }
         return false;
         #endregion
