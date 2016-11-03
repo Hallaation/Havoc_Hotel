@@ -228,6 +228,8 @@ public class Movement : MonoBehaviour
             }
             if (m_bIsPlaying)
             {
+                #region if IsPlaying
+
 
                 if (!m_bIsDead)
                 {
@@ -292,23 +294,29 @@ public class Movement : MonoBehaviour
                     }
 
                 }
+                #endregion
+            }
+            else
+            {
+                if (Input.GetButtonDown(playerNumber + "_Start"))
+                {
+
+                    m_bIsPlaying = true;
+                    //ref_PlayerArray.refPlayers.Add(this);
+                    refPlayerStartText.SetActive(false);
+                }
             }
         }
-        if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1) 
+
+        if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1)
         {
             m_aAnimator.SetBool("IsPushing", false);
             m_bHasPushed = false;
         }
         m_fTimeSinceLastPush += Time.deltaTime;
-            //refPlayerStatus.text = "Press Start to join";
-            if (Input.GetButtonDown(playerNumber + "_Start"))
-            {
+        //refPlayerStatus.text = "Press Start to join";
+     
 
-                m_bIsPlaying = true;
-                //ref_PlayerArray.refPlayers.Add(this);
-                refPlayerStartText.SetActive(false);
-            }
-        
 
         #endregion
     }
@@ -390,7 +398,7 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.y *= ((100 - m_fWallSlideUpReduction) / 100);
             }
-           
+
             m_aAnimator.SetBool("IsWallGrab", true);
             if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
@@ -478,15 +486,15 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown(this.playerNumber + "_AltFire") && m_fTimeSinceLastPush >= m_fPushCoolDown)
         {
             //ray origin is from the middle of the player at 0.5f
-            Vector3 rayOrigin = this.transform.position + new Vector3(0f , 0.5f , 0f);
-            Debug.DrawLine(rayOrigin , rayOrigin + this.transform.forward);
-            Debug.DrawLine(this.transform.position - new Vector3(0f , 0f , 0f) , (this.transform.position - new Vector3(0f , 0f , 0f) + this.transform.forward));
+            Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
+            Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
+            Debug.DrawLine(this.transform.position - new Vector3(0f, 0f, 0f), (this.transform.position - new Vector3(0f, 0f, 0f) + this.transform.forward));
             m_aAnimator.SetBool("IsPushing", true);
             m_bHasPushed = true;
             m_fTimeSinceLastPush = 0;
-            if (Physics.Raycast(rayOrigin , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask)
-                || Physics.Raycast(this.transform.position - new Vector3(0f , 0.3f , 0f) , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask)
-                || Physics.Raycast(this.transform.position + new Vector3(0f , 0.8f , 0f) , this.transform.forward , out hit , m_fPushDistance , m_iLayerMask))
+            if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
+                || Physics.Raycast(this.transform.position - new Vector3(0f, 0.3f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
+                || Physics.Raycast(this.transform.position + new Vector3(0f, 0.8f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask))
 
             {
                 if (hit.transform.tag == "Player")
@@ -500,7 +508,7 @@ public class Movement : MonoBehaviour
                 }
             }
         }
-       
+
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -523,7 +531,7 @@ public class Movement : MonoBehaviour
         if (temp.isGrounded)
         {
             movementDirection.y = refBlockController.m_fOverworldSpeed;
-            
+
         }
 
         if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
@@ -551,8 +559,8 @@ public class Movement : MonoBehaviour
 
             }
         }
-        
-      
+
+
         #endregion
     }
     // Double Jump
@@ -631,15 +639,15 @@ public class Movement : MonoBehaviour
         {
             if (movementDirection.x > -0.26f && movementDirection.x < 0.26f)
             {
-            movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-            m_aAnimator.SetBool("IsRunning", false);
-            
-            
+                movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+                m_aAnimator.SetBool("IsRunning", false);
+
+
             }
-            else if  (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.2)
+            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.2)
             {
                 m_aAnimator.SetBool("IsRunning", true);
-                
+
             }
 
             m_aAnimator.SetBool("IsSliding", false);
@@ -648,7 +656,7 @@ public class Movement : MonoBehaviour
         {
             //-------------------------------------------------------------------------------------------------------------------------------------//
 
-            
+
             if (movementDirection.x > m_fMaxSpeedX && m_fTimeSinceWallJump > m_fNoSpeedLimitDuration)
             {
                 movementDirection.x = m_fMaxSpeedX;                   // Max speed settings
@@ -680,11 +688,11 @@ public class Movement : MonoBehaviour
             if (Input.GetAxis(playerNumber + "_Horizontal") > 0.5)
             {
                 //x y z
-                transform.rotation = Quaternion.Euler(0 , -90 , 0);
+                transform.rotation = Quaternion.Euler(0, -90, 0);
             }
             else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.7)
             {
-                transform.rotation = Quaternion.Euler(0 , 90 , 0);
+                transform.rotation = Quaternion.Euler(0, 90, 0);
             }
 
             m_bHitWall = false;
@@ -741,7 +749,7 @@ public class Movement : MonoBehaviour
         {
             m_bIsKicking = true;
             PlayerTurnAround();
-            if (transform.rotation == Quaternion.Euler(0 , -90 , 0))
+            if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
                 movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
                 movementDirection.x = -m_fKickXSpeed; ;
