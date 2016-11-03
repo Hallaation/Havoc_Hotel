@@ -36,7 +36,14 @@ public class cutsceneScript : MonoBehaviour {
             SceneManager.LoadScene(2);
         }
 
-        if(!movie.isPlaying)
+        if (Input.GetButtonDown("SkipCutscene"))
+        {
+            movie.Stop();
+            players[0].SetActive(true);
+            SceneManager.LoadScene(2);
+        }
+
+        if (!movie.isPlaying)
         {
             foreach (GameObject player in players)
             {

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     //public Canvas refPopUpPanel; // ANY panel canvas that pops up.
@@ -9,7 +10,7 @@ public class UIManager : MonoBehaviour
     public GameObject refQuitPanel;
     public GameObject refPausePanel;
     public GameObject mainMenuPanel;
-
+    public GameObject refCountDownTimer;
     private BlockController ref_BlockController;
 
     private List<GameObject> m_playerList = new List<GameObject>();
@@ -22,6 +23,11 @@ public class UIManager : MonoBehaviour
 
     private bool m_PlayersInGameScene = false;
 
+    private bool m_bResumeGame;
+
+    private float m_fWaitTime = 5.0f;
+
+    private float m_fTimer;
     public bool GameStarted { get { return m_bGameStarted; } set { m_bGameStarted = value; } }
 
     public bool PlayersInScene { get { return m_PlayersInGameScene; } set { m_PlayersInGameScene = value; } }
@@ -52,6 +58,22 @@ public class UIManager : MonoBehaviour
             //if(Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
+            }
+
+            if (m_bResumeGame)
+            {
+
+                refCountDownTimer.GetComponent<Text>().text = ((int)m_fTimer).ToString();
+                m_fTimer += Time.deltaTime;
+                ref_BlockController.m_bIsPaused = false;
+                GameObject.Find("Music").GetComponent<AudioSource>().UnPause();
+                WaitTime();
+                foreach (GameObject item in m_playerList)
+                {
+                    item.GetComponent<Movement>().m_bGameRunning = true;
+                }
+                m_bResumeGame = false;
+                refCountDownTimer.SetActive(false);
             }
         }
 
@@ -131,6 +153,7 @@ public class UIManager : MonoBehaviour
     {
         GameObject.Find("PlayerController").GetComponent<PlayerTextController>().GameFinished = true;
         GameObject.Find("PlayerController").GetComponent<PlayerTextController>().Timer = 50000;
+        resumePlayButton();
     }
 
 
@@ -138,7 +161,6 @@ public class UIManager : MonoBehaviour
     {
         refPausePanel.SetActive(true);
         GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeButton"));
-        Time.timeScale = 0;
         openPauseMenu = true;
         GameObject.Find("Music").GetComponent<AudioSource>().Pause();
         ref_BlockController.m_bIsPaused = false;
@@ -147,20 +169,25 @@ public class UIManager : MonoBehaviour
         {
             item.GetComponent<Movement>().m_bGameRunning = false;
         }
+        Time.timeScale = 0;
     }
+
     public void resumePlayButton()
     {
         Time.timeScale = 1;
         refPausePanel.SetActive(false);
         openPauseMenu = false;
-        ref_BlockController.m_bIsPaused = false;
-        GameObject.Find("Music").GetComponent<AudioSource>().UnPause();
-        foreach (GameObject item in m_playerList)
-        {
-            item.GetComponent<Movement>().m_bGameRunning = true;
-        }
+       
+        m_bResumeGame = true;
+
+
+
     }
 
+    IEnumerator WaitTime()
+    {
+        yield return new WaitForSecondsRealtime(5);
+    }
     public void Credits()
     {
         //  Debug.Log("credits");
