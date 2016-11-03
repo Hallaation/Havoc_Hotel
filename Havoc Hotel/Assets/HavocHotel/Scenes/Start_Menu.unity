@@ -1229,7 +1229,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PLEASE FORM AN ORDERELY CUE
+  m_Text: "PLEASE FORM \nAN ORDERLY CUE"
 --- !u!222 &683406207
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1755,11 +1755,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.0000002
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.0000002
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
@@ -2088,14 +2088,14 @@ RectTransform:
   m_GameObject: {fileID: 1270264386}
   m_LocalRotation: {x: -0.70710707, y: 0.7071066, z: -0.00000044254207, w: 0.00000044254173}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 0.8758579, y: 0.8211615, z: 0.875858}
+  m_LocalScale: {x: 0.8758579, y: 0.79029405, z: 0.875858}
   m_LocalEulerAnglesHint: {x: 0, y: 180.00002, z: -90.00001}
   m_Children: []
   m_Father: {fileID: 429015152}
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.5, y: 3}
+  m_AnchoredPosition: {x: -1.5, y: 4}
   m_SizeDelta: {x: 25.1, y: 120.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1270264388
@@ -2140,8 +2140,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 9c70fd6822608fa4d920df1488687fca, type: 3}
-    m_FontSize: 20
-    m_FontStyle: 0
+    m_FontSize: 12
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 105
@@ -2152,6 +2152,9 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '>
+
+
+
 
 
 
@@ -2654,11 +2657,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.0000007
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.0000007
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
@@ -2963,11 +2966,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.0000007
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.0000007
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -3272,12 +3275,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.0000002
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.0000002
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6063e40a2779d7a459ab4f4bcc1889b3, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a976123abbe99242a623c5b56471977, type: 3}
   m_IsPrefabParent: 0
