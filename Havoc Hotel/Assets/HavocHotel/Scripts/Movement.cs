@@ -68,7 +68,7 @@ public class Movement : MonoBehaviour
     public bool m_bReductSpeed;
     private float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     private float m_fTimeSinceWallJump = 999;
-    
+
 
     #endregion
     //dive kick stuff
@@ -368,15 +368,13 @@ public class Movement : MonoBehaviour
         {
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
-            if(m_bReductSpeed)
+            if (movementDirection.y > 0)
             {
                 movementDirection.y *= ((100 - m_fWallSlideUpReduction) / 100);
-                m_bReductSpeed = false;
             }
-            Debug.Log(m_fWallSlideSpeed + refBlockController.m_fOverworldSpeed);
-            if (m_fWallSlideSpeed >= (m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
+            if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
-                m_fWallSlideSpeed = ((refBlockController.m_fOverworldSpeed * (100 + m_fWallSlideUpReduction)) / 100) + m_fWallSlidingSpeed;
+                m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
             }
             //short delay when moving away from wall
 
@@ -388,8 +386,14 @@ public class Movement : MonoBehaviour
                 PlayerTurnAround();
                 m_fButtonTimer = 0.0f;
             }
-            float tempYMovement = movementDirection.y;
-            movementDirection.y = tempYMovement - m_fWallSlideSpeed;
+            if (movementDirection.y >= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
+            {
+                movementDirection.y -= m_fWallSlideSpeed;
+            }
+            if (movementDirection.y <= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
+            {
+                movementDirection.y = -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed);
+            }
             m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
             if (Input.GetButtonDown(playerNumber + "_Fire"))
@@ -505,7 +509,7 @@ public class Movement : MonoBehaviour
 
             if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
             {
-                if (m_bReductSpeed)
+                if (!m_bReductSpeed)
                 {
                     movementDirection.y = m_fJumpForce;
                 }
@@ -517,7 +521,6 @@ public class Movement : MonoBehaviour
                 m_fTimeSinceJump = 0f;
                 m_fAirBourneTime = m_fGroundBuffer + 1f;
                 HasJumped = true;
-
 
             }
         }

@@ -60,12 +60,6 @@ public class CharacterStates : MonoBehaviour
                 //other way around.
                 //this.m_refMovement.m_cState = CStates.OnFloor;
             }
-        } else
-        {
-            if (other.tag == "Wall")
-            {
-                m_refMovement.m_bReductSpeed = true;
-            }
         }
     }
 
@@ -89,10 +83,6 @@ public class CharacterStates : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Wall" && m_refMovement.m_cState == CStates.OnFloor)
-        {
-            m_refMovement.m_bReductSpeed = true;
-        }
         if (other.tag == "Wall")
         {
             m_refMovement.m_cState = CStates.OnWall;
