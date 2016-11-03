@@ -268,7 +268,7 @@ GameObject:
   - 114: {fileID: 114000011655349286}
   m_Layer: 0
   m_Name: WallCollideCheck
-  m_TagString: WallCheck
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1508,9 +1508,7 @@ MonoBehaviour:
   m_fPushDistance: 1
   m_fPushForce: 20
   m_fPushTime: 0.15
-  m_fTimeSinceLastPush: 99
-  m_fPushCoolDown: 1
-  m_bHasPushed: 0
+  m_fPushCooldown: 0
   m_fHorizontalWallJumpForce: 20
   m_fVerticalWallJumpForce: 25
   m_fTurnDelay: 1
@@ -1538,8 +1536,6 @@ MonoBehaviour:
   refBlockController: {fileID: 0}
   refPlayerStartText: {fileID: 1000010087773928}
   ref_PlayerArray: {fileID: 0}
-  ref_WallHitBox: {fileID: 0}
-  m_fAnimationSpeed: 1
   m_bGameRunning: 0
 --- !u!114 &114000011168519924
 MonoBehaviour:

@@ -93,7 +93,7 @@ public class CharacterStates : MonoBehaviour
             m_bIsInWall = true;
             m_refMovement.m_cState = CStates.OnWall;
         }
-  
+
     }
 
     bool WallCheck()
