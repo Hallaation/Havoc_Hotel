@@ -65,8 +65,10 @@ public class Movement : MonoBehaviour
     public float m_fMaxWallSlideSpeed;
     public float m_fNoSpeedLimitDuration; // how long does the player have no x speed limit after wall jumping.
     public float m_fWallSlideUpReduction;
+    public bool m_bReductSpeed;
     private float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     private float m_fTimeSinceWallJump = 999;
+    
 
     #endregion
     //dive kick stuff
@@ -203,80 +205,83 @@ public class Movement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
+
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
-        //begin of mess
-        CharacterController temp = GetComponent<CharacterController>();
-
-        if (refPlayerStatus)
+        if (m_bGameRunning)
         {
-            refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
-        }
-        if (m_bIsPlaying && m_bGameRunning)
-        {
+            //begin of mess
+            CharacterController temp = GetComponent<CharacterController>();
 
-            if (!m_bIsDead)
+            if (refPlayerStatus)
             {
-                HeadCheck(); //check for head collisions
-                PushCheck(); //check to see if still pushed
-
-                //if (m_bIsKicking)
-                //{
-                //    PlayerKick(m_cCharacterController);
-                //}
-
-                // end of mess
-                if (temp.isGrounded)
-                {
-                    m_fAirBourneTime = 0f;
-                }
-                switch (m_cState)
-                {
-                    case CStates.Stunned:
-                        PlayerStun();
-                        StunRelease();
-                        temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
-                        break;
-
-                    case CStates.OnFloor:
-
-                        OnFloor();
-
-                        if (!m_bHasPushed)
-                        {
-                            Push();
-                        }
-                        break;
-
-                    case CStates.Kicking:
-                        if (m_bIsKicking == false)
-                        {
-                            m_cState = CStates.OnFloor;
-                        }
-                        PlayerKick(temp);
-                        MovementCalculations();
-                        m_fAirBourneTime = 0;
-                        temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
-                        break;
-
-                    case CStates.OnWall:
-                        m_fAirBourneTime = 2;
-                        if (!m_cCharacterController.isGrounded)
-                        {
-                            WallSlide();
-                        }
-
-                        else if (m_cCharacterController.isGrounded)
-                        {
-                            OnFloor();
-                        }
-                        break;
-                }
-
+                refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
             }
-        }
-        else if (m_bGameRunning)
-        {
+            if (m_bIsPlaying)
+            {
+
+                if (!m_bIsDead)
+                {
+                    HeadCheck(); //check for head collisions
+                    PushCheck(); //check to see if still pushed
+
+                    //if (m_bIsKicking)
+                    //{
+                    //    PlayerKick(m_cCharacterController);
+                    //}
+
+                    // end of mess
+                    if (temp.isGrounded)
+                    {
+                        m_fAirBourneTime = 0f;
+                    }
+                    switch (m_cState)
+                    {
+                        case CStates.Stunned:
+                            PlayerStun();
+                            StunRelease();
+                            temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
+                            break;
+
+                        case CStates.OnFloor:
+                            OnFloor();
+
+                            if (!m_bHasPushed)
+                            {
+                                Push();
+                            }
+                            break;
+
+                        case CStates.Kicking:
+                            if (m_bIsKicking == false)
+                            {
+                                m_cState = CStates.OnFloor;
+                            }
+                            PlayerKick(temp);
+                            MovementCalculations();
+                            m_fAirBourneTime = 0;
+                            temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                            break;
+
+                        case CStates.OnWall:
+                            m_fAirBourneTime = 2;
+                            if (!m_cCharacterController.isGrounded)
+                            {
+                                WallSlide();
+                            }
+
+                            else if (m_cCharacterController.isGrounded)
+                            {
+                                m_bReductSpeed = true;
+                                OnFloor();
+                            }
+                            break;
+                    }
+
+                }
+            }
+
+
             //refPlayerStatus.text = "Press Start to join";
             if (Input.GetButtonDown(playerNumber + "_Start"))
             {
@@ -285,8 +290,8 @@ public class Movement : MonoBehaviour
                 //ref_PlayerArray.refPlayers.Add(this);
                 refPlayerStartText.SetActive(false);
             }
-        }
 
+        }
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -356,19 +361,22 @@ public class Movement : MonoBehaviour
     public void WallSlide()
     {
         #region
+
         m_fAirBourneTime = 2;
         m_bHitWall = true;
         if (m_bHitWall)
         {
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
-            if (movementDirection.y > 0)
+            if(m_bReductSpeed)
             {
                 movementDirection.y *= ((100 - m_fWallSlideUpReduction) / 100);
+                m_bReductSpeed = false;
             }
-            if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
+            Debug.Log(m_fWallSlideSpeed + refBlockController.m_fOverworldSpeed);
+            if (m_fWallSlideSpeed >= (m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
             {
-                m_fWallSlideSpeed = m_fWallSlidingSpeed;
+                m_fWallSlideSpeed = ((refBlockController.m_fOverworldSpeed * (100 + m_fWallSlideUpReduction)) / 100) + m_fWallSlidingSpeed;
             }
             //short delay when moving away from wall
 
@@ -380,21 +388,15 @@ public class Movement : MonoBehaviour
                 PlayerTurnAround();
                 m_fButtonTimer = 0.0f;
             }
-
             float tempYMovement = movementDirection.y;
-
-            Debug.Log(m_fMaxWallSlideSpeed);
-            movementDirection.y = -(m_fWallSlideSpeed + refBlockController.m_fOverworldSpeed);
-
+            movementDirection.y = tempYMovement - m_fWallSlideSpeed;
             m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
             if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
                 WallJump();
             }
-
         }
-
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -479,7 +481,7 @@ public class Movement : MonoBehaviour
         // This is the Left/Right movement for X. always set Y to 0.
 
         m_fAirBourneTime += Time.deltaTime;
-        if ((HasJumped == true && m_bShortHop == false) && m_bGameRunning)
+        if (HasJumped == true && m_bShortHop == false)
         {
             m_fTimeSinceJump += Time.deltaTime;
             if (m_fTimeSinceJump < m_fJumpHeightBuffer && Input.GetButtonUp(playerNumber + "_Fire"))
@@ -501,10 +503,16 @@ public class Movement : MonoBehaviour
             HasDoubleJumped = false;
             m_bShortHop = false;
 
-            if (!HasJumped && Input.GetButtonUp(playerNumber + "_Fire"))// if the players jump button is down
+            if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
             {
-
-                movementDirection.y = m_fJumpForce;
+                if (m_bReductSpeed)
+                {
+                    movementDirection.y = m_fJumpForce;
+                }
+                else
+                {
+                    movementDirection.y = m_fJumpForce * (100 - m_fWallSlideUpReduction) / 100;
+                }
                 m_fJumpTimer = 0.0f;
                 m_fTimeSinceJump = 0f;
                 m_fAirBourneTime = m_fGroundBuffer + 1f;
@@ -531,7 +539,7 @@ public class Movement : MonoBehaviour
                 {
                     m_bJumpKeyReleased = true;
                 }
-                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonUp(playerNumber + "_Fire")) // if the players jump button is down
+                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
                 {
 
                     movementDirection.y = m_fDoubleJumpMoveForce;
@@ -676,7 +684,7 @@ public class Movement : MonoBehaviour
     public void PlayerKick(CharacterController Temp)
     {
         #region
-        if (!Temp.isGrounded && Input.GetButtonUp(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
+        if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
         {
             m_bIsKicking = true;
             PlayerTurnAround();

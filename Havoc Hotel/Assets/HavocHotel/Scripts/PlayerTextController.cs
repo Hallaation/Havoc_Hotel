@@ -74,9 +74,11 @@ public class PlayerTextController : MonoBehaviour
                     if (player.GetComponent<Movement>().playerNumber > 3)
                     {
                         player.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                        player.GetComponent<Movement>().m_bIsDead = false;
                     }
                     else {
                         player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                        player.GetComponent<Movement>().m_bIsDead = false;
                     }
                 }
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
