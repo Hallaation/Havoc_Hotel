@@ -417,6 +417,7 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.y -= m_fWallSlideSpeed;
             }
+
             if (movementDirection.y <= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
                 movementDirection.y = -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed);
