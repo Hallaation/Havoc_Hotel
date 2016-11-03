@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 public class PlayerTextController : MonoBehaviour
-{ 
+{
     public List<Movement> refPlayers;
     private List<Movement> m_mDeadPlayers;
 
@@ -54,19 +54,30 @@ public class PlayerTextController : MonoBehaviour
         }
         else
         {
-          
+
             m_fTimer += Time.deltaTime;
             if (m_fTimer > m_fWaitTime)
             {
                 foreach (Movement player in refPlayers)
                 {
                     player.m_bIsDead = false;
-                    player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                    if (player.GetComponent<Movement>().playerNumber > 3)
+                    {
+                        player.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                    }
+                    else {
+                        player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                    }
                 }
                 foreach (Movement player in m_mDeadPlayers)
                 {
-                    player.m_bIsDead = false;
-                    player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                    if (player.GetComponent<Movement>().playerNumber > 3)
+                    {
+                        player.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                    }
+                    else {
+                        player.transform.position = GameObject.Find("Player" + (player.GetComponent<Movement>().playerNumber + 1) + "_Spawn").transform.position;
+                    }
                 }
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
