@@ -7,6 +7,7 @@ public class CharacterStates : MonoBehaviour
     //reference to a movement script
     public Movement m_refMovement;
 
+    private bool m_bIsInWall;
     // Use this for initialization
     void Start()
     {
@@ -34,6 +35,14 @@ public class CharacterStates : MonoBehaviour
         //        }
         //    }
         //}
+        if (WallCheck())
+        {
+            m_refMovement.m_cState = CStates.OnWall;
+        }
+        else
+        {
+            m_refMovement.m_cState = CStates.OnFloor;
+        }
     }
 
 
@@ -85,11 +94,30 @@ public class CharacterStates : MonoBehaviour
     {
         if (other.tag == "Wall")
         {
+            m_bIsInWall = true;
             m_refMovement.m_cState = CStates.OnWall;
+
+
         }
     }
 
+    bool WallCheck()
+    {
 
+        #region
+        RaycastHit hit;
+        Debug.DrawRay(this.transform.position + this.transform.forward, Vector3.forward, Color.red, 1);
+        if (Physics.Raycast(this.transform.position + this.transform.forward, Vector3.forward, out hit, 0.4f))
+        {
+
+            if (hit.transform.tag == "Wall")
+            {
+                return true;
+            }
+        }
+        return false;
+        #endregion
+    }
     //void Push(Collider a_collider)
     //{
     //    //a_collider.GetComponent<CharacterController>().Move(this.transform.forward * m_refMovement.m_fPushForce * Time.deltaTime) ;
