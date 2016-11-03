@@ -337,8 +337,6 @@ public class Movement : MonoBehaviour
 
         PlayerKick(m_cCharacterController);
 
-
-
         //
         DoubleJump(m_cCharacterController);
 
