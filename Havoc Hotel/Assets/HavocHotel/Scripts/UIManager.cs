@@ -155,6 +155,7 @@ public class UIManager : MonoBehaviour
             item.GetComponent<Movement>().m_bGameRunning = false;
         }
     }
+
     public void resumePlayButton()
     {
         Time.timeScale = 1;
