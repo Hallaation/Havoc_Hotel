@@ -390,6 +390,7 @@ public class Movement : MonoBehaviour
         m_bHitWall = true;
         if (m_bHitWall)
         {
+            movementDirection.x = 0;
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
             if (movementDirection.y > 0)
