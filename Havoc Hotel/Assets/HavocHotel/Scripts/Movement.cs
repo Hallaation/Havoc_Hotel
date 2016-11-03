@@ -212,7 +212,7 @@ public class Movement : MonoBehaviour
         {
             refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
         }
-        if (m_bIsPlaying)
+        if (m_bIsPlaying && m_bGameRunning)
         {
 
             if (!m_bIsDead)
@@ -239,6 +239,7 @@ public class Movement : MonoBehaviour
                         break;
 
                     case CStates.OnFloor:
+
                         OnFloor();
 
                         if (!m_bHasPushed)
@@ -478,7 +479,7 @@ public class Movement : MonoBehaviour
         // This is the Left/Right movement for X. always set Y to 0.
 
         m_fAirBourneTime += Time.deltaTime;
-        if (HasJumped == true && m_bShortHop == false)
+        if ((HasJumped == true && m_bShortHop == false) && m_bGameRunning)
         {
             m_fTimeSinceJump += Time.deltaTime;
             if (m_fTimeSinceJump < m_fJumpHeightBuffer && Input.GetButtonUp(playerNumber + "_Fire"))
@@ -500,7 +501,7 @@ public class Movement : MonoBehaviour
             HasDoubleJumped = false;
             m_bShortHop = false;
 
-            if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
+            if (!HasJumped && Input.GetButtonUp(playerNumber + "_Fire"))// if the players jump button is down
             {
 
                 movementDirection.y = m_fJumpForce;
@@ -530,7 +531,7 @@ public class Movement : MonoBehaviour
                 {
                     m_bJumpKeyReleased = true;
                 }
-                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
+                if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonUp(playerNumber + "_Fire")) // if the players jump button is down
                 {
 
                     movementDirection.y = m_fDoubleJumpMoveForce;
@@ -675,7 +676,7 @@ public class Movement : MonoBehaviour
     public void PlayerKick(CharacterController Temp)
     {
         #region
-        if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
+        if (!Temp.isGrounded && Input.GetButtonUp(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
         {
             m_bIsKicking = true;
             PlayerTurnAround();

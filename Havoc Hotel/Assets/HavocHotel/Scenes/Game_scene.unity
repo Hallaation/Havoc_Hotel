@@ -350,11 +350,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9b66948df56f16c4292dc84ecc88d93a, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &575233450 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000011910521862, guid: 7329ce3193b2d4a478cf9bd26d1474ad,
-    type: 2}
-  m_PrefabInternal: {fileID: 1541731271}
 --- !u!1 &669748665
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +567,7 @@ Prefab:
     - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
         type: 2}
       propertyPath: m_LevelChunk.Array.size
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4000013633755038, guid: 97b7345ca97550f4384063012acf7831, type: 2}
       propertyPath: m_LocalPosition.x
@@ -615,12 +610,13 @@ Prefab:
         type: 2}
       propertyPath: m_LevelChunk.Array.data[0]
       value: 
-      objectReference: {fileID: 575233450}
+      objectReference: {fileID: 1000011910521862, guid: 7329ce3193b2d4a478cf9bd26d1474ad,
+        type: 2}
     - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
         type: 2}
       propertyPath: m_LevelChunk.Array.data[1]
       value: 
-      objectReference: {fileID: 1000011910521862, guid: 7329ce3193b2d4a478cf9bd26d1474ad,
+      objectReference: {fileID: 1000012309261126, guid: 39653a4841550654086b66aed7cc7671,
         type: 2}
     - target: {fileID: 4000013370260988, guid: 97b7345ca97550f4384063012acf7831, type: 2}
       propertyPath: m_LocalScale.x
@@ -634,23 +630,29 @@ Prefab:
         type: 2}
       propertyPath: m_LevelChunk.Array.data[2]
       value: 
-      objectReference: {fileID: 1000012309261126, guid: 39653a4841550654086b66aed7cc7671,
+      objectReference: {fileID: 1000010165113910, guid: 5059e0d45f1463a4780cefa0ba089d0d,
         type: 2}
     - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
         type: 2}
       propertyPath: m_LevelChunk.Array.data[3]
       value: 
-      objectReference: {fileID: 1000010165113910, guid: 5059e0d45f1463a4780cefa0ba089d0d,
+      objectReference: {fileID: 1000013585765114, guid: a4515bc0d9aef91419a36309424ad7cb,
         type: 2}
     - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
         type: 2}
       propertyPath: m_LevelChunk.Array.data[4]
       value: 
-      objectReference: {fileID: 1000013585765114, guid: a4515bc0d9aef91419a36309424ad7cb,
+      objectReference: {fileID: 1000012859917016, guid: f48a45707327a9d4486865d1e9a8b235,
         type: 2}
     - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
         type: 2}
       propertyPath: m_LevelChunk.Array.data[5]
+      value: 
+      objectReference: {fileID: 1000012859917016, guid: f48a45707327a9d4486865d1e9a8b235,
+        type: 2}
+    - target: {fileID: 114000012778289190, guid: 97b7345ca97550f4384063012acf7831,
+        type: 2}
+      propertyPath: m_LevelChunk.Array.data[6]
       value: 
       objectReference: {fileID: 1000012859917016, guid: f48a45707327a9d4486865d1e9a8b235,
         type: 2}
