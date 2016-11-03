@@ -8,7 +8,7 @@ public class ReadyToPlay : MonoBehaviour
     public GameObject refOneMorePlayer;
     public GameObject refreadyToPlay;
     public GameObject refEnterInstruction;
-    public UnityEngine.UI.Text refArrowsText;
+    public GameObject refArrowsText;
     public GameObject[] refPlayers;
     private List<GameObject> playerList = new List<GameObject>();
     private UIManager refUiManager;
@@ -26,7 +26,7 @@ public class ReadyToPlay : MonoBehaviour
     {
         if (m_iCounter >= 2 || (Debug.isDebugBuild && m_iCounter >= 1))
         {
-            refArrowsText.gameObject.SetActive(true);
+            refArrowsText.SetActive(false);
             refOneMorePlayer.SetActive(false);
             refEnterInstruction.SetActive(false);
             refreadyToPlay.SetActive(true);
@@ -48,14 +48,14 @@ public class ReadyToPlay : MonoBehaviour
         else if (m_iCounter == 1)
         {
             // refArrowsText.transform.position = new Vector3(refArrowsText.transform.position.x , 7, refArrowsText.transform.position.z);
-            refArrowsText.gameObject.SetActive(false);
+            refArrowsText.SetActive(false);
             refOneMorePlayer.SetActive(true);
             refEnterInstruction.SetActive(false);
             refreadyToPlay.SetActive(false);
         }
         else
         {
-            refArrowsText.gameObject.SetActive(true);
+            refArrowsText.SetActive(true);
             refEnterInstruction.SetActive(true);
             refOneMorePlayer.SetActive(false);
             refreadyToPlay.SetActive(false);
