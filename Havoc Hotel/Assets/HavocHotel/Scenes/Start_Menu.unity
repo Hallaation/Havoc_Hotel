@@ -1239,7 +1239,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "PLEASE FORM \nAN ORDERLY CUE"
+  m_Text: 'PLEASE FORM AN
+
+    ORDERLY QUEUE'
 --- !u!222 &683406207
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1903,7 +1905,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012730136194, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 4000012730136194, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1967,7 +1969,7 @@ Prefab:
     - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
         type: 2}
       propertyPath: m_fMaxWallSlideSpeed
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1000011485475738, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
       propertyPath: m_TagString
@@ -1982,6 +1984,11 @@ Prefab:
         type: 2}
       propertyPath: m_fFloorWallReduction
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_fGravity
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
@@ -1999,7 +2006,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011385333072, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 4000011385333072, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2079,11 +2086,11 @@ Prefab:
     - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
       propertyPath: m_fMaxWallSlideSpeed
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1000013572976796, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
       propertyPath: m_TagString
-      value: WallCheck
+      value: Kick
       objectReference: {fileID: 0}
     - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
@@ -2094,6 +2101,15 @@ Prefab:
         type: 2}
       propertyPath: m_fFloorWallReduction
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000010426385128, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
+      propertyPath: m_TagString
+      value: WallCheck
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
+        type: 2}
+      propertyPath: m_fGravity
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
@@ -2305,7 +2321,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010023829386, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 4000010023829386, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2369,7 +2385,7 @@ Prefab:
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
       propertyPath: m_fMaxWallSlideSpeed
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1000011554292208, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
       propertyPath: m_TagString
@@ -2394,6 +2410,16 @@ Prefab:
         type: 2}
       propertyPath: m_fMoveSpeed
       value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: playerNumber
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_fGravity
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
@@ -2490,7 +2516,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011313457230, guid: e95f0347379baa24584537374e7c861c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 4000011313457230, guid: e95f0347379baa24584537374e7c861c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2549,7 +2575,7 @@ Prefab:
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
       propertyPath: m_fMaxWallSlideSpeed
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1000010971589822, guid: e95f0347379baa24584537374e7c861c, type: 2}
       propertyPath: m_TagString
@@ -2564,6 +2590,11 @@ Prefab:
         type: 2}
       propertyPath: m_fFloorWallReduction
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: m_fGravity
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
