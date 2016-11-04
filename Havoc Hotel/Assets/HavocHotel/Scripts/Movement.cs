@@ -398,7 +398,7 @@ public class Movement : MonoBehaviour
             m_aAnimator.SetBool("IsWallGrab", true);
             if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
-                m_fWallSlideSpeed = refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
+                m_fWallSlideSpeed -= refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
             }
             //short delay when moving away from wall
 
@@ -545,7 +545,7 @@ public class Movement : MonoBehaviour
 
             if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
             {
-                
+
                 movementDirection.y = m_fJumpForce;
 
 
@@ -729,6 +729,7 @@ public class Movement : MonoBehaviour
             m_bIsStunned = false;
             m_cState = CStates.OnFloor;
             m_iQuickRelease = 0;
+            m_aAnimator.SetBool("IsStunned", false);
         }
 
 
