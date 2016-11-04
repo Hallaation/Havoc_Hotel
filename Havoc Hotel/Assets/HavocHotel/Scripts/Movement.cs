@@ -64,10 +64,10 @@ public class Movement : MonoBehaviour
     public float m_fMaxWallSlideSpeed;
     public float m_fNoSpeedLimitDuration; // how long does the player have no x speed limit after wall jumping.
     public float m_fWallSlideUpReduction;
-    public bool m_bReductSpeed;
+    public float m_fFloorWallReduction;
     private float m_fWallSlideSpeed = 0.5f; //wall sliding speed public so it can be edited outside of code
     private float m_fTimeSinceWallJump = 999;
-
+    private float m_fAirReduction;
 
     #endregion
     //dive kick stuff
@@ -176,7 +176,7 @@ public class Movement : MonoBehaviour
         //ref_WallHitBox;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        m_fAirReduction = m_fWallSlideUpReduction;
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -287,7 +287,7 @@ public class Movement : MonoBehaviour
 
                             else if (m_cCharacterController.isGrounded)
                             {
-                                m_bReductSpeed = true;
+                                m_fWallSlideUpReduction = m_fFloorWallReduction;
                                 OnFloor();
                             }
                             break;
@@ -315,7 +315,7 @@ public class Movement : MonoBehaviour
         }
         m_fTimeSinceLastPush += Time.deltaTime;
         //refPlayerStatus.text = "Press Start to join";
-     
+
 
 
         #endregion
@@ -326,8 +326,7 @@ public class Movement : MonoBehaviour
     {
         #region
         //ray cast head up to find if you are hitting something to pull you back down.
-
-
+        m_fWallSlideUpReduction = m_fFloorWallReduction;
         m_fTimeSinceLastKick += Time.deltaTime;
         m_fCurrentKickTime = 0;
         PlayerTurnAround();
@@ -385,8 +384,6 @@ public class Movement : MonoBehaviour
     public void WallSlide()
     {
         #region
-
-        m_fAirBourneTime = 2;
         m_bHitWall = true;
         if (m_bHitWall)
         {
@@ -517,7 +514,10 @@ public class Movement : MonoBehaviour
     void Jump(CharacterController temp)     // Checks if the user can jump, then executes on command if possible.
     {
         #region
-
+        if (m_cState != CStates.OnWall)
+        {
+            m_fWallSlideUpReduction = m_fAirReduction;
+        }
         // This is the Left/Right movement for X. always set Y to 0.
 
         m_fAirBourneTime += Time.deltaTime;
@@ -545,14 +545,11 @@ public class Movement : MonoBehaviour
 
             if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
             {
-                if (!m_bReductSpeed)
-                {
-                    movementDirection.y = m_fJumpForce;
-                }
-                else
-                {
-                    movementDirection.y = m_fJumpForce * (100 - m_fWallSlideUpReduction) / 100;
-                }
+
+
+                movementDirection.y = m_fJumpForce;
+
+
                 m_fJumpTimer = 0.0f;
                 m_fTimeSinceJump = 0f;
                 m_fAirBourneTime = m_fGroundBuffer + 1f;
