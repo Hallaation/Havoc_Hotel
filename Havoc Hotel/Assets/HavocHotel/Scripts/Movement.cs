@@ -480,32 +480,34 @@ public class Movement : MonoBehaviour
         RaycastHit hit;
         Movement referencedMovement;
         //shoots a raycast forward from the player, if it hits another player, it pushes them
-        if (Input.GetButtonDown(this.playerNumber + "_AltFire") && m_fTimeSinceLastPush >= m_fPushCoolDown)
+        if (m_cCharacterController.isGrounded && m_fAirBourneTime <= m_fGroundBuffer)
         {
-            //ray origin is from the middle of the player at 0.5f
-            Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
-            Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
-            Debug.DrawLine(this.transform.position - new Vector3(0f, 0f, 0f), (this.transform.position - new Vector3(0f, 0f, 0f) + this.transform.forward));
-            m_aAnimator.SetBool("IsPushing", true);
-            m_bHasPushed = true;
-            m_fTimeSinceLastPush = 0;
-            if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
-                || Physics.Raycast(this.transform.position - new Vector3(0f, 0.3f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
-                || Physics.Raycast(this.transform.position + new Vector3(0f, 0.8f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask))
-
+            if (Input.GetButtonDown(this.playerNumber + "_AltFire") && m_fTimeSinceLastPush >= m_fPushCoolDown)
             {
-                if (hit.transform.tag == "Player")
+                //ray origin is from the middle of the player at 0.5f
+                Vector3 rayOrigin = this.transform.position + new Vector3(0f, 0.5f, 0f);
+                Debug.DrawLine(rayOrigin, rayOrigin + this.transform.forward);
+                Debug.DrawLine(this.transform.position - new Vector3(0f, 0f, 0f), (this.transform.position - new Vector3(0f, 0f, 0f) + this.transform.forward));
+                m_aAnimator.SetBool("IsPushing", true);
+                m_bHasPushed = true;
+                m_fTimeSinceLastPush = 0;
+                if (Physics.Raycast(rayOrigin, this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
+                    || Physics.Raycast(this.transform.position - new Vector3(0f, 0.3f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask)
+                    || Physics.Raycast(this.transform.position + new Vector3(0f, 0.8f, 0f), this.transform.forward, out hit, m_fPushDistance, m_iLayerMask))
+
                 {
-                    m_bHasPushed = true;
-                    Debug.Log("Hit");
-                    referencedMovement = hit.transform.gameObject.GetComponent<Movement>();
-                    //hit.transform.gameObject.GetComponent<LouisMovement>().m_cCharacterController.Move(new Vector3(m_fPushForce * Time.deltaTime, 0, 0));
-                    referencedMovement.m_bIsPushed = true;
-                    referencedMovement.movementDirection.x = this.transform.forward.x * m_fPushForce;
+                    if (hit.transform.tag == "Player")
+                    {
+                        m_bHasPushed = true;
+                        Debug.Log("Hit");
+                        referencedMovement = hit.transform.gameObject.GetComponent<Movement>();
+                        //hit.transform.gameObject.GetComponent<LouisMovement>().m_cCharacterController.Move(new Vector3(m_fPushForce * Time.deltaTime, 0, 0));
+                        referencedMovement.m_bIsPushed = true;
+                        referencedMovement.movementDirection.x = this.transform.forward.x * m_fPushForce;
+                    }
                 }
             }
         }
-
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
