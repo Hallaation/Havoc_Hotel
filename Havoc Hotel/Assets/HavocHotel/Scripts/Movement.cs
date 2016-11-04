@@ -543,8 +543,7 @@ public class Movement : MonoBehaviour
 
             if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
             {
-
-
+                
                 movementDirection.y = m_fJumpForce;
 
 

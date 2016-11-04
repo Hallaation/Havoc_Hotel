@@ -674,15 +674,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000012193255492, guid: bae43a96b732f974a86d7e79fc054f4c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -4.45
       objectReference: {fileID: 0}
     - target: {fileID: 4000012193255492, guid: bae43a96b732f974a86d7e79fc054f4c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 7
+      value: 6.79
       objectReference: {fileID: 0}
     - target: {fileID: 4000012193255492, guid: bae43a96b732f974a86d7e79fc054f4c, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4000012193255492, guid: bae43a96b732f974a86d7e79fc054f4c, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2114,7 +2114,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.5, y: 4}
+  m_AnchoredPosition: {x: -1.5, y: -6}
   m_SizeDelta: {x: 25.1, y: 120.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1270264388
@@ -2197,6 +2197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0348ac245e2652a4aa80a08c20405913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxUpAndDown: 5
 --- !u!1 &1321565840
 GameObject:
   m_ObjectHideFlags: 0
@@ -2280,11 +2281,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000010023829386, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -6
+      value: -6.35
       objectReference: {fileID: 0}
     - target: {fileID: 4000010023829386, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4000010023829386, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2361,13 +2362,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
-      propertyPath: m_bReductSpeed
-      value: 0
+      propertyPath: m_fFloorWallReduction
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
-      propertyPath: m_fFloorWallReduction
-      value: 10
+      propertyPath: m_fAnimationSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_fMoveSpeed
+      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
@@ -3240,6 +3246,10 @@ Prefab:
         type: 2}
       propertyPath: m_Size.x
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011863427330, guid: 97b7345ca97550f4384063012acf7831, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97b7345ca97550f4384063012acf7831, type: 2}
