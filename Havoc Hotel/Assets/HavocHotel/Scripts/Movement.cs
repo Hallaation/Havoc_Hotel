@@ -727,6 +727,7 @@ public class Movement : MonoBehaviour
             m_bIsStunned = false;
             m_cState = CStates.OnFloor;
             m_iQuickRelease = 0;
+            m_aAnimator.SetBool("IsStunned", false);
         }
 
 
