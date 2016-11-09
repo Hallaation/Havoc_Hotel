@@ -392,14 +392,14 @@ public class Movement : MonoBehaviour
             ref_KickHitBox.SetActive(false);
             if (movementDirection.y > 0)
             {
-                movementDirection.y *= ((100 - m_fWallSlideUpReduction) / 100);
+                movementDirection.y = movementDirection.y - (m_fWallSlideUpReduction * Time.deltaTime);
             }
 
             m_aAnimator.SetBool("IsWallGrab", true);
-            if (m_fWallSlideSpeed >= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
-            {
-                m_fWallSlideSpeed -= refBlockController.m_fOverworldSpeed + m_fWallSlidingSpeed;
-            }
+            //if (m_fWallSlideSpeed > m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
+            //{
+            //    m_fWallSlideSpeed = -(refBlockController.m_fOverworldSpeed + m_fMaxWallSlideSpeed);
+            //}
             //short delay when moving away from wall
 
             bool horizontalActive = Input.GetAxis(playerNumber + "_Horizontal") != 0;
@@ -410,14 +410,11 @@ public class Movement : MonoBehaviour
                 PlayerTurnAround();
                 m_fButtonTimer = 0.0f;
             }
-            if (movementDirection.y >= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
-            {
-                movementDirection.y -= m_fWallSlideSpeed;
-            }
+ 
 
             if (movementDirection.y <= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
-                movementDirection.y = -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed);
+                movementDirection.y = movementDirection.y -(m_fWallSlidingSpeed * Time.deltaTime);
             }
             m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
