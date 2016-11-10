@@ -159,7 +159,6 @@ public class Movement : MonoBehaviour
     void Start()
     {
         #region
-        Mathf.Clamp(m_fWallSlideUpReduction, 1, 100);
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
         //GameObject[] list = GameObject.FindObjectsOfType<GameObject>();
@@ -287,7 +286,7 @@ public class Movement : MonoBehaviour
 
                             else if (m_cCharacterController.isGrounded)
                             {
-                                m_fWallSlideUpReduction = m_fFloorWallReduction;
+                             
                                 OnFloor();
                             }
                             break;
@@ -326,7 +325,7 @@ public class Movement : MonoBehaviour
     {
         #region
         //ray cast head up to find if you are hitting something to pull you back down.
-        m_fWallSlideUpReduction = m_fFloorWallReduction;
+
         m_fTimeSinceLastKick += Time.deltaTime;
         m_fCurrentKickTime = 0;
         PlayerTurnAround();
@@ -511,7 +510,7 @@ public class Movement : MonoBehaviour
         #region
         if (m_cState != CStates.OnWall)
         {
-            m_fWallSlideUpReduction = m_fAirReduction;
+           // m_fWallSlideUpReduction = m_fAirReduction;
         }
         // This is the Left/Right movement for X. always set Y to 0.
 
