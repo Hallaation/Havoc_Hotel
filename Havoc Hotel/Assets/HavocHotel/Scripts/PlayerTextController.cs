@@ -42,6 +42,7 @@ public class PlayerTextController : MonoBehaviour
                 {
                     m_mDeadPlayers.Add(refPlayers[i]);
                     refPlayers.RemoveAt(i);
+                    
                 }
                 if (refPlayers.Count <= 1 && m_mDeadPlayers.Count != 0)
                 {
@@ -82,7 +83,8 @@ public class PlayerTextController : MonoBehaviour
                     }
                 }
                 PlayerPrefs.SetInt("Winner", refPlayers[0].playerNumber);
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+                SceneManager.LoadScene("Win_Scene");
             }
         }
     }
