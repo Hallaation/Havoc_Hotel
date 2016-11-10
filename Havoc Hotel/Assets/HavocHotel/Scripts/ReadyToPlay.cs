@@ -38,7 +38,7 @@ public class ReadyToPlay : MonoBehaviour
                     {
                         item.GetComponent<Movement>().DontDestroyOnLoad();
                     }
-                    SceneManager.LoadScene(2);
+                    SceneManager.LoadScene(3);
                 }
 
             }
