@@ -105,47 +105,53 @@ public class UIManager : MonoBehaviour
 
     public void quitButton()
     {
-        // Debug.Log("quitpanel was called");
-        refQuitPanel.SetActive(true);
-        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
-        //resume game code to make sure you can quit game
-        //Debug.Log("resumed");
-        //Time.timeScale = 1;
-        refPausePanel.SetActive(false);
+        //if this is the game scene, make the quit text asking to return to main menu, otherwise run regular stuff which is to end the game.
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            //If this is the game scene, load up the quit panel. close up the pause panel.
+            refQuitPanel.SetActive(true);
+            GameObject.Find("QuitText").GetComponent<Text>().text = "Are you sure you \nwant to return to main menu ? ";
+            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
+            refPausePanel.SetActive(false);
+        }
+        else
+        {
+            //otherwise use the regular quit
+            refQuitPanel.SetActive(true);
+            mainMenuPanel.SetActive(false);
+            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
+        }
     }
+    //if the player decides to press no on the quit confirmation
     public void declineQuitButton()
     {
-        // Debug.Log("decline quit was called");
-        refQuitPanel.SetActive(false);
-
-        if (openPauseMenu == true)
+        //if the current scene is the game scene, return the pause menu.
+        if (SceneManager.GetActiveScene().buildIndex == 2)
         {
+            refQuitPanel.SetActive(false);
             refPausePanel.SetActive(true);
+            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeButton"));
+        }
+        else
+        {
+            refQuitPanel.SetActive(false);
+            mainMenuPanel.SetActive(true);
+            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
         }
 
     }
 
-    public void MainMenuQuit()
+    public void Quit()
     {
-        // Debug.Log("quitpanel was called");
-        refQuitPanel.SetActive(true);
-        mainMenuPanel.SetActive(false);
-        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
-        //resume game code to make sure you can quit game
-        //Debug.Log("resumed");
-        //Time.timeScale = 1;
-    }
-    public void MainMenuDeclineQuitButton()
-    {
-        // Debug.Log("decline quit was called");
-        refQuitPanel.SetActive(false);
-        mainMenuPanel.SetActive(true);
-        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
-
-    }
-    public void quit()
-    {
-        Application.Quit();
+        //if the current scene is the game scene, load the main menu, otherwise quit the game.
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            LoadMainMenu();
+        }
+        else
+        {
+            Application.Quit();
+        }
 
     }
 
@@ -177,7 +183,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         refPausePanel.SetActive(false);
         openPauseMenu = false;
-       
+
         m_bResumeGame = true;
 
 
