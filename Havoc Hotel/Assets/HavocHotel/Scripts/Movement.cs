@@ -105,7 +105,7 @@ public class Movement : MonoBehaviour
     private CharacterController m_cCharacterController; //character controller reference
     public UnityEngine.UI.Text refPlayerStatus; //Text to show the player status. 
     public BlockController refBlockController; //Block controller reference to know what the world speed is.
-
+    private bool m_bIsWinner = false;
     public GameObject refPlayerStartText;
     public PlayerTextController ref_PlayerArray; //Now unused. Was used to control the players to "press start" to join. this is now done in the main menu. Should be used show player death messages.
     public GameObject ref_WallHitBox;
@@ -384,14 +384,14 @@ public class Movement : MonoBehaviour
     {
         #region
         m_bHitWall = true;
-        if (m_bHitWall)
+        if (m_bHitWall)                                                                                 // Got rid of math clamp
         {
             movementDirection.x = 0;
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
             if (movementDirection.y > 0)
             {
-                movementDirection.y = movementDirection.y - (m_fWallSlideUpReduction * Time.deltaTime);
+                movementDirection.y = movementDirection.y - (m_fWallSlideUpReduction * Time.deltaTime); // Deltatime added
             }
 
             m_aAnimator.SetBool("IsWallGrab", true);
