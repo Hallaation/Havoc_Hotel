@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject refCountDownTimer;
     public GameObject refWinPanel;
     private BlockController ref_BlockController;
-    
+
     private List<GameObject> m_playerList = new List<GameObject>();
 
     private bool openPauseMenu; //bool to determin weather or not quit() was called from the pause menu or not
@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
 
     private float m_fTimer;
 
-    
+
     public bool GameStarted { get { return m_bGameStarted; } set { m_bGameStarted = value; } }
 
     public bool PlayersInScene { get { return m_PlayersInGameScene; } set { m_PlayersInGameScene = value; } }
@@ -103,7 +103,13 @@ public class UIManager : MonoBehaviour
     {
         foreach (GameObject player in m_playerList)
         {
+            Destroy(player.GetComponent<Movement>());
             DestroyImmediate(player);
+        }
+        GameObject[] go = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < go.Length; ++i)
+        {
+            DestroyImmediate(go[i]);
         }
         SceneManager.LoadScene(1);
     }

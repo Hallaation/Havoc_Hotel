@@ -813,48 +813,50 @@ public class Movement : MonoBehaviour
     void LookForObjects(Scene a_scene, LoadSceneMode a_loadSceneMode)
     {
         #region 
-
-        if (a_scene.buildIndex == 2)
+        if (this)
         {
-            refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
-
-            this.m_bIsDead = false;
-
-            if (m_bDestroyOnLoad)
+            if (a_scene.buildIndex == 2)
             {
-                if (playerNumber > 3)
+                refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
+
+                this.m_bIsDead = false;
+                this.IsPlaying = true;
+                if (m_bDestroyOnLoad)
                 {
-                    //this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
-                    refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
+                    if (playerNumber > 3)
+                    {
+                        //this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                        refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
+                    }
+                    else
+                    {
+                        //Debug.Log(GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position);
+                        this.transform.position = GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position;
+                        refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
+                        refPlayerStatus.enabled = true;
+                    }
                 }
-                else
-                {
-                    Debug.Log(playerNumber);
-                    //this.transform.position = GameObject.Find("Player" + playerNumber + 1 + "_Spawn").transform.position;
-                    refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
-                    refPlayerStatus.enabled = true;
-                }
+                GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
+                GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
+
             }
-            GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
-            GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
-
-        }
-        if (a_scene.buildIndex == 4)
-        {
-            if (this)
+            if (a_scene.buildIndex == 4)
             {
-                if (!m_bIsDead)
+                if (this)
                 {
-                    this.transform.position = GameObject.Find("Player_Spawn").transform.position;
-                    this.transform.rotation = GameObject.Find("Player_Spawn").transform.rotation;
-                    m_aAnimator.SetBool("IsDancing", true);
+                    if (!m_bIsDead)
+                    {
+                        this.transform.position = GameObject.Find("Player_Spawn").transform.position;
+                        this.transform.rotation = GameObject.Find("Player_Spawn").transform.rotation;
+                        m_aAnimator.SetBool("IsDancing", true);
+                    }
+                    else
+                    {
+                        m_bIsDead = true;
+                        this.transform.position = GameObject.Find("Player_Dead").transform.position;
+                    }
+                    IsPlaying = false;
                 }
-                else
-                {
-                    m_bIsDead = true;
-                    this.transform.position = GameObject.Find("Player_Dead").transform.position;
-                }
-                IsPlaying = false;
             }
         }
         #endregion
