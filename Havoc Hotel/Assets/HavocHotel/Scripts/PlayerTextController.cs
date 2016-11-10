@@ -81,6 +81,7 @@ public class PlayerTextController : MonoBehaviour
                         player.GetComponent<Movement>().m_bIsDead = false;
                     }
                 }
+                PlayerPrefs.SetInt("Winner", refPlayers[0].playerNumber);
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
