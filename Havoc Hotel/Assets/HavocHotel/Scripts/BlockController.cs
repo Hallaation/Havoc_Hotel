@@ -64,7 +64,7 @@ public class BlockController : MonoBehaviour
             else if (Input.GetButtonDown("0_RB"))
             {
                 m_bRunning = true;
-                Debug.Log("Pressed");
+
             }
             if (Input.GetAxis("0_DpadH") > 0)
             {
