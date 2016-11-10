@@ -368,61 +368,16 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 223000014049809984, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 786085742}
     - target: {fileID: 114000012128886986, guid: f6a68121d62c88c409c01279883b572c,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 700104436}
-    - target: {fileID: 114000011312999644, guid: f6a68121d62c88c409c01279883b572c,
+    - target: {fileID: 223000014049809984, guid: f6a68121d62c88c409c01279883b572c,
         type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: quit
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000011040776298, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: MainMenuDeclineQuitButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010987003086, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_FontData.m_FontSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010987003086, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_FontData.m_MaxSize
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010987003086, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_FontData.m_FontStyle
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012932979628, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_DynamicPixelsPerUnit
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000012346117492, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000010663212568, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000011409328638, guid: f6a68121d62c88c409c01279883b572c,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 90
-      objectReference: {fileID: 0}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 786085742}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6a68121d62c88c409c01279883b572c, type: 2}
   m_IsPrefabParent: 0
@@ -1718,7 +1673,7 @@ Prefab:
     - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
         type: 2}
       propertyPath: m_fWallSlideUpReduction
-      value: 1
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
         type: 2}
@@ -1757,7 +1712,7 @@ Prefab:
     - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
         type: 2}
       propertyPath: m_fWallSlidingSpeed
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
         type: 2}
@@ -1835,7 +1790,7 @@ Prefab:
     - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
       propertyPath: m_fWallSlideUpReduction
-      value: 1
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
@@ -1874,7 +1829,7 @@ Prefab:
     - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
       propertyPath: m_fWallSlidingSpeed
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
@@ -2176,7 +2131,7 @@ Prefab:
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
       propertyPath: m_fWallSlideUpReduction
-      value: 1
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
@@ -2215,7 +2170,7 @@ Prefab:
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
       propertyPath: m_fWallSlidingSpeed
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
@@ -2427,7 +2382,7 @@ Prefab:
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
       propertyPath: m_fWallSlideUpReduction
-      value: 1
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
@@ -2461,7 +2416,7 @@ Prefab:
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
       propertyPath: m_fWallSlidingSpeed
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
@@ -3238,7 +3193,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000011863427330, guid: 97b7345ca97550f4384063012acf7831, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97b7345ca97550f4384063012acf7831, type: 2}
