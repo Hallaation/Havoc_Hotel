@@ -103,12 +103,14 @@ public class Movement : MonoBehaviour
     #region
     public GameObject ref_KickHitBox;
     private CharacterController m_cCharacterController; //character controller reference
-    public UnityEngine.UI.Text refPlayerStatus; //Text to show the player status. 
     public BlockController refBlockController; //Block controller reference to know what the world speed is.
     private bool m_bIsWinner = false;
     public GameObject refPlayerStartText;
     public PlayerTextController ref_PlayerArray; //Now unused. Was used to control the players to "press start" to join. this is now done in the main menu. Should be used show player death messages.
     public GameObject ref_WallHitBox;
+    public SpriteRenderer refPlayerStatus; //Text to show the player status. 
+    public Sprite[] mySprites;
+    public int m_iCounter;
     #endregion
 
     //Animation
@@ -158,6 +160,7 @@ public class Movement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
+        m_iCounter = 0;
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
@@ -170,12 +173,12 @@ public class Movement : MonoBehaviour
         //have the charactercontroller variable reference something
         m_cCharacterController = GetComponent<CharacterController>();
         m_bIsDead = false;
-        refPlayerStartText.SetActive(false);
         m_aAnimator = GetComponentInChildren<Animator>();
         //ref_WallHitBox;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         m_fAirReduction = m_fWallSlideUpReduction;
+
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -184,13 +187,13 @@ public class Movement : MonoBehaviour
         #region
         if (other.tag == "Killer")
         {
-            Debug.Log("Player " + playerNumber + " died!");
-            this.transform.position = new Vector3(0 , -60);
+            this.GetComponentInChildren<ParticleSystem>().Emit(50);
+            this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
         }
         else
         {
-            Physics.IgnoreCollision(m_cCharacterController , other.GetComponent<Collider>());
+            Physics.IgnoreCollision(m_cCharacterController, other.GetComponent<Collider>());
 
 
         }
@@ -200,19 +203,21 @@ public class Movement : MonoBehaviour
     //once exiting the trigger, the parent's collider will no longer ignore collisions
     void OnTriggerExit(Collider other)
     {
-        Physics.IgnoreCollision(m_cCharacterController , other.GetComponent<Collider>() , false);
+        Physics.IgnoreCollision(m_cCharacterController, other.GetComponent<Collider>(), false);
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //update every frame
     //reset the z position ... essentially clamping the player to the z, never falling forward.
     void FixedUpdate()
     {
-        this.transform.position = new Vector3(this.transform.position.x , this.transform.position.y , 0.5f);
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0.5f);
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //Lincoln's messy code
     void Update()
     {
+
+        //refPlayerStatus.sprite = mySprites[m_iCounter];
 
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
@@ -223,7 +228,7 @@ public class Movement : MonoBehaviour
 
             if (refPlayerStatus)
             {
-                refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
+                refPlayerStatus.sprite = (m_bIsDead) ? mySprites[1] : mySprites[0];
             }
             if (m_bIsPlaying)
             {
@@ -250,12 +255,12 @@ public class Movement : MonoBehaviour
                         case CStates.Stunned:
                             PlayerStun();
                             StunRelease();
-                            temp.Move(new Vector3(0 , Time.deltaTime * movementDirection.y));
+                            temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
                             break;
 
                         case CStates.OnFloor:
-                            m_aAnimator.SetBool("IsDiveKick" , false);
-                            m_aAnimator.SetBool("IsWallGrab" , false);
+                            m_aAnimator.SetBool("IsDiveKick", false);
+                            m_aAnimator.SetBool("IsWallGrab", false);
                             OnFloor();
 
                             if (!m_bHasPushed)
@@ -272,11 +277,11 @@ public class Movement : MonoBehaviour
                             PlayerKick(temp);
                             MovementCalculations();
                             m_fAirBourneTime = 0;
-                            temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed , Time.deltaTime * movementDirection.y));
+                            temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                             break;
 
                         case CStates.OnWall:
-                            m_aAnimator.SetBool("IsDiveKick" , false);
+                            m_aAnimator.SetBool("IsDiveKick", false);
 
                             m_fAirBourneTime = 2;
                             if (!m_cCharacterController.isGrounded)
@@ -309,7 +314,7 @@ public class Movement : MonoBehaviour
 
         if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1)
         {
-            m_aAnimator.SetBool("IsPushing" , false);
+            m_aAnimator.SetBool("IsPushing", false);
             m_bHasPushed = false;
         }
         m_fTimeSinceLastPush += Time.deltaTime;
@@ -341,7 +346,7 @@ public class Movement : MonoBehaviour
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
         MovementCalculations();
-        m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed , Time.deltaTime * movementDirection.y));
+        m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
 
         ref_KickHitBox.SetActive(false);
         #endregion
@@ -394,7 +399,7 @@ public class Movement : MonoBehaviour
                 movementDirection.y -= m_fWallSlideUpReduction * Time.deltaTime; // Deltatime added
             }
 
-            m_aAnimator.SetBool("IsWallGrab" , true);
+            m_aAnimator.SetBool("IsWallGrab", true);
             //if (m_fWallSlideSpeed > m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             //{
             //    m_fWallSlideSpeed = -(refBlockController.m_fOverworldSpeed + m_fMaxWallSlideSpeed);
@@ -415,7 +420,7 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.y -= m_fWallSlidingSpeed * Time.deltaTime;
             }
-            m_cCharacterController.Move(new Vector3(0 , Time.deltaTime * movementDirection.y));
+            m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
             if (Input.GetButtonDown(playerNumber + "_Fire"))
             {
@@ -443,7 +448,7 @@ public class Movement : MonoBehaviour
             //m_cCharacterController.Move(temp * Time.deltaTime);
             //m_fMaxSpeedX = m_fHorizontalWallJumpForce;
             //m_bIsPushed = true;
-            transform.rotation = Quaternion.Euler(0 , -90 , 0);
+            transform.rotation = Quaternion.Euler(0, -90, 0);
             m_cState = CStates.OnFloor;
         }
         else if (transform.rotation.eulerAngles.y >= 181.0f && transform.rotation.eulerAngles.y <= 271.0f)
@@ -456,12 +461,12 @@ public class Movement : MonoBehaviour
             //m_cCharacterController.Move(Vector3.up * m_fVerticalWallJumpForce * Time.deltaTime);
             //m_cCharacterController.Move(movementDirection * Time.deltaTime * m_fJumpForce);
             //m_cCharacterController.Move(temp * Time.deltaTime);
-            transform.rotation = Quaternion.Euler(0 , 90 , 0);
+            transform.rotation = Quaternion.Euler(0, 90, 0);
             m_cState = CStates.OnFloor;
         }
         m_fTimeSinceWallJump = 0;
-        m_aAnimator.SetBool("IsWallGrab" , false);
-        m_aAnimator.SetBool("IsJumping" , true);
+        m_aAnimator.SetBool("IsWallGrab", false);
+        m_aAnimator.SetBool("IsJumping", true);
         m_cState = CStates.OnFloor;
         #endregion
     }
@@ -529,12 +534,11 @@ public class Movement : MonoBehaviour
         if (temp.isGrounded)
         {
             movementDirection.y = refBlockController.m_fOverworldSpeed;
-
         }
 
         if (temp.isGrounded || m_fAirBourneTime <= m_fGroundBuffer)
         {
-            m_aAnimator.SetBool("IsJumping" , false);
+            m_aAnimator.SetBool("IsJumping", false);
             HasJumped = false;
             HasDoubleJumped = false;
             m_bShortHop = false;
@@ -549,7 +553,7 @@ public class Movement : MonoBehaviour
                 m_fTimeSinceJump = 0f;
                 m_fAirBourneTime = m_fGroundBuffer + 1f;
                 HasJumped = true;
-                m_aAnimator.SetBool("IsJumping" , true);
+                m_aAnimator.SetBool("IsJumping", true);
 
             }
         }
@@ -578,8 +582,8 @@ public class Movement : MonoBehaviour
                     movementDirection.y = m_fDoubleJumpMoveForce;
 
                     HasDoubleJumped = true;
-                    m_aAnimator.SetBool("IsJumping" , false);
-                    m_aAnimator.SetBool("IsJumping" , true);
+                    m_aAnimator.SetBool("IsJumping", false);
+                    m_aAnimator.SetBool("IsJumping", true);
                 }
             }
         }
@@ -634,17 +638,17 @@ public class Movement : MonoBehaviour
             if (movementDirection.x > -0.26f && movementDirection.x < 0.26f)
             {
                 movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-                m_aAnimator.SetBool("IsRunning" , false);
+                m_aAnimator.SetBool("IsRunning", false);
 
 
             }
             else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.2)
             {
-                m_aAnimator.SetBool("IsRunning" , true);
+                m_aAnimator.SetBool("IsRunning", true);
 
             }
 
-            m_aAnimator.SetBool("IsSliding" , false);
+            m_aAnimator.SetBool("IsSliding", false);
         }
         else
         {
@@ -662,9 +666,9 @@ public class Movement : MonoBehaviour
             }
             if (-Input.GetAxis(playerNumber + "_Horizontal") < .9 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.9)
             {
-                m_aAnimator.SetBool("IsSliding" , true);
-                m_aAnimator.SetBool("IsRunning" , false);
-                Debug.Log("Slide");
+                m_aAnimator.SetBool("IsSliding", true);
+                m_aAnimator.SetBool("IsRunning", false);
+
             }
 
         }
@@ -682,11 +686,11 @@ public class Movement : MonoBehaviour
             if (Input.GetAxis(playerNumber + "_Horizontal") > 0.5)
             {
                 //x y z
-                transform.rotation = Quaternion.Euler(0 , -90 , 0);
+                transform.rotation = Quaternion.Euler(0, -90, 0);
             }
             else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.7)
             {
-                transform.rotation = Quaternion.Euler(0 , 90 , 0);
+                transform.rotation = Quaternion.Euler(0, 90, 0);
             }
 
             m_bHitWall = false;
@@ -704,14 +708,14 @@ public class Movement : MonoBehaviour
         m_bIsStunned = true;
         m_cState = CStates.Stunned;
         m_fCurrentStunTime += Time.deltaTime;
-        m_aAnimator.SetBool("IsStunned" , true);
+        m_aAnimator.SetBool("IsStunned", true);
         if (m_fCurrentStunTime >= m_fMaxStunTime)
         {
             m_bIsStunned = false;
             m_cState = CStates.OnFloor;
             Debug.Log(playerNumber + " Leave stun");
             m_fCurrentStunTime = 0;
-            m_aAnimator.SetBool("IsStunned" , false);
+            m_aAnimator.SetBool("IsStunned", false);
         }
 
         #endregion
@@ -725,7 +729,7 @@ public class Movement : MonoBehaviour
             m_bIsStunned = false;
             m_cState = CStates.OnFloor;
             m_iQuickRelease = 0;
-            m_aAnimator.SetBool("IsStunned" , false);
+            m_aAnimator.SetBool("IsStunned", false);
         }
 
 
@@ -744,7 +748,7 @@ public class Movement : MonoBehaviour
         {
             m_bIsKicking = true;
             PlayerTurnAround();
-            if (transform.rotation == Quaternion.Euler(0 , -90 , 0))
+            if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
                 movementDirection.y = m_fKickYSpeed - refBlockController.m_fOverworldSpeed;
                 movementDirection.x = -m_fKickXSpeed; ;
@@ -770,14 +774,14 @@ public class Movement : MonoBehaviour
                 m_fCurrentKickTime = 0f;
                 m_cState = CStates.OnFloor;
                 m_fTimeSinceLastKick = 0;
-                m_aAnimator.SetBool("IsDiveKick" , false);
+                m_aAnimator.SetBool("IsDiveKick", false);
             }
             else
             {
                 m_fMaxFallSpeed = m_fMaxKickSpeedY;
                 m_fMaxSpeedX = m_fMaxKickSpeedX;
                 movementDirection.y = -m_fKickYSpeed;
-                m_aAnimator.SetBool("IsDiveKick" , true);
+                m_aAnimator.SetBool("IsDiveKick", true);
                 if (movementDirection.x > 0)
                 {
                     movementDirection.x = m_fKickXSpeed;
@@ -810,32 +814,61 @@ public class Movement : MonoBehaviour
         SceneManager.sceneLoaded += LookForObjects;
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
-    void LookForObjects(Scene a_scene , LoadSceneMode a_loadSceneMode)
+    void LookForObjects(Scene a_scene, LoadSceneMode a_loadSceneMode)
     {
         #region 
-
-        if (a_scene.buildIndex == 2)
+        if (this)
         {
-            refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
-
-
-            if (m_bDestroyOnLoad)
+            //look for references
+            if (a_scene.buildIndex == 2)
             {
+                Debug.Log("About to reference stuff in scene 2");
+                //m_aAnimator.SetBool("IsDancing", false);
+                refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
+
+                this.m_bIsDead = false;
+                this.IsPlaying = true;
+                //m_aAnimator.SetBool("IsDancing", false);
+
+
                 if (playerNumber > 3)
                 {
-                    refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
+                    //this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                    this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                    refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<SpriteRenderer>();
                 }
                 else
                 {
-                    refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
-                    refPlayerStatus.enabled = true;
+                    Debug.Log(GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position);
+                    this.transform.position = GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position;
+                    refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<SpriteRenderer>();
+                }
+
+
+                GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
+                GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
+                //m_aAnimator.SetBool("IsDancing", false);
+            }
+            //look for spawn points to find where to put the player at the win screen.
+            if (a_scene.buildIndex == 4)
+            {
+                if (this)
+                {
+                    if (!m_bIsDead)
+                    {
+                        this.transform.position = GameObject.Find("Player_Spawn").transform.position; // Sets position equal to spawn
+                        this.transform.rotation = GameObject.Find("Player_Spawn").transform.rotation; // Sets rotation equal to spawn
+                        m_aAnimator.SetBool("IsDancing", true); // makes player dance
+                    }
+                    else
+                    {
+                        m_bIsDead = true;
+                        this.transform.position = GameObject.Find("Player_Dead").transform.position;   // Sets dead players to dead spawn
+                    }
+                    IsPlaying = false;                              // Stops play moving during end scene
                 }
             }
-            GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
-            GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
-
         }
-
         #endregion
     }
 
@@ -843,8 +876,8 @@ public class Movement : MonoBehaviour
     {
         #region
         RaycastHit hit;
-        Debug.DrawRay(this.transform.position + this.transform.up , Vector3.up , Color.black , 1);
-        if (Physics.Raycast(this.transform.position + this.transform.up , Vector3.up , out hit , 0.4f))
+        Debug.DrawRay(this.transform.position + this.transform.up, Vector3.up, Color.black, 1);
+        if (Physics.Raycast(this.transform.position + this.transform.up, Vector3.up, out hit, 0.4f))
         {
 
             if (hit.transform.tag == "Wall")
