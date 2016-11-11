@@ -111,6 +111,7 @@ public class Movement : MonoBehaviour
     public SpriteRenderer refPlayerStatus; //Text to show the player status. 
     public Sprite[] mySprites;
     public int m_iCounter;
+
     #endregion
 
     //Animation
@@ -187,7 +188,8 @@ public class Movement : MonoBehaviour
         #region
         if (other.tag == "Killer")
         {
-            this.GetComponentInChildren<ParticleSystem>().Emit(50);
+            ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
+            ps.Emit(50);
             this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
         }
@@ -578,7 +580,8 @@ public class Movement : MonoBehaviour
                 }
                 if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
                 {
-
+                    transform.FindChild("Particle_Right_001").GetComponent<ParticleSystem>().Play();
+                    transform.FindChild("Particle_Left_001").GetComponent<ParticleSystem>().Play();
                     movementDirection.y = m_fDoubleJumpMoveForce;
 
                     HasDoubleJumped = true;
