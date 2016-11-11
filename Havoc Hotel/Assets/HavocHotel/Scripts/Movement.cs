@@ -103,12 +103,14 @@ public class Movement : MonoBehaviour
     #region
     public GameObject ref_KickHitBox;
     private CharacterController m_cCharacterController; //character controller reference
-    public UnityEngine.UI.Text refPlayerStatus; //Text to show the player status. 
     public BlockController refBlockController; //Block controller reference to know what the world speed is.
     private bool m_bIsWinner = false;
     public GameObject refPlayerStartText;
     public PlayerTextController ref_PlayerArray; //Now unused. Was used to control the players to "press start" to join. this is now done in the main menu. Should be used show player death messages.
     public GameObject ref_WallHitBox;
+    public SpriteRenderer refPlayerStatus; //Text to show the player status. 
+    public Sprite[] mySprites;
+    public int m_iCounter;
     #endregion
 
     //Animation
@@ -158,6 +160,7 @@ public class Movement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
+        m_iCounter = 0;
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
         m_fTempMoveSpeedX = m_fMaxSpeedX;
@@ -175,10 +178,7 @@ public class Movement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         m_fAirReduction = m_fWallSlideUpReduction;
-        if (SceneManager.GetActiveScene().buildIndex == 2)
-        {
-            refPlayerStartText.SetActive(false);
-        }
+
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -187,7 +187,7 @@ public class Movement : MonoBehaviour
         #region
         if (other.tag == "Killer")
         {
-
+            GameObject.Find("LUL");
             this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
         }
@@ -217,6 +217,8 @@ public class Movement : MonoBehaviour
     void Update()
     {
 
+        refPlayerStatus.sprite = mySprites[m_iCounter];
+
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
         if (m_bGameRunning == true)
@@ -226,7 +228,6 @@ public class Movement : MonoBehaviour
 
             if (refPlayerStatus)
             {
-                refPlayerStatus.text = (m_bIsDead) ? "Player " + (playerNumber + 1) + ": Dead" : "Player " + (playerNumber + 1) + ": Alive";
             }
             if (m_bIsPlaying)
             {
@@ -815,8 +816,10 @@ public class Movement : MonoBehaviour
         #region 
         if (this)
         {
+            //look for references
             if (a_scene.buildIndex == 2)
             {
+                //m_aAnimator.SetBool("IsDancing", false);
                 refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
 
                 this.m_bIsDead = false;
@@ -826,20 +829,21 @@ public class Movement : MonoBehaviour
                     if (playerNumber > 3)
                     {
                         //this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
-                        refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<UnityEngine.UI.Text>();
+                        refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<SpriteRenderer>();
                     }
                     else
                     {
                         //Debug.Log(GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position);
                         this.transform.position = GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position;
-                        refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<UnityEngine.UI.Text>();
-                        refPlayerStatus.enabled = true;
+                        refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<SpriteRenderer>();
+
                     }
                 }
                 GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
                 GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
 
             }
+            //look for spawn points to find where to put the player at the win screen.
             if (a_scene.buildIndex == 4)
             {
                 if (this)
