@@ -189,7 +189,7 @@ public class Movement : MonoBehaviour
         if (other.tag == "Killer")
         {
             GetComponent<AudioSource>().Play();
-            ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
+            ParticleSystem ps = transform.FindChild("Partical_Death_001").GetComponent<ParticleSystem>();
             ps.Emit(50);
             this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
@@ -827,7 +827,7 @@ public class Movement : MonoBehaviour
             if (a_scene.buildIndex == 2)
             {
                 Debug.Log("About to reference stuff in scene 2");
-                //m_aAnimator.SetBool("IsDancing", false);
+                m_aAnimator.SetBool("IsDancing", false);
                 refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
 
                 this.m_bIsDead = false;
