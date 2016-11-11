@@ -187,7 +187,7 @@ public class Movement : MonoBehaviour
         #region
         if (other.tag == "Killer")
         {
-            //this.GetComponentInChildren<ParticleSystem>().gameObject.isStatic = true;
+            this.GetComponentInChildren<ParticleSystem>().Emit(50);
             this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
         }
@@ -217,7 +217,7 @@ public class Movement : MonoBehaviour
     void Update()
     {
 
-        refPlayerStatus.sprite = mySprites[m_iCounter];
+        //refPlayerStatus.sprite = mySprites[m_iCounter];
 
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
@@ -228,6 +228,7 @@ public class Movement : MonoBehaviour
 
             if (refPlayerStatus)
             {
+                refPlayerStatus.sprite = (m_bIsDead) ? mySprites[1] : mySprites[0];
             }
             if (m_bIsPlaying)
             {
@@ -819,29 +820,32 @@ public class Movement : MonoBehaviour
             //look for references
             if (a_scene.buildIndex == 2)
             {
+                Debug.Log("About to reference stuff in scene 2");
                 //m_aAnimator.SetBool("IsDancing", false);
                 refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
 
                 this.m_bIsDead = false;
                 this.IsPlaying = true;
-                if (m_bDestroyOnLoad)
-                {
-                    if (playerNumber > 3)
-                    {
-                        //this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
-                        refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<SpriteRenderer>();
-                    }
-                    else
-                    {
-                        //Debug.Log(GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position);
-                        this.transform.position = GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position;
-                        refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<SpriteRenderer>();
+                //m_aAnimator.SetBool("IsDancing", false);
 
-                    }
+
+                if (playerNumber > 3)
+                {
+                    //this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                    this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                    refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<SpriteRenderer>();
                 }
+                else
+                {
+                    Debug.Log(GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position);
+                    this.transform.position = GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position;
+                    refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<SpriteRenderer>();
+                }
+
+
                 GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
                 GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
-
+                //m_aAnimator.SetBool("IsDancing", false);
             }
             //look for spawn points to find where to put the player at the win screen.
             if (a_scene.buildIndex == 4)

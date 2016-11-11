@@ -1643,11 +1643,15 @@ MonoBehaviour:
   m_bIsDead: 0
   movementDirection: {x: 0, y: -2.6566806, z: 0}
   ref_KickHitBox: {fileID: 1000013805785398}
-  refPlayerStatus: {fileID: 0}
   refBlockController: {fileID: 0}
   refPlayerStartText: {fileID: 0}
   ref_PlayerArray: {fileID: 0}
   ref_WallHitBox: {fileID: 0}
+  refPlayerStatus: {fileID: 0}
+  mySprites:
+  - {fileID: 21300000, guid: d1c2092391805674d95bc0cd2151c764, type: 3}
+  - {fileID: 21300002, guid: d1c2092391805674d95bc0cd2151c764, type: 3}
+  m_iCounter: 0
   m_fAnimationSpeed: 1
   m_bGameRunning: 0
 --- !u!114 &114000011168519924
@@ -3706,8 +3710,8 @@ ParticleSystem:
     collidesWithDynamic: 1
     interiorCollisions: 1
   TriggerModule:
-    enabled: 1
-    collisionShape0: {fileID: 0}
+    enabled: 0
+    collisionShape0: {fileID: 4000011313457230}
     collisionShape1: {fileID: 0}
     collisionShape2: {fileID: 0}
     collisionShape3: {fileID: 0}
