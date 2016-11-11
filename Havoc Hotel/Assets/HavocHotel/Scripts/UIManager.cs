@@ -65,8 +65,8 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // if (GameStarted && m_PlayersInGameScene)
-      //  {
+        if (GameStarted && m_PlayersInGameScene)
+        {
             if (Input.GetButtonDown("Cancel"))
             //if(Input.GetKeyDown(KeyCode.Escape))
             {
@@ -89,7 +89,7 @@ public class UIManager : MonoBehaviour
                 m_bResumeGame = false;
                 refCountDownTimer.SetActive(false);
             }
-       // }
+       }
 
     }
 
