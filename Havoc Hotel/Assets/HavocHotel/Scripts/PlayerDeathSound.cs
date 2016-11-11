@@ -7,13 +7,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerDeathSound : MonoBehaviour
 {
-    AudioSource audio;
+    public AudioSource audio;
     // Use this for initialization
     void Start()
     {
-        audio = GetComponent<AudioSource>();
-
-       
     }
 
     // Update is called once per frame
@@ -27,10 +24,8 @@ public class PlayerDeathSound : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("Player is dying");
-            audio.Play();        }
-        
-
+            audio.Play();
+        }
         // AudioSource.PlayClipAtPoint(clip, transform.position);
     }
 }

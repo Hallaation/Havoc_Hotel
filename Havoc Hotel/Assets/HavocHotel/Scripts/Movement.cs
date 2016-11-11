@@ -188,6 +188,7 @@ public class Movement : MonoBehaviour
         #region
         if (other.tag == "Killer")
         {
+            GetComponent<AudioSource>().Play();
             ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
             ps.Emit(50);
             this.transform.position = new Vector3(0, -60);
