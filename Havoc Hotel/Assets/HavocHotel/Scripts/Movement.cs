@@ -831,7 +831,7 @@ public class Movement : MonoBehaviour
 
                 this.m_bIsDead = false;
                 this.IsPlaying = true;
-                //m_aAnimator.SetBool("IsDancing", false);
+                m_aAnimator.SetBool("IsDancing", false);
 
 
                 if (playerNumber > 3)
