@@ -187,7 +187,7 @@ public class Movement : MonoBehaviour
         #region
         if (other.tag == "Killer")
         {
-
+            //this.GetComponentInChildren<ParticleSystem>().gameObject.isStatic = true;
             this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
         }
@@ -846,16 +846,16 @@ public class Movement : MonoBehaviour
                 {
                     if (!m_bIsDead)
                     {
-                        this.transform.position = GameObject.Find("Player_Spawn").transform.position;
-                        this.transform.rotation = GameObject.Find("Player_Spawn").transform.rotation;
-                        m_aAnimator.SetBool("IsDancing", true);
+                        this.transform.position = GameObject.Find("Player_Spawn").transform.position; // Sets position equal to spawn
+                        this.transform.rotation = GameObject.Find("Player_Spawn").transform.rotation; // Sets rotation equal to spawn
+                        m_aAnimator.SetBool("IsDancing", true); // makes player dance
                     }
                     else
                     {
                         m_bIsDead = true;
-                        this.transform.position = GameObject.Find("Player_Dead").transform.position;
+                        this.transform.position = GameObject.Find("Player_Dead").transform.position;   // Sets dead players to dead spawn
                     }
-                    IsPlaying = false;
+                    IsPlaying = false;                              // Stops play moving during end scene
                 }
             }
         }
