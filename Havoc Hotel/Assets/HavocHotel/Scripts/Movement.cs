@@ -161,6 +161,7 @@ public class Movement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
+
         m_iCounter = 0;
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
@@ -189,9 +190,8 @@ public class Movement : MonoBehaviour
         if (other.tag == "Killer")
         {
             GetComponent<AudioSource>().Play();
-            ParticleSystem ps = transform.FindChild("Partical_Death_001").GetComponent<ParticleSystem>();
-            ps.Emit(50);
-            this.transform.position = new Vector3(0, -60);
+            transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>().Play();
+            //this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
         }
         else
@@ -221,7 +221,10 @@ public class Movement : MonoBehaviour
     {
 
         //refPlayerStatus.sprite = mySprites[m_iCounter];
-
+        if (m_bIsDead)
+        {
+            transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>().Play();
+        }
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
         if (m_bGameRunning == true)
@@ -417,17 +420,11 @@ public class Movement : MonoBehaviour
                 PlayerTurnAround();
                 m_fButtonTimer = 0.0f;
             }
-            //if the movement direction is greater than the max wall slide speed. deduct.
-            if (movementDirection.y >= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
+
+
+            if (movementDirection.y <= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             {
-                Debug.Log("This is greater than max speed");
-                Debug.Log(m_fWallSlideSpeed);
                 movementDirection.y -= m_fWallSlidingSpeed * Time.deltaTime;
-            }
-            //otherwise once it is below the max speed. set its max speed to the maximum specified speed with the overworld speed added onto it.
-            if (movementDirection.y <= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
-            {
-                movementDirection.y = -m_fMaxWallSlideSpeed + refBlockController.m_fOverworldMaxSpeed;
             }
             m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
@@ -829,7 +826,6 @@ public class Movement : MonoBehaviour
         #region 
         if (this)
         {
-            Time.timeScale = 1;
             //look for references
             if (a_scene.buildIndex == 2)
             {
