@@ -54,6 +54,7 @@ public class PlayerTextController : MonoBehaviour
                     refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!";
                     ref_BlockController.m_bIsPaused = true;
                     m_bIsFinished = true;
+                    Time.timeScale = 0.7f;
                 }
             }
         }
