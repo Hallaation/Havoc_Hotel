@@ -829,6 +829,7 @@ public class Movement : MonoBehaviour
         #region 
         if (this)
         {
+            Time.timeScale = 1;
             //look for references
             if (a_scene.buildIndex == 2)
             {
