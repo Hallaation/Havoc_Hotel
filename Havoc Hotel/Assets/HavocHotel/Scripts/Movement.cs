@@ -417,11 +417,17 @@ public class Movement : MonoBehaviour
                 PlayerTurnAround();
                 m_fButtonTimer = 0.0f;
             }
-
-
-            if (movementDirection.y <= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
+            //if the movement direction is greater than the max wall slide speed. deduct.
+            if (movementDirection.y >= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
             {
+                Debug.Log("This is greater than max speed");
+                Debug.Log(m_fWallSlideSpeed);
                 movementDirection.y -= m_fWallSlidingSpeed * Time.deltaTime;
+            }
+            //otherwise once it is below the max speed. set its max speed to the maximum specified speed with the overworld speed added onto it.
+            if (movementDirection.y <= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
+            {
+                movementDirection.y = -m_fMaxWallSlideSpeed + refBlockController.m_fOverworldMaxSpeed;
             }
             m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
