@@ -968,7 +968,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013793849774}
   m_LocalRotation: {x: -0.0000010430813, y: -0.7071068, z: -0.7071068, w: 0.0000010430813}
-  m_LocalPosition: {x: -0, y: 1.2, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_Children: []
@@ -1755,7 +1755,7 @@ MonoBehaviour:
   m_fVerticalWallJumpForce: 25
   m_fTurnDelay: 1
   m_fWallSlidingSpeed: 8
-  m_fMaxWallSlideSpeed: 60
+  m_fMaxWallSlideSpeed: 12
   m_fNoSpeedLimitDuration: 0.08
   m_fWallSlideUpReduction: 80
   m_fFloorWallReduction: 10
@@ -3824,7 +3824,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013793849774}
   serializedVersion: 2
-  lengthInSec: 1.5
+  lengthInSec: 0.5
   startDelay:
     scalar: 0
     maxCurve:
@@ -4009,7 +4009,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0, g: 0.9529412, b: 0.16470589, a: 1}
+      maxColor: {r: 1, g: 0, b: 0, a: 1}
       minMaxState: 0
     startSize:
       scalar: 2
@@ -4506,13 +4506,13 @@ ParticleSystem:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 2814976
+          rgba: 255
         key1:
           serializedVersion: 2
-          rgba: 4285595475
+          rgba: 4283848447
         key2:
           serializedVersion: 2
-          rgba: 4280401664
+          rgba: 4278190335
         key3:
           serializedVersion: 2
           rgba: 0
@@ -4530,7 +4530,7 @@ ParticleSystem:
           rgba: 0
         ctime0: 0
         ctime1: 19275
-        ctime2: 65535
+        ctime2: 65342
         ctime3: 0
         ctime4: 0
         ctime5: 0
