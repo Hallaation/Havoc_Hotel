@@ -190,15 +190,14 @@ public class Movement : MonoBehaviour
         {
             GetComponent<AudioSource>().Play();
             ParticleSystem ps = transform.FindChild("Partical_Death_001").GetComponent<ParticleSystem>();
-            ps.Emit(50);
+            ps.Emit(200);
+            //ps.gameObject.SetActive(false);
             this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
         }
         else
         {
             Physics.IgnoreCollision(m_cCharacterController, other.GetComponent<Collider>());
-
-
         }
         #endregion
     }
