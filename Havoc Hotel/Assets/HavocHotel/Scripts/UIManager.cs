@@ -201,6 +201,7 @@ public class UIManager : MonoBehaviour
         foreach (GameObject player in PlayerGos)
         {
             player.GetComponent<Movement>().m_bIsDead = false;
+            player.gameObject.SetActive(true);
         }
         SceneManager.LoadScene(2);
     }

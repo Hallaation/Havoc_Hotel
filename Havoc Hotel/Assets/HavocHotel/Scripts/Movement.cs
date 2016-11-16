@@ -95,7 +95,7 @@ public class Movement : MonoBehaviour
 
     public bool m_bIsStunned;
     public bool m_bIsDead;
-
+    private bool m_bEmitParticle;
     public Vector3 movementDirection;
     #endregion
 
@@ -161,7 +161,6 @@ public class Movement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
-
         m_iCounter = 0;
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
@@ -190,16 +189,15 @@ public class Movement : MonoBehaviour
         if (other.tag == "Killer")
         {
             GetComponent<AudioSource>().Play();
-            ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
-            ps.Emit(200);
             //ps.gameObject.SetActive(false);
-            this.transform.position = new Vector3(0, -60);
+            //this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
         }
         else
         {
             Physics.IgnoreCollision(m_cCharacterController, other.GetComponent<Collider>());
         }
+
         #endregion
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
@@ -221,10 +219,6 @@ public class Movement : MonoBehaviour
     {
 
         //refPlayerStatus.sprite = mySprites[m_iCounter];
-        if (m_bIsDead)
-        {
-            transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>().Play();
-        }
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
         if (m_bGameRunning == true)
@@ -826,9 +820,12 @@ public class Movement : MonoBehaviour
         #region 
         if (this)
         {
+            Time.timeScale = 1;
             //look for references
             if (a_scene.buildIndex == 2)
             {
+                ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
+                ps.gameObject.SetActive(true);
                 Debug.Log("About to reference stuff in scene 2");
                 m_aAnimator.SetBool("IsDancing", false);
                 refBlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
@@ -871,6 +868,8 @@ public class Movement : MonoBehaviour
                     {
                         m_bIsDead = true;
                         this.transform.position = GameObject.Find("Player_Dead").transform.position;   // Sets dead players to dead spawn
+                        ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
+                        ps.gameObject.SetActive(false);
                     }
                     IsPlaying = false;                              // Stops play moving during end scene
                 }
@@ -898,5 +897,11 @@ public class Movement : MonoBehaviour
             }
         }
         #endregion
+    }
+
+    public void EmitDeathParticle()
+    {
+        ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
+        ps.Play();
     }
 }

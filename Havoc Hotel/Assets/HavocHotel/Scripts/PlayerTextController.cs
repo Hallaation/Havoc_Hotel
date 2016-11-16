@@ -45,6 +45,7 @@ public class PlayerTextController : MonoBehaviour
                 if (refPlayers[i].m_bIsDead && refPlayers[i] != null)
                 {
                     m_mDeadPlayers.Add(refPlayers[i]);
+                    m_mDeadPlayers[m_mDeadPlayers.Count - 1].EmitDeathParticle();
                     refPlayers.RemoveAt(i);
 
                 }
@@ -54,19 +55,20 @@ public class PlayerTextController : MonoBehaviour
                     refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!";
                     ref_BlockController.m_bIsPaused = true;
                     m_bIsFinished = true;
+                    Time.timeScale = 0.7f;
                 }
             }
         }
         else
         {
             //once finished this is where the player x wins message is shown. And then players are reset to certain positions. and reset their death status
-            m_fTimer += Time.deltaTime;
-            if (m_fTimer > m_fWaitTime)
+            Time.timeScale -= Time.deltaTime;
+            //once finished this is where the player x wins message is shown. And then players are reset to certain positions. and reset their death status
+            if (Time.timeScale <= 0.1f)
             {
                 //go through alive players (this is one player that is alive and won) and reset their position to a spawn point
                 foreach (Movement player in refPlayers)
                 {
-
                     player.m_bIsDead = false;
                 }
 
@@ -87,7 +89,7 @@ public class PlayerTextController : MonoBehaviour
                 //    }
                 //}
                 //PlayerPrefs.SetInt("Winner", refPlayers[0].playerNumber);
-                
+
                 SceneManager.LoadScene(4);
             }
         }
