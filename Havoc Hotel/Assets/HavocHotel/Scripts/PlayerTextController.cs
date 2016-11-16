@@ -54,18 +54,19 @@ public class PlayerTextController : MonoBehaviour
                     refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!";
                     ref_BlockController.m_bIsPaused = true;
                     m_bIsFinished = true;
-                    Time.timeScale = 0.7f;
                 }
             }
         }
         else
         {
-            Time.timeScale -= Time.deltaTime;
             //once finished this is where the player x wins message is shown. And then players are reset to certain positions. and reset their death status
-            if (Time.timeScale <= 0.1f) { 
+            m_fTimer += Time.deltaTime;
+            if (m_fTimer > m_fWaitTime)
+            {
                 //go through alive players (this is one player that is alive and won) and reset their position to a spawn point
                 foreach (Movement player in refPlayers)
                 {
+
                     player.m_bIsDead = false;
                 }
 
