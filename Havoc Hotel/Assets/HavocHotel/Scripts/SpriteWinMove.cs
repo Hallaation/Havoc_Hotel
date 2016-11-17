@@ -25,7 +25,6 @@ public class SpriteWinMove : MonoBehaviour
         else
         {
             this.transform.localPosition -= new Vector3(m_fSpeed * Time.deltaTime, 0, 0);
-            Debug.Log("False");
         }
     }
 }
