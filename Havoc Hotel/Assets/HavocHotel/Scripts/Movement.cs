@@ -632,15 +632,16 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
                 m_aAnimator.SetBool("IsRunning", false);
-
-
             }
-            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.2)
+            //else if (-Input.GetAxis(playerNumber + "_Horizontal") > 0.5 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.5)
+            //{
+            //    m_aAnimator.SetBool("IsRunning", true);
+            //
+            //}
+            else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
             {
                 m_aAnimator.SetBool("IsRunning", true);
-
             }
-
             m_aAnimator.SetBool("IsSliding", false);
         }
         else
@@ -657,7 +658,7 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
-            if (-Input.GetAxis(playerNumber + "_Horizontal") < .9 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.9)
+            if (-Input.GetAxis(playerNumber + "_Horizontal") < .5 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.5)
             {
                 m_aAnimator.SetBool("IsSliding", true);
                 m_aAnimator.SetBool("IsRunning", false);
