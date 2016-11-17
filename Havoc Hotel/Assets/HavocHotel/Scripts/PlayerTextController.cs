@@ -11,6 +11,7 @@ public class PlayerTextController : MonoBehaviour
     private float m_fWaitTime;
     public GameObject refWinMessage;
     public BlockController ref_BlockController;
+    public UIManager ref_UIManager;
     private bool m_bIsFinished;
 
     public bool GameFinished { get { return m_bIsFinished; } set { m_bIsFinished = value; } }
@@ -55,6 +56,7 @@ public class PlayerTextController : MonoBehaviour
                     refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!";
                     ref_BlockController.m_bIsPaused = true;
                     m_bIsFinished = true;
+                    ref_UIManager.GameFinished = true;
                     Time.timeScale = 0.7f;
                 }
             }

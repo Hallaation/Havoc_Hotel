@@ -228,6 +228,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &136780513 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000010987213584, guid: f6a68121d62c88c409c01279883b572c,
+    type: 2}
+  m_PrefabInternal: {fileID: 268688783}
+  m_Script: {fileID: 11500000, guid: 57a05ca987bd3af48a4001fd087707fb, type: 3}
 --- !u!1 &225506826
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +454,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000012128886986, guid: f6a68121d62c88c409c01279883b572c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224000012386024626, guid: f6a68121d62c88c409c01279883b572c,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -547,7 +558,7 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 700104436}
+      objectReference: {fileID: 136780513}
     - target: {fileID: 1000013098195562, guid: f6a68121d62c88c409c01279883b572c, type: 2}
       propertyPath: m_IsActive
       value: 0
@@ -617,6 +628,41 @@ Prefab:
       value: "Designers:\t\t\t\t\t\t\t\t\tProgrammers:\nRhys Wittingslow\t\t\t\t\t\t\tLouis
         Nguyen\nShaunn Clark\t\t\t\t\t\t\t\tLincoln Gardner\n\t\t\t\t\t\t\t\t\t\t\t\t\tKrishna
         Shah\nArtists:\nNathan Valentino\nCandice Smith\nAshwin Libera\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010987213584, guid: f6a68121d62c88c409c01279883b572c,
+        type: 2}
+      propertyPath: refPlayerEnabler
+      value: 
+      objectReference: {fileID: 700104436}
+    - target: {fileID: 114000012128886986, guid: f6a68121d62c88c409c01279883b572c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012128886986, guid: f6a68121d62c88c409c01279883b572c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 136780513}
+    - target: {fileID: 114000012128886986, guid: f6a68121d62c88c409c01279883b572c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012128886986, guid: f6a68121d62c88c409c01279883b572c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012128886986, guid: f6a68121d62c88c409c01279883b572c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012128886986, guid: f6a68121d62c88c409c01279883b572c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6a68121d62c88c409c01279883b572c, type: 2}
