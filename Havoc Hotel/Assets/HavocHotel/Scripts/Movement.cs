@@ -829,13 +829,13 @@ public class Movement : MonoBehaviour
 
                 if (playerNumber > 3)
                 {
-                    //this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
                     this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
+                    this.transform.rotation = GameObject.Find("Player4_Spawn").transform.rotation;
                     refPlayerStatus = GameObject.Find("Player" + 4 + "_Status").GetComponent<SpriteRenderer>();
                 }
                 else
                 {
-                    Debug.Log(GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position);
+                    this.transform.rotation = GameObject.Find("Player4_Spawn").transform.rotation;
                     this.transform.position = GameObject.Find("Player" + (playerNumber + 1) + "_Spawn").transform.position;
                     refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<SpriteRenderer>();
                 }
