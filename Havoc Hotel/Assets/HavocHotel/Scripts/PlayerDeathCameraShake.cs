@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(AudioSource))]
 public class PlayerDeathCameraShake : MonoBehaviour
 {
 
@@ -22,6 +21,10 @@ public class PlayerDeathCameraShake : MonoBehaviour
     private bool m_bShakeCamera;
     Vector3 m_vOriginalPos;
 
+    void Start()
+    {
+        m_fTimer = 0;
+    }
     void Awake()
     {
         if (ref_camTransform == null)
@@ -43,7 +46,19 @@ public class PlayerDeathCameraShake : MonoBehaviour
 
         if (m_bShakeCamera)
         {
-            CameraShake();
+            m_fTimer += Time.deltaTime;
+            if (m_fTimer < m_fShakeDuration)
+            {
+                ref_camTransform.localPosition = m_vOriginalPos + Random.insideUnitSphere * m_fShakeAmount * Time.deltaTime;
+
+                m_fShakeDuration -= Time.deltaTime * m_fDecreaseFactor;
+            }
+            else
+            {
+                m_fTimer = 0;
+                m_bShakeCamera = false;
+                ref_camTransform.localPosition = m_vOriginalPos;
+            }
         }
         else
         {
@@ -53,19 +68,7 @@ public class PlayerDeathCameraShake : MonoBehaviour
 
     void CameraShake()
     {
-        m_fTimer += Time.deltaTime;
-        if (m_fTimer < m_fShakeDuration)
-        {
-            ref_camTransform.localPosition = m_vOriginalPos + Random.insideUnitSphere * m_fShakeAmount * Time.deltaTime;
 
-            m_fShakeDuration -= Time.deltaTime * m_fDecreaseFactor;
-        }
-        else
-        {
-            m_fTimer = 0;
-            m_bShakeCamera = false; 
-            ref_camTransform.localPosition = m_vOriginalPos;
-        }
     }
 
     void OnTriggerEnter(Collider a_collider)
