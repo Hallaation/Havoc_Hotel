@@ -125,7 +125,7 @@ public class Movement : MonoBehaviour
 
     //props
     public bool IsPlaying { get { return m_bIsPlaying; } set { m_bIsPlaying = value; } }
-
+    public Animator TheAnimator { get { return m_aAnimator; } }
     //declaring time related variables
     const int _ROTATION_SPEED = 20; // Not used yet.
     #region
@@ -176,6 +176,7 @@ public class Movement : MonoBehaviour
         m_cCharacterController = GetComponent<CharacterController>();
         m_bIsDead = false;
         m_aAnimator = GetComponentInChildren<Animator>();
+        m_aAnimator.enabled = true;
         //ref_WallHitBox;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -287,10 +288,10 @@ public class Movement : MonoBehaviour
 
                         case CStates.OnWall:
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
-                            m_aAnimator.SetBool("IsWallGrab", true);
                             m_fAirBourneTime = 2;
                             if (!m_cCharacterController.isGrounded)
                             {
+                                m_aAnimator.SetBool("IsWallGrab", true);
                                 WallSlide();
                             }
 
@@ -306,10 +307,6 @@ public class Movement : MonoBehaviour
                 #endregion
             }
             #endregion
-        }
-        else
-        {
-            m_aAnimator.enabled = false;
         }
         if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1)
         {
@@ -645,12 +642,8 @@ public class Movement : MonoBehaviour
                 movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
                 m_aAnimator.SetBool("IsRunning", false);
             }
-            //else if (-Input.GetAxis(playerNumber + "_Horizontal") > 0.5 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.5)
-            //{
-            //    m_aAnimator.SetBool("IsRunning", true);
-            //
-            //}
-            else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
+            else if (-Input.GetAxis(playerNumber + "_Horizontal") > 0.5 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.5)
+            //else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
             {
                 m_aAnimator.SetBool("IsRunning", true);
             }
@@ -670,7 +663,7 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
-            if (-Input.GetAxis(playerNumber + "_Horizontal") < .7 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.7)
+            if (-Input.GetAxis(playerNumber + "_Horizontal") < .8 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.8)
             {
                 m_aAnimator.SetBool("IsSliding", true);
                 m_aAnimator.SetBool("IsRunning", false);
