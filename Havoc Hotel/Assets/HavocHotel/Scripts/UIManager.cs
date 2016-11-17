@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameFinished = false;
         EventSystem = GameObject.Find("EventSystem");
         if (SceneManager.GetActiveScene().buildIndex != 4)
         {
@@ -80,7 +81,7 @@ public class UIManager : MonoBehaviour
             //if(Input.GetKeyDown(KeyCode.Escape))
             {
                 //need to check if the game has finished or not.
-                if (!openPauseMenu && GameFinished)
+                if (!openPauseMenu && !GameFinished)
                 {
                     Pause();
                 }
