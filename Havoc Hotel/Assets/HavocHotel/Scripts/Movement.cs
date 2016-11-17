@@ -117,7 +117,10 @@ public class Movement : MonoBehaviour
 
     //Animation
     #region
+
     Animator m_aAnimator;
+
+
     public float m_fAnimationSpeed = 1f;
     #endregion
 
@@ -635,7 +638,7 @@ public class Movement : MonoBehaviour
 
 
             }
-            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.2)
+            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < -.2)
             {
                 m_aAnimator.SetBool("IsRunning", true);
 
@@ -826,7 +829,7 @@ public class Movement : MonoBehaviour
 
                 this.m_bIsDead = false;
                 this.IsPlaying = true;
-                m_aAnimator.SetBool("IsDancing", false);
+
 
 
                 if (playerNumber > 3)
@@ -900,4 +903,10 @@ public class Movement : MonoBehaviour
         ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
         ps.Play();
     }
+
+    public Animator GetAnimator()
+    {
+        return m_aAnimator;
+    }
+
 }

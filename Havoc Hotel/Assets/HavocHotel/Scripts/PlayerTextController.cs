@@ -6,7 +6,7 @@ public class PlayerTextController : MonoBehaviour
 {
     public List<Movement> refPlayers;
     private List<Movement> m_mDeadPlayers;
-
+    Animator m_aAnimator;
     private float m_fTimer;
     private float m_fWaitTime;
     public GameObject refWinMessage;
@@ -22,6 +22,7 @@ public class PlayerTextController : MonoBehaviour
         m_bIsFinished = false;
         m_fWaitTime = 5.0f;
         m_mDeadPlayers = new List<Movement>();
+        m_aAnimator = GetComponentInParent<Animator>();
     }
 
     void Awake()
@@ -54,6 +55,8 @@ public class PlayerTextController : MonoBehaviour
                 {
                     refWinMessage.SetActive(true);
                     refWinMessage.GetComponent<UnityEngine.UI.Text>().text = "Player " + (refPlayers[0].playerNumber + 1) + " has won!";
+                    Animator temp = refPlayers[0].GetAnimator();
+                    temp.SetBool("IsDancing", true);
                     ref_BlockController.m_bIsPaused = true;
                     m_bIsFinished = true;
                     ref_UIManager.GameFinished = true;
