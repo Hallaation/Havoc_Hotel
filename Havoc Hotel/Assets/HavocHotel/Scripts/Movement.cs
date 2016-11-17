@@ -256,7 +256,8 @@ public class Movement : MonoBehaviour
                         case CStates.Stunned:
                             PlayerStun();
                             StunRelease();
-                            temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
+                            MovementCalculations();
+                            temp.Move(new Vector3(movementDirection.x * Time.deltaTime, Time.deltaTime * movementDirection.y));
                             break;
 
                         case CStates.OnFloor:
@@ -585,11 +586,11 @@ public class Movement : MonoBehaviour
     void MovementCalculations()
     {
         #region
-        if (m_cCharacterController.isGrounded)
+        if (m_cCharacterController.isGrounded && !m_bIsStunned)
         {
             movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
         }
-        else
+        else if (!m_bIsStunned)
         {
             movementDirection.x += (m_fMoveSpeed * 0.9f * -Input.GetAxis(playerNumber + "_Horizontal"));
         }
