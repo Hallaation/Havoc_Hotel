@@ -227,9 +227,9 @@ public class Movement : MonoBehaviour
         m_fTimeSinceWallJump += Time.deltaTime;
         if (m_bGameRunning == true)
         {
+            #region If GameRunning
             //begin of mess
-            CharacterController temp = GetComponent<CharacterController>();
-
+            m_aAnimator.enabled = true;
             if (refPlayerStatus)
             {
                 refPlayerStatus.sprite = (m_bIsDead) ? m_sStatusSprites[1] : m_sStatusSprites[0];
@@ -250,7 +250,7 @@ public class Movement : MonoBehaviour
                     //}
 
                     // end of mess
-                    if (temp.isGrounded)
+                    if (m_cCharacterController.isGrounded)
                     {
                         m_fAirBourneTime = 0f;
                     }
@@ -260,10 +260,12 @@ public class Movement : MonoBehaviour
                             PlayerStun();
                             StunRelease();
                             MovementCalculations();
-                            temp.Move(new Vector3(movementDirection.x * Time.deltaTime, Time.deltaTime * movementDirection.y));
+                            m_cCharacterController.Move(new Vector3(movementDirection.x * Time.deltaTime, Time.deltaTime * movementDirection.y));
+                            transform.FindChild("Birdies_Flying_001").gameObject.SetActive(true);
                             break;
 
                         case CStates.OnFloor:
+                            transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             m_aAnimator.SetBool("IsDiveKick", false);
                             m_aAnimator.SetBool("IsWallGrab", false);
                             OnFloor();
@@ -275,17 +277,19 @@ public class Movement : MonoBehaviour
                             break;
 
                         case CStates.Kicking:
+                            transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             if (m_bIsKicking == false)
                             {
                                 m_cState = CStates.OnFloor;
                             }
-                            PlayerKick(temp);
+                            PlayerKick(m_cCharacterController);
                             MovementCalculations();
                             m_fAirBourneTime = 0;
-                            temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                            m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                             break;
 
                         case CStates.OnWall:
+                            transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             m_aAnimator.SetBool("IsDiveKick", false);
 
                             m_fAirBourneTime = 2;
@@ -305,8 +309,12 @@ public class Movement : MonoBehaviour
                 }
                 #endregion
             }
+            #endregion
         }
-
+        else
+        {
+            m_aAnimator.enabled = false;
+        }
         if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1)
         {
             m_aAnimator.SetBool("IsPushing", false);
@@ -386,6 +394,7 @@ public class Movement : MonoBehaviour
         m_bHitWall = true;
         if (m_bHitWall)                                                                                 // Got rid of math clamp
         {
+            m_aAnimator.SetBool("IsWallGrab", true);
             movementDirection.x = 0;
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
@@ -394,7 +403,6 @@ public class Movement : MonoBehaviour
                 movementDirection.y -= m_fWallSlideUpReduction * Time.deltaTime; // Deltatime added
             }
 
-            m_aAnimator.SetBool("IsWallGrab", true);
             //if (m_fWallSlideSpeed > m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
             //{
             //    m_fWallSlideSpeed = -(refBlockController.m_fOverworldSpeed + m_fMaxWallSlideSpeed);
@@ -409,11 +417,17 @@ public class Movement : MonoBehaviour
                 PlayerTurnAround();
                 m_fButtonTimer = 0.0f;
             }
-
-
-            if (movementDirection.y <= m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed)
+            //if the movement direction is greater than the max wall slide speed. deduct.
+            if (movementDirection.y >= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
             {
+                Debug.Log("This is greater than max speed");
+                Debug.Log(m_fWallSlideSpeed);
                 movementDirection.y -= m_fWallSlidingSpeed * Time.deltaTime;
+            }
+            //otherwise once it is below the max speed. set its max speed to the maximum specified speed with the overworld speed added onto it.
+            if (movementDirection.y <= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
+            {
+                movementDirection.y = -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed);
             }
             m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
@@ -422,6 +436,7 @@ public class Movement : MonoBehaviour
                 WallJump();
             }
         }
+
 
         #endregion
     }
@@ -635,15 +650,11 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
                 m_aAnimator.SetBool("IsRunning", false);
-
-
             }
             else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < -.2)
             {
                 m_aAnimator.SetBool("IsRunning", true);
-
             }
-
             m_aAnimator.SetBool("IsSliding", false);
         }
         else
@@ -660,7 +671,7 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
-            if (-Input.GetAxis(playerNumber + "_Horizontal") < .9 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.9)
+            if (-Input.GetAxis(playerNumber + "_Horizontal") < .7 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.7)
             {
                 m_aAnimator.SetBool("IsSliding", true);
                 m_aAnimator.SetBool("IsRunning", false);
@@ -817,6 +828,7 @@ public class Movement : MonoBehaviour
         {
             movementDirection = Vector3.zero;
             Time.timeScale = 1;
+            m_cState = CStates.OnFloor;
             //look for references
             if (a_scene.buildIndex == 2)
             {

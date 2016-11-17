@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
+
 public class UIManager : MonoBehaviour
 {
     //public Canvas refPopUpPanel; // ANY panel canvas that pops up.
@@ -105,7 +107,8 @@ public class UIManager : MonoBehaviour
         else
         {
             //If the player hasn't pressed start yet, make them "enabled" otherwise if an enabled player presses start the original start menu opens up again and disables all movement.
-            //still doenst check if it is in the game or not.
+            #region 
+
             foreach (GameObject item in m_playerList)
             {
                 //go through each player
@@ -130,6 +133,7 @@ public class UIManager : MonoBehaviour
                 }
             }
 
+            #endregion
         }
     }
 
@@ -140,6 +144,8 @@ public class UIManager : MonoBehaviour
     }
 
 
+    //goes through the playerlist and deletes their game object.
+    //Also looks for any gameobjects with player tag. This is to look if there any any left over. 
     public void LoadMainMenu()
     {
         foreach (GameObject player in m_playerList)
@@ -163,6 +169,11 @@ public class UIManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
     }
 
+    /// <summary>Does different stuff depending on what scene it is in.
+    ///If in the second scene which is the game scene, the quit button will close up the pause menu.
+    ///if in the Win scene, the win panel is closed up. Otherwise the functionality of both the game scene and win scene are the same.
+    ///Otherwise if it's quit is pressed in any other scene, the main menu will be de activated.
+    ///</summary>
     public void quitButton()
     {
         //if this is the game scene, make the quit text asking to return to main menu, otherwise run regular stuff which is to end the game.
@@ -189,7 +200,12 @@ public class UIManager : MonoBehaviour
             EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
         }
     }
-    //if the player decides to press no on the quit confirmation
+    /// <summary>
+    /// Similiar to quit button above. but instead of de activated a specific item from each scene, it re activates it.
+    /// so main menu shows up the main menu
+    /// game scene shows the pause menu
+    /// win scene shows the winning menu.
+    /// </summary>
     public void declineQuitButton()
     {
         //if the current scene is the game scene, return the pause menu.
@@ -214,6 +230,11 @@ public class UIManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// This is called whenever the confirmation button is pressed after any quit button is pressed.
+    /// If in any scene other than the start menu, the game will return to the main menu
+    /// otherwise the Game will close.
+    /// </summary>
     public void Quit()
     {
         //if the current scene is the game scene, load the main menu, otherwise quit the game.
@@ -228,6 +249,9 @@ public class UIManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Not sure if this is still used. probably isnt
+    /// </summary>
     public void Restart()
     {
         GameObject.Find("PlayerController").GetComponent<PlayerTextController>().GameFinished = true;
@@ -235,6 +259,10 @@ public class UIManager : MonoBehaviour
         //resumePlayButton();
     }
 
+    /// <summary>
+    /// Restart Game is called whenever the restart button is pressed in the pause menu or in the win scene
+    /// It looks for all players and sets their state to not dead. turns them to active if they were de activated and then reload into the game scene again.
+    /// </summary>
     public void RestartGame()
     {
         GameObject[] PlayerGos = GameObject.FindGameObjectsWithTag("Player");
@@ -246,6 +274,9 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    /// <summary>
+    /// This pauses the game. A pause menu will show up when in the game scene.
+    /// </summary>
     public void Pause()
     {
         refPausePanel.SetActive(true);
@@ -261,6 +292,9 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    /// <summary>
+    /// This resumes the game after it is pressed in the pause menu.
+    /// </summary>
     public void resumePlayButton()
     {
         Time.timeScale = 1;
@@ -273,10 +307,17 @@ public class UIManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// might be used. not 100% sure. keeping it around in case it breaks something
+    /// </summary>
+    /// <returns></returns>
     IEnumerator WaitTime()
     {
         yield return new WaitForSecondsRealtime(5);
     }
+    /// <summary>
+    /// this brings up the credits panel when the credits button is pressed in the main menu
+    /// </summary>
     public void Credits()
     {
         //  Debug.Log("credits");
@@ -284,6 +325,9 @@ public class UIManager : MonoBehaviour
         mainMenuPanel.SetActive(false);
         EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("CreditsBackButton"));
     }
+    /// <summary>
+    /// used to return to main menu
+    /// </summary>
     public void creditsBack()
     {
         //  Debug.Log("cradits back");
@@ -292,7 +336,10 @@ public class UIManager : MonoBehaviour
         EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
     }
 
-    //whenever the "play" button is pressed in the start menu.
+    /// <summary>
+    /// once the play button is pressed in the start menu, the game will start and the menu will close
+    /// it sends an argument to show the "Press Start" above the players or not.
+    /// </summary>
     public void CloseMainMenu()
     {
         mainMenuPanel.SetActive(false);
@@ -307,6 +354,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns to the main menu. deletes players from a list
+    /// </summary>
     public void ReturnToMainMenu()
     {
         for (int i = 0; i < m_playerList.Count; ++i)
@@ -315,5 +365,7 @@ public class UIManager : MonoBehaviour
         }
         SceneManager.LoadScene(1);
     }
+
+
 }
 
