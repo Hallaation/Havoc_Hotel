@@ -109,7 +109,8 @@ public class Movement : MonoBehaviour
     public PlayerTextController ref_PlayerArray; //Now unused. Was used to control the players to "press start" to join. this is now done in the main menu. Should be used show player death messages.
     public GameObject ref_WallHitBox;
     public SpriteRenderer refPlayerStatus; //Text to show the player status. 
-    public Sprite[] mySprites;
+    public Sprite[] m_sStatusSprites;
+    public Sprite m_sWinSprite;
     public int m_iCounter;
 
     #endregion
@@ -228,7 +229,7 @@ public class Movement : MonoBehaviour
 
             if (refPlayerStatus)
             {
-                refPlayerStatus.sprite = (m_bIsDead) ? mySprites[1] : mySprites[0];
+                refPlayerStatus.sprite = (m_bIsDead) ? m_sStatusSprites[1] : m_sStatusSprites[0];
             }
             if (m_bIsPlaying)
             {
@@ -855,6 +856,7 @@ public class Movement : MonoBehaviour
                     {
                         this.transform.position = GameObject.Find("Player_Spawn").transform.position; // Sets position equal to spawn
                         this.transform.rotation = GameObject.Find("Player_Spawn").transform.rotation; // Sets rotation equal to spawn
+                        GameObject.Find("WinSprite").GetComponent<SpriteRenderer>().sprite = m_sWinSprite;
                         m_aAnimator.SetBool("IsDancing", true); // makes player dance
                     }
                     else

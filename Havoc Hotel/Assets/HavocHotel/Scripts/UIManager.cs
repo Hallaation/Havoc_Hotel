@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
 
     public bool PlayersInScene { get { return m_PlayersInGameScene; } set { m_PlayersInGameScene = value; } }
 
-    public bool GameFinished { get { return m_bIsGameFinished; } set { m_bIsGameFinished = value; }  }
+    public bool GameFinished { get { return m_bIsGameFinished; } set { m_bIsGameFinished = value; } }
     // Use this for initialization
     void Start()
     {
@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
             m_playerList.Add(item);
         }
 
-        
+
     }
 
     void Awake()
@@ -114,15 +114,18 @@ public class UIManager : MonoBehaviour
                 if (item)
                 {
                     Movement tempMovement = item.GetComponent<Movement>();
-                    if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && tempMovement.IsPlaying)
+                    if (m_bGameStarted)
                     {
-                        mainMenuPanel.SetActive(true);
-                        refPlayerEnabler.DisablePlayers();
-                    }
-                    else if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && !tempMovement.IsPlaying)
-                    {
-                        tempMovement.IsPlaying = true;
-                        tempMovement.refPlayerStartText.SetActive(false);
+                        if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && tempMovement.IsPlaying)
+                        {
+                            mainMenuPanel.SetActive(true);
+                            refPlayerEnabler.DisablePlayers();
+                        }
+                        else if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && !tempMovement.IsPlaying)
+                        {
+                            tempMovement.IsPlaying = true;
+                            tempMovement.refPlayerStartText.SetActive(false);
+                        }
                     }
                 }
             }
