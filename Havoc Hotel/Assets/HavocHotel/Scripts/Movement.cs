@@ -824,6 +824,7 @@ public class Movement : MonoBehaviour
             //look for references
             if (a_scene.buildIndex == 2)
             {
+                m_bGameRunning = true;
                 ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
                 ps.gameObject.SetActive(true);
                 Debug.Log("About to reference stuff in scene 2");
@@ -858,6 +859,7 @@ public class Movement : MonoBehaviour
             {
                 if (this)
                 {
+                    m_bGameRunning = false;
                     if (!m_bIsDead)
                     {
                         this.transform.position = GameObject.Find("Player_Spawn").transform.position; // Sets position equal to spawn

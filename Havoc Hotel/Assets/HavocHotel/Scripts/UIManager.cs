@@ -70,7 +70,10 @@ public class UIManager : MonoBehaviour
             if (Input.GetButtonDown("Cancel"))
             //if(Input.GetKeyDown(KeyCode.Escape))
             {
-                Pause();
+                if (!openPauseMenu)
+                {
+                    Pause();
+                }
             }
             
 
