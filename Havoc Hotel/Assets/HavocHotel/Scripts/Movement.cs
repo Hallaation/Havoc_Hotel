@@ -104,7 +104,6 @@ public class Movement : MonoBehaviour
     public GameObject ref_KickHitBox;
     private CharacterController m_cCharacterController; //character controller reference
     public BlockController refBlockController; //Block controller reference to know what the world speed is.
-    private bool m_bIsWinner = false;
     public GameObject refPlayerStartText;
     public PlayerTextController ref_PlayerArray; //Now unused. Was used to control the players to "press start" to join. this is now done in the main menu. Should be used show player death messages.
     public GameObject ref_WallHitBox;
@@ -821,9 +820,9 @@ public class Movement : MonoBehaviour
         #region 
         if (this)
         {
+            ResetPlayer();
             movementDirection = Vector3.zero;
             Time.timeScale = 1;
-            m_cState = CStates.OnFloor;
             //look for references
             if (a_scene.buildIndex == 2)
             {
@@ -860,6 +859,7 @@ public class Movement : MonoBehaviour
             //look for spawn points to find where to put the player at the win screen.
             if (a_scene.buildIndex == 4)
             {
+                ResetPlayer();
                 if (this)
                 {
                     m_bGameRunning = false;
@@ -916,4 +916,18 @@ public class Movement : MonoBehaviour
         return m_aAnimator;
     }
 
+    void ResetPlayer()
+    { 
+        m_bIsKicking = false;
+        m_bIsPushed = false;
+        m_bIsStunned = false;
+        m_cState = CStates.OnFloor;
+        TheAnimator.SetBool("IsSliding", false);
+        TheAnimator.SetBool("IsRunning", false);
+        TheAnimator.SetBool("IsStunned", false);
+        TheAnimator.SetBool("IsPushing", false);
+        TheAnimator.SetBool("IsDiveKick", false);
+        TheAnimator.SetBool("IsDancing", false);
+        TheAnimator.SetBool("IsWallGrab", false);
+    }
 }
