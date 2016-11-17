@@ -1322,6 +1322,68 @@ Transform:
   - {fileID: 849097460}
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!1 &1235537832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1235537833}
+  - 212: {fileID: 1235537834}
+  m_Layer: 5
+  m_Name: WinSprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1235537833
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1235537832}
+  m_LocalRotation: {x: 0, y: -0.13917309, z: 0, w: 0.9902681}
+  m_LocalPosition: {x: 16, y: 6.7, z: -29.1}
+  m_LocalScale: {x: 1.6347198, y: 1.594187, z: 1.2445594}
+  m_LocalEulerAnglesHint: {x: 0, y: -16, z: 0}
+  m_Children: []
+  m_Father: {fileID: 1455133374}
+  m_RootOrder: 3
+--- !u!212 &1235537834
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1235537832}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedWireframeHidden: 1
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 46c2a4179fad7174f8001f1216008ce3, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!1 &1257956776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,6 +1799,7 @@ RectTransform:
   - {fileID: 1274145231}
   - {fileID: 2113526515}
   - {fileID: 1101187308}
+  - {fileID: 1235537833}
   m_Father: {fileID: 1283203348}
   m_RootOrder: 4
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2367,6 +2430,7 @@ MonoBehaviour:
   mainMenuPanel: {fileID: 358463749}
   refCountDownTimer: {fileID: 182542667}
   refWinPanel: {fileID: 1455133373}
+  refPlayerEnabler: {fileID: 0}
 --- !u!4 &1916607503
 Transform:
   m_ObjectHideFlags: 0

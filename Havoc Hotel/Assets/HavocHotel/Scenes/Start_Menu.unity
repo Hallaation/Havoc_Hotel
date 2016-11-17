@@ -465,6 +465,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: m_sStatusSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000012730136194, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
       propertyPath: m_LocalPosition.x
       value: -4
@@ -502,58 +507,18 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
-    - target: {fileID: 4000010922295370, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010922295370, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010922295370, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000012187545036, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
         type: 2}
-      propertyPath: lengthInSec
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000012187545036, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+      propertyPath: m_sStatusSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3f532b0f9b5ceda4590fd2768aa9c6a4,
+        type: 3}
+    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
         type: 2}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000012187545036, guid: 59992f00f53d7f04598978d0ed7a1cbe,
-        type: 2}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000012187545036, guid: 59992f00f53d7f04598978d0ed7a1cbe,
-        type: 2}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000012187545036, guid: 59992f00f53d7f04598978d0ed7a1cbe,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key0.rgba
-      value: 255
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000012187545036, guid: 59992f00f53d7f04598978d0ed7a1cbe,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key1.rgba
-      value: 4283848447
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000012187545036, guid: 59992f00f53d7f04598978d0ed7a1cbe,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.ctime2
-      value: 65342
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000012187545036, guid: 59992f00f53d7f04598978d0ed7a1cbe,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key2.rgba
-      value: 4278190335
-      objectReference: {fileID: 0}
+      propertyPath: m_sStatusSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 3f532b0f9b5ceda4590fd2768aa9c6a4,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
   m_IsPrefabParent: 0
@@ -1405,6 +1370,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: m_sStatusSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011313457230, guid: e95f0347379baa24584537374e7c861c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -1442,42 +1412,18 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
-    - target: {fileID: 4000011156030002, guid: e95f0347379baa24584537374e7c861c, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010787597710, guid: e95f0347379baa24584537374e7c861c, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011302905722, guid: e95f0347379baa24584537374e7c861c,
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011302905722, guid: e95f0347379baa24584537374e7c861c,
+      propertyPath: m_sStatusSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: d1c2092391805674d95bc0cd2151c764,
+        type: 3}
+    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
         type: 2}
-      propertyPath: InitialModule.startLifetime.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011302905722, guid: e95f0347379baa24584537374e7c861c,
-        type: 2}
-      propertyPath: InitialModule.maxNumParticles
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011156030002, guid: e95f0347379baa24584537374e7c861c, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000011156030002, guid: e95f0347379baa24584537374e7c861c, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011302905722, guid: e95f0347379baa24584537374e7c861c,
-        type: 2}
-      propertyPath: lengthInSec
-      value: 0.5
-      objectReference: {fileID: 0}
+      propertyPath: m_sStatusSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: d1c2092391805674d95bc0cd2151c764,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
   m_IsPrefabParent: 0
@@ -3768,6 +3714,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: m_sStatusSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010023829386, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
       propertyPath: m_LocalPosition.x
       value: -6
@@ -3805,49 +3756,18 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
-    - target: {fileID: 4000013273382788, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010428383472, guid: 5d23d997bda77b54a9c845682cba850c,
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
-      propertyPath: lengthInSec
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013273382788, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010428383472, guid: 5d23d997bda77b54a9c845682cba850c,
+      propertyPath: m_sStatusSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6630bf6e5acc7084181da9294fc1011a,
+        type: 3}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010428383472, guid: 5d23d997bda77b54a9c845682cba850c,
-        type: 2}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010428383472, guid: 5d23d997bda77b54a9c845682cba850c,
-        type: 2}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010428383472, guid: 5d23d997bda77b54a9c845682cba850c,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key0.rgba
-      value: 39423
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010428383472, guid: 5d23d997bda77b54a9c845682cba850c,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key1.rgba
-      value: 4285843711
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000010428383472, guid: 5d23d997bda77b54a9c845682cba850c,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key2.rgba
-      value: 4278229503
-      objectReference: {fileID: 0}
+      propertyPath: m_sStatusSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 6630bf6e5acc7084181da9294fc1011a,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
   m_IsPrefabParent: 0
@@ -4796,6 +4716,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
+        type: 2}
+      propertyPath: m_sStatusSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000011385333072, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 6
@@ -4833,53 +4758,18 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
-    - target: {fileID: 4000010503855226, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010503855226, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010503855226, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011751367790, guid: ad6f421983ce87041b4e9fdd86018b0e,
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
-      propertyPath: lengthInSec
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011751367790, guid: ad6f421983ce87041b4e9fdd86018b0e,
+      propertyPath: m_sStatusSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: a3307da2a2b2b1c4abdc9213433e7b48,
+        type: 3}
+    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
         type: 2}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.9843137
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011751367790, guid: ad6f421983ce87041b4e9fdd86018b0e,
-        type: 2}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011751367790, guid: ad6f421983ce87041b4e9fdd86018b0e,
-        type: 2}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011751367790, guid: ad6f421983ce87041b4e9fdd86018b0e,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key0.rgba
-      value: 65531
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011751367790, guid: ad6f421983ce87041b4e9fdd86018b0e,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key1.rgba
-      value: 4286119933
-      objectReference: {fileID: 0}
-    - target: {fileID: 198000011751367790, guid: ad6f421983ce87041b4e9fdd86018b0e,
-        type: 2}
-      propertyPath: ColorModule.gradient.maxGradient.key2.rgba
-      value: 4278255611
-      objectReference: {fileID: 0}
+      propertyPath: m_sStatusSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: a3307da2a2b2b1c4abdc9213433e7b48,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
   m_IsPrefabParent: 0
