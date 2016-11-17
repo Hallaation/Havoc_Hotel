@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     private bool m_bIsGameFinished;
 
-    private float m_fWaitTime = 5.0f;
+    public float m_fWaitTime = 5.0f;
 
     private float m_fTimer;
 
@@ -44,14 +44,16 @@ public class UIManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Time.timeScale = 1;
+        GameFinished = false;
         EventSystem = GameObject.Find("EventSystem");
         if (SceneManager.GetActiveScene().buildIndex != 4)
         {
             ref_BlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
         }
-        else
+        else if (SceneManager.GetActiveScene().buildIndex == 4)
         {
-            refWinPanel = GameObject.Find("WinPanel");
+            GameFinished = true;
         }
         foreach (GameObject item in GameObject.FindGameObjectsWithTag("Player"))
         {
@@ -63,12 +65,16 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
+        Time.timeScale = 1;
         if (SceneManager.GetActiveScene().buildIndex != 4)
         {
             ref_BlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
             resumePlayButton();
         }
-        GameFinished = true;
+        if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            GameFinished = true;
+        }
     }
 
     // Update is called once per frame
@@ -80,7 +86,7 @@ public class UIManager : MonoBehaviour
             //if(Input.GetKeyDown(KeyCode.Escape))
             {
                 //need to check if the game has finished or not.
-                if (!openPauseMenu && GameFinished)
+                if (!openPauseMenu && !GameFinished)
                 {
                     Pause();
                 }
@@ -134,6 +140,16 @@ public class UIManager : MonoBehaviour
             }
 
             #endregion
+        }
+
+
+        if (GameFinished)
+        {
+            m_fTimer += Time.deltaTime;
+            if (m_fTimer >= m_fWaitTime)
+            {
+                refWinPanel.SetActive(true);
+            }
         }
     }
 

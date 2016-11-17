@@ -192,7 +192,8 @@ public class Movement : MonoBehaviour
         #region
         if (other.tag == "Killer")
         {
-            GetComponent<AudioSource>().Play();
+
+
             //ps.gameObject.SetActive(false);
             //this.transform.position = new Vector3(0, -60);
             m_bIsDead = true;
@@ -243,12 +244,6 @@ public class Movement : MonoBehaviour
                 {
                     //HeadCheck(); //check for head collisions
                     PushCheck(); //check to see if still pushed
-
-                    //if (m_bIsKicking)
-                    //{
-                    //    PlayerKick(m_cCharacterController);
-                    //}
-
                     // end of mess
                     if (m_cCharacterController.isGrounded)
                     {
@@ -290,7 +285,7 @@ public class Movement : MonoBehaviour
 
                         case CStates.OnWall:
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
-                            m_fAirBourneTime = 2;
+                            m_fAirBourneTime = 5;
                             if (!m_cCharacterController.isGrounded)
                             {
                                 m_aAnimator.SetBool("IsWallGrab", true);
@@ -644,7 +639,7 @@ public class Movement : MonoBehaviour
                 movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
                 m_aAnimator.SetBool("IsRunning", false);
             }
-            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < -.2)    
+            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < -.2)
             //else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
             {
                 m_aAnimator.SetBool("IsRunning", true);
@@ -907,6 +902,7 @@ public class Movement : MonoBehaviour
 
     public void EmitDeathParticle()
     {
+        GetComponent<AudioSource>().Play();
         ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
         ps.Play();
     }
@@ -917,17 +913,20 @@ public class Movement : MonoBehaviour
     }
 
     void ResetPlayer()
-    { 
+    {
         m_bIsKicking = false;
         m_bIsPushed = false;
         m_bIsStunned = false;
         m_cState = CStates.OnFloor;
-        TheAnimator.SetBool("IsSliding", false);
-        TheAnimator.SetBool("IsRunning", false);
-        TheAnimator.SetBool("IsStunned", false);
-        TheAnimator.SetBool("IsPushing", false);
-        TheAnimator.SetBool("IsDiveKick", false);
-        TheAnimator.SetBool("IsDancing", false);
-        TheAnimator.SetBool("IsWallGrab", false);
+        if (TheAnimator)
+        {
+            TheAnimator.SetBool("IsSliding", false);
+            TheAnimator.SetBool("IsRunning", false);
+            TheAnimator.SetBool("IsStunned", false);
+            TheAnimator.SetBool("IsPushing", false);
+            TheAnimator.SetBool("IsDiveKick", false);
+            TheAnimator.SetBool("IsDancing", false);
+            TheAnimator.SetBool("IsWallGrab", false);
+        }
     }
 }
