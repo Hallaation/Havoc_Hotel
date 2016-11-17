@@ -366,14 +366,6 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += LookForObjects;
-    }
 
-    private void LookForObjects(Scene arg0, LoadSceneMode arg1)
-    {
-        throw new NotImplementedException();
-    }
 }
 
