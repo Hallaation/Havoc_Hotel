@@ -149,6 +149,7 @@ public class UIManager : MonoBehaviour
             if (m_fTimer >= m_fWaitTime)
             {
                 refWinPanel.SetActive(true);
+                GameFinished = false;   
             }
         }
     }
@@ -204,9 +205,9 @@ public class UIManager : MonoBehaviour
         else if (SceneManager.GetActiveScene().buildIndex == 4)
         {
             refQuitPanel.SetActive(true);
+            refWinPanel.SetActive(false);
             GameObject.Find("QuitText").GetComponent<Text>().text = "Are you sure you \nwant to return to main menu ? ";
             EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
-            refWinPanel.SetActive(false);
         }
         else
         {
