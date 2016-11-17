@@ -290,8 +290,7 @@ public class Movement : MonoBehaviour
 
                         case CStates.OnWall:
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
-                            m_aAnimator.SetBool("IsDiveKick", false);
-
+                            m_aAnimator.SetBool("IsWallGrab", true);
                             m_fAirBourneTime = 2;
                             if (!m_cCharacterController.isGrounded)
                             {
@@ -394,7 +393,7 @@ public class Movement : MonoBehaviour
         m_bHitWall = true;
         if (m_bHitWall)                                                                                 // Got rid of math clamp
         {
-            m_aAnimator.SetBool("IsWallGrab", true);
+            //m_aAnimator.SetBool("IsWallGrab", true);
             movementDirection.x = 0;
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
@@ -420,8 +419,6 @@ public class Movement : MonoBehaviour
             //if the movement direction is greater than the max wall slide speed. deduct.
             if (movementDirection.y >= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
             {
-                Debug.Log("This is greater than max speed");
-                Debug.Log(m_fWallSlideSpeed);
                 movementDirection.y -= m_fWallSlidingSpeed * Time.deltaTime;
             }
             //otherwise once it is below the max speed. set its max speed to the maximum specified speed with the overworld speed added onto it.
