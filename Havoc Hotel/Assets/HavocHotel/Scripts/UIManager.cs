@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject refCountDownTimer;
     public GameObject refWinPanel;
+    public PlayerEnabler refPlayerEnabler;
     private BlockController ref_BlockController;
 
     private List<GameObject> m_playerList = new List<GameObject>();
@@ -26,6 +27,8 @@ public class UIManager : MonoBehaviour
 
     private bool m_bResumeGame;
 
+    private bool m_bIsGameFinished;
+
     private float m_fWaitTime = 5.0f;
 
     private float m_fTimer;
@@ -34,6 +37,8 @@ public class UIManager : MonoBehaviour
     public bool GameStarted { get { return m_bGameStarted; } set { m_bGameStarted = value; } }
 
     public bool PlayersInScene { get { return m_PlayersInGameScene; } set { m_PlayersInGameScene = value; } }
+
+    public bool GameFinished { get { return m_bIsGameFinished; } set { m_bIsGameFinished = value; }  }
     // Use this for initialization
     void Start()
     {
@@ -51,6 +56,7 @@ public class UIManager : MonoBehaviour
             m_playerList.Add(item);
         }
 
+        
     }
 
     void Awake()
@@ -60,6 +66,7 @@ public class UIManager : MonoBehaviour
             ref_BlockController = GameObject.Find("Level_Section_Spawner").GetComponent<BlockController>();
             resumePlayButton();
         }
+        GameFinished = true;
     }
 
     // Update is called once per frame
@@ -70,16 +77,17 @@ public class UIManager : MonoBehaviour
             if (Input.GetButtonDown("Cancel"))
             //if(Input.GetKeyDown(KeyCode.Escape))
             {
-                if (!openPauseMenu)
+                //need to check if the game has finished or not.
+                if (!openPauseMenu && GameFinished)
                 {
                     Pause();
                 }
             }
-            
+
 
             if (m_bResumeGame)
             {
-
+                #region
                 refCountDownTimer.GetComponent<Text>().text = ((int)m_fTimer).ToString();
                 m_fTimer += Time.deltaTime;
                 ref_BlockController.m_bIsPaused = false;
@@ -91,9 +99,35 @@ public class UIManager : MonoBehaviour
                 }
                 m_bResumeGame = false;
                 refCountDownTimer.SetActive(false);
+                #endregion
             }
-       }
+        }
+        else
+        {
+            //If the player hasn't pressed start yet, make them "enabled" otherwise if an enabled player presses start the original start menu opens up again and disables all movement.
+            //still doenst check if it is in the game or not.
+            foreach (GameObject item in m_playerList)
+            {
+                //go through each player
+                //check if player if they have started the game or not.
+                //if they have allow them to open the start menu, otherwise dont bother.
+                if (item)
+                {
+                    Movement tempMovement = item.GetComponent<Movement>();
+                    if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && tempMovement.IsPlaying)
+                    {
+                        mainMenuPanel.SetActive(true);
+                        refPlayerEnabler.DisablePlayers();
+                    }
+                    else if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && !tempMovement.IsPlaying)
+                    {
+                        tempMovement.IsPlaying = true;
+                        tempMovement.refPlayerStartText.SetActive(false);
+                    }
+                }
+            }
 
+        }
     }
 
 
@@ -255,10 +289,19 @@ public class UIManager : MonoBehaviour
         EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
     }
 
+    //whenever the "play" button is pressed in the start menu.
     public void CloseMainMenu()
     {
-        m_bGameStarted = true;
         mainMenuPanel.SetActive(false);
+        if (!m_bGameStarted)
+        {
+            refPlayerEnabler.EnablePlayers(m_bGameStarted);
+            m_bGameStarted = true;
+        }
+        else
+        {
+            refPlayerEnabler.EnablePlayers(m_bGameStarted);
+        }
     }
 
     public void ReturnToMainMenu()
