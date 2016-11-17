@@ -300,16 +300,6 @@ public class Movement : MonoBehaviour
                 }
                 #endregion
             }
-            else
-            {
-                if (Input.GetButtonDown(playerNumber + "_Start"))
-                {
-
-                    m_bIsPlaying = true;
-                    //ref_PlayerArray.refPlayers.Add(this);
-                    refPlayerStartText.SetActive(false);
-                }
-            }
         }
 
         if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1)
@@ -820,6 +810,7 @@ public class Movement : MonoBehaviour
         #region 
         if (this)
         {
+            movementDirection = Vector3.zero;
             Time.timeScale = 1;
             //look for references
             if (a_scene.buildIndex == 2)

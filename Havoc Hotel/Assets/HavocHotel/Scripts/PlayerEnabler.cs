@@ -19,14 +19,25 @@ public class PlayerEnabler : MonoBehaviour
 
     }
     
-    public void EnablePlayers()
+    public void EnablePlayers(bool a_hasGameStarted)
     {
         foreach (GameObject item in m_playerList)
         {
-            item.GetComponent<Movement>().refPlayerStartText.SetActive(true);
+            if (!a_hasGameStarted)
+            {
+                item.GetComponent<Movement>().refPlayerStartText.SetActive(true);
+            }
             item.GetComponent<Movement>().m_bGameRunning = true;
         }
 
     }
     
+    public void DisablePlayers()
+    {
+        foreach (GameObject item in m_playerList)
+        {
+            item.GetComponent<Movement>().m_bGameRunning = false;
+        }
+    }
+
 }

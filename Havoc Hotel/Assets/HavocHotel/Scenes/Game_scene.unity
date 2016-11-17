@@ -297,6 +297,11 @@ Prefab:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011004115418, guid: 9b66948df56f16c4292dc84ecc88d93a,
+        type: 2}
+      propertyPath: ref_UIManager
+      value: 
+      objectReference: {fileID: 1369235664}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9b66948df56f16c4292dc84ecc88d93a, type: 2}
   m_IsPrefabParent: 0
@@ -1236,6 +1241,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6a68121d62c88c409c01279883b572c, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1369235664 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000010987213584, guid: f6a68121d62c88c409c01279883b572c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1369235663}
+  m_Script: {fileID: 11500000, guid: 57a05ca987bd3af48a4001fd087707fb, type: 3}
 --- !u!1 &1425456543
 GameObject:
   m_ObjectHideFlags: 0
