@@ -28,6 +28,7 @@ public class PlayerEnabler : MonoBehaviour
                 item.GetComponent<Movement>().refPlayerStartText.SetActive(true);
             }
             item.GetComponent<Movement>().m_bGameRunning = true;
+            item.GetComponent<Movement>().TheAnimator.enabled = true;
         }
 
     }
@@ -37,6 +38,7 @@ public class PlayerEnabler : MonoBehaviour
         foreach (GameObject item in m_playerList)
         {
             item.GetComponent<Movement>().m_bGameRunning = false;
+            item.GetComponent<Movement>().TheAnimator.enabled = false;
         }
     }
 

@@ -104,7 +104,6 @@ public class Movement : MonoBehaviour
     public GameObject ref_KickHitBox;
     private CharacterController m_cCharacterController; //character controller reference
     public BlockController refBlockController; //Block controller reference to know what the world speed is.
-    private bool m_bIsWinner = false;
     public GameObject refPlayerStartText;
     public PlayerTextController ref_PlayerArray; //Now unused. Was used to control the players to "press start" to join. this is now done in the main menu. Should be used show player death messages.
     public GameObject ref_WallHitBox;
@@ -117,7 +116,10 @@ public class Movement : MonoBehaviour
 
     //Animation
     #region
+
     Animator m_aAnimator;
+
+
     public float m_fAnimationSpeed = 1f;
     #endregion
 
@@ -125,7 +127,7 @@ public class Movement : MonoBehaviour
 
     //props
     public bool IsPlaying { get { return m_bIsPlaying; } set { m_bIsPlaying = value; } }
-
+    public Animator TheAnimator { get { return m_aAnimator; } }
     //declaring time related variables
     const int _ROTATION_SPEED = 20; // Not used yet.
     #region
@@ -176,6 +178,7 @@ public class Movement : MonoBehaviour
         m_cCharacterController = GetComponent<CharacterController>();
         m_bIsDead = false;
         m_aAnimator = GetComponentInChildren<Animator>();
+        m_aAnimator.enabled = true;
         //ref_WallHitBox;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -287,11 +290,10 @@ public class Movement : MonoBehaviour
 
                         case CStates.OnWall:
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
-                            m_aAnimator.SetBool("IsDiveKick", false);
-
                             m_fAirBourneTime = 2;
                             if (!m_cCharacterController.isGrounded)
                             {
+                                m_aAnimator.SetBool("IsWallGrab", true);
                                 WallSlide();
                             }
 
@@ -307,10 +309,6 @@ public class Movement : MonoBehaviour
                 #endregion
             }
             #endregion
-        }
-        else
-        {
-            m_aAnimator.enabled = false;
         }
         if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1)
         {
@@ -391,7 +389,7 @@ public class Movement : MonoBehaviour
         m_bHitWall = true;
         if (m_bHitWall)                                                                                 // Got rid of math clamp
         {
-            m_aAnimator.SetBool("IsWallGrab", true);
+            //m_aAnimator.SetBool("IsWallGrab", true);
             movementDirection.x = 0;
             m_bIsKicking = false;
             ref_KickHitBox.SetActive(false);
@@ -417,8 +415,6 @@ public class Movement : MonoBehaviour
             //if the movement direction is greater than the max wall slide speed. deduct.
             if (movementDirection.y >= -(m_fMaxWallSlideSpeed + refBlockController.m_fOverworldSpeed))
             {
-                Debug.Log("This is greater than max speed");
-                Debug.Log(m_fWallSlideSpeed);
                 movementDirection.y -= m_fWallSlidingSpeed * Time.deltaTime;
             }
             //otherwise once it is below the max speed. set its max speed to the maximum specified speed with the overworld speed added onto it.
@@ -648,12 +644,8 @@ public class Movement : MonoBehaviour
                 movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
                 m_aAnimator.SetBool("IsRunning", false);
             }
-            //else if (-Input.GetAxis(playerNumber + "_Horizontal") > 0.5 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.5)
-            //{
-            //    m_aAnimator.SetBool("IsRunning", true);
-            //
-            //}
-            else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
+            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < -.2)    
+            //else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
             {
                 m_aAnimator.SetBool("IsRunning", true);
             }
@@ -673,7 +665,7 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
-            if (-Input.GetAxis(playerNumber + "_Horizontal") < .7 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.7)
+            if (-Input.GetAxis(playerNumber + "_Horizontal") < .8 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.8)
             {
                 m_aAnimator.SetBool("IsSliding", true);
                 m_aAnimator.SetBool("IsRunning", false);
@@ -828,9 +820,9 @@ public class Movement : MonoBehaviour
         #region 
         if (this)
         {
+            ResetPlayer();
             movementDirection = Vector3.zero;
             Time.timeScale = 1;
-            m_cState = CStates.OnFloor;
             //look for references
             if (a_scene.buildIndex == 2)
             {
@@ -843,7 +835,7 @@ public class Movement : MonoBehaviour
 
                 this.m_bIsDead = false;
                 this.IsPlaying = true;
-                m_aAnimator.SetBool("IsDancing", false);
+
 
 
                 if (playerNumber > 3)
@@ -867,6 +859,7 @@ public class Movement : MonoBehaviour
             //look for spawn points to find where to put the player at the win screen.
             if (a_scene.buildIndex == 4)
             {
+                ResetPlayer();
                 if (this)
                 {
                     m_bGameRunning = false;
@@ -916,5 +909,25 @@ public class Movement : MonoBehaviour
     {
         ParticleSystem ps = transform.FindChild("Particle_Death_001").GetComponent<ParticleSystem>();
         ps.Play();
+    }
+
+    public Animator GetAnimator()
+    {
+        return m_aAnimator;
+    }
+
+    void ResetPlayer()
+    { 
+        m_bIsKicking = false;
+        m_bIsPushed = false;
+        m_bIsStunned = false;
+        m_cState = CStates.OnFloor;
+        TheAnimator.SetBool("IsSliding", false);
+        TheAnimator.SetBool("IsRunning", false);
+        TheAnimator.SetBool("IsStunned", false);
+        TheAnimator.SetBool("IsPushing", false);
+        TheAnimator.SetBool("IsDiveKick", false);
+        TheAnimator.SetBool("IsDancing", false);
+        TheAnimator.SetBool("IsWallGrab", false);
     }
 }
