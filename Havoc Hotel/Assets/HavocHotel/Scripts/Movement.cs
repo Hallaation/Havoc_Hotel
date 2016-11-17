@@ -224,9 +224,9 @@ public class Movement : MonoBehaviour
         m_fTimeSinceWallJump += Time.deltaTime;
         if (m_bGameRunning == true)
         {
+            #region If GameRunning
             //begin of mess
-            CharacterController temp = GetComponent<CharacterController>();
-
+            m_aAnimator.enabled = true;
             if (refPlayerStatus)
             {
                 refPlayerStatus.sprite = (m_bIsDead) ? m_sStatusSprites[1] : m_sStatusSprites[0];
@@ -247,7 +247,7 @@ public class Movement : MonoBehaviour
                     //}
 
                     // end of mess
-                    if (temp.isGrounded)
+                    if (m_cCharacterController.isGrounded)
                     {
                         m_fAirBourneTime = 0f;
                     }
@@ -256,7 +256,8 @@ public class Movement : MonoBehaviour
                         case CStates.Stunned:
                             PlayerStun();
                             StunRelease();
-                            temp.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
+                            MovementCalculations();
+                            m_cCharacterController.Move(new Vector3(movementDirection.x * Time.deltaTime, Time.deltaTime * movementDirection.y));
                             break;
 
                         case CStates.OnFloor:
@@ -275,10 +276,10 @@ public class Movement : MonoBehaviour
                             {
                                 m_cState = CStates.OnFloor;
                             }
-                            PlayerKick(temp);
+                            PlayerKick(m_cCharacterController);
                             MovementCalculations();
                             m_fAirBourneTime = 0;
-                            temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                            m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                             break;
 
                         case CStates.OnWall:
@@ -301,8 +302,12 @@ public class Movement : MonoBehaviour
                 }
                 #endregion
             }
+            #endregion
         }
-
+        else
+        {
+            m_aAnimator.enabled = false;
+        }
         if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1)
         {
             m_aAnimator.SetBool("IsPushing", false);
@@ -585,11 +590,11 @@ public class Movement : MonoBehaviour
     void MovementCalculations()
     {
         #region
-        if (m_cCharacterController.isGrounded)
+        if (m_cCharacterController.isGrounded && !m_bIsStunned)
         {
             movementDirection.x += (m_fMoveSpeed * -Input.GetAxis(playerNumber + "_Horizontal")); // Calculates X Movement
         }
-        else
+        else if (!m_bIsStunned)
         {
             movementDirection.x += (m_fMoveSpeed * 0.9f * -Input.GetAxis(playerNumber + "_Horizontal"));
         }
@@ -631,15 +636,16 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
                 m_aAnimator.SetBool("IsRunning", false);
-
-
             }
-            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.2)
+            //else if (-Input.GetAxis(playerNumber + "_Horizontal") > 0.5 || -Input.GetAxis(playerNumber + "_Horizontal") < 0.5)
+            //{
+            //    m_aAnimator.SetBool("IsRunning", true);
+            //
+            //}
+            else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
             {
                 m_aAnimator.SetBool("IsRunning", true);
-
             }
-
             m_aAnimator.SetBool("IsSliding", false);
         }
         else
@@ -656,7 +662,7 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
-            if (-Input.GetAxis(playerNumber + "_Horizontal") < .9 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.9)
+            if (-Input.GetAxis(playerNumber + "_Horizontal") < .5 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.5)
             {
                 m_aAnimator.SetBool("IsSliding", true);
                 m_aAnimator.SetBool("IsRunning", false);
