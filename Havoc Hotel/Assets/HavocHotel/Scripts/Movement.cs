@@ -284,6 +284,7 @@ public class Movement : MonoBehaviour
                             break;
 
                         case CStates.OnWall:
+                            transform.FindChild("Dive_Kick_Particle").GetComponent<ParticleSystem>().Stop();
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             m_fAirBourneTime = 5;
                             if (!m_cCharacterController.isGrounded)
@@ -743,6 +744,7 @@ public class Movement : MonoBehaviour
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
         {
             m_bIsKicking = true;
+            transform.FindChild("Dive_Kick_Particle").GetComponent<ParticleSystem>().Play();
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
@@ -760,9 +762,10 @@ public class Movement : MonoBehaviour
         // m_fMaxFallSpeed = 20f;
         if (m_bIsKicking == true)
         {
-
+            //if kicking for too long, end it. or if on the ground
             if (m_fCurrentKickTime >= m_fMaxKickTime || Temp.isGrounded)
             {
+                transform.FindChild("Dive_Kick_Particle").GetComponent<ParticleSystem>().Stop();
                 m_fMaxFallSpeed = m_fTempFallSpeed;
                 m_fMaxSpeedX = m_fTempMoveSpeedX;
                 m_bIsKicking = false;
