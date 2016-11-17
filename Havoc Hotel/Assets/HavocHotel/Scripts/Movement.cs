@@ -224,9 +224,9 @@ public class Movement : MonoBehaviour
         m_fTimeSinceWallJump += Time.deltaTime;
         if (m_bGameRunning == true)
         {
+            #region If GameRunning
             //begin of mess
-            CharacterController temp = GetComponent<CharacterController>();
-
+            m_aAnimator.enabled = true;
             if (refPlayerStatus)
             {
                 refPlayerStatus.sprite = (m_bIsDead) ? m_sStatusSprites[1] : m_sStatusSprites[0];
@@ -247,7 +247,7 @@ public class Movement : MonoBehaviour
                     //}
 
                     // end of mess
-                    if (temp.isGrounded)
+                    if (m_cCharacterController.isGrounded)
                     {
                         m_fAirBourneTime = 0f;
                     }
@@ -257,7 +257,7 @@ public class Movement : MonoBehaviour
                             PlayerStun();
                             StunRelease();
                             MovementCalculations();
-                            temp.Move(new Vector3(movementDirection.x * Time.deltaTime, Time.deltaTime * movementDirection.y));
+                            m_cCharacterController.Move(new Vector3(movementDirection.x * Time.deltaTime, Time.deltaTime * movementDirection.y));
                             break;
 
                         case CStates.OnFloor:
@@ -276,10 +276,10 @@ public class Movement : MonoBehaviour
                             {
                                 m_cState = CStates.OnFloor;
                             }
-                            PlayerKick(temp);
+                            PlayerKick(m_cCharacterController);
                             MovementCalculations();
                             m_fAirBourneTime = 0;
-                            temp.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
+                            m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
                             break;
 
                         case CStates.OnWall:
@@ -302,8 +302,12 @@ public class Movement : MonoBehaviour
                 }
                 #endregion
             }
+            #endregion
         }
-
+        else
+        {
+            m_aAnimator.enabled = false;
+        }
         if (m_bHasPushed == true && m_fTimeSinceLastPush >= .1)
         {
             m_aAnimator.SetBool("IsPushing", false);
