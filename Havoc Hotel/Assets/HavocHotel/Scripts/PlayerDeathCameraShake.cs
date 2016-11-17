@@ -13,7 +13,8 @@ public class PlayerDeathCameraShake : MonoBehaviour
     public Transform ref_camTransform;
 
     // How long the object should shake for.
-    public float m_fShakeDuration = 0f;
+    public float m_fShakeDuration;
+    private float m_fTimer;
     // Amplitude of the shake. A larger value shakes the camera harder.
     public float m_fShakeAmount = 0.7f;
     public float m_fDecreaseFactor = 1.0f;
@@ -52,7 +53,8 @@ public class PlayerDeathCameraShake : MonoBehaviour
 
     void CameraShake()
     {
-        if (m_fShakeDuration > 0)
+        m_fTimer += Time.deltaTime;
+        if (m_fTimer < m_fShakeDuration)
         {
             ref_camTransform.localPosition = m_vOriginalPos + Random.insideUnitSphere * m_fShakeAmount * Time.deltaTime;
 
@@ -60,7 +62,8 @@ public class PlayerDeathCameraShake : MonoBehaviour
         }
         else
         {
-            m_fShakeDuration = 0f;
+            m_fTimer = 0;
+            m_bShakeCamera = false; 
             ref_camTransform.localPosition = m_vOriginalPos;
         }
     }
