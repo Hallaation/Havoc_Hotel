@@ -11,7 +11,7 @@ public class SpriteWinMove : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        m_vMoveTowards = new Vector3(0.194444444f, 0.05f, 0.31f);
+		m_vMoveTowards = new Vector3(0.183f, 0.05f, 0.31f);
     }
 
     // Update is called once per frame
