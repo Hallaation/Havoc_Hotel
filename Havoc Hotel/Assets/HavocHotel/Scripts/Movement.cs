@@ -111,7 +111,8 @@ public class Movement : MonoBehaviour
     public Sprite[] m_sStatusSprites;
     public Sprite m_sWinSprite;
     public int m_iCounter;
-
+    public GameObject m_gDiveKickTrail;
+    private GameObject m_gTrailObject;
     #endregion
 
     //Animation
@@ -239,7 +240,6 @@ public class Movement : MonoBehaviour
             {
                 #region if IsPlaying
 
-
                 if (!m_bIsDead)
                 {
                     //HeadCheck(); //check for head collisions
@@ -284,7 +284,6 @@ public class Movement : MonoBehaviour
                             break;
 
                         case CStates.OnWall:
-                            transform.FindChild("Dive_Kick_Trail").gameObject.SetActive(false);
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             m_fAirBourneTime = 5;
                             if (!m_cCharacterController.isGrounded)
@@ -743,8 +742,8 @@ public class Movement : MonoBehaviour
         #region
         if (!Temp.isGrounded && Input.GetButtonDown(playerNumber + "_Kick") && m_fTimeSinceLastKick > m_fKickCoolDown && m_bIsKicking == false)
         {
+            m_gTrailObject = Instantiate(m_gDiveKickTrail, this.transform.position, Quaternion.identity, this.transform) as GameObject;
             m_bIsKicking = true;
-            transform.FindChild("Dive_Kick_Trail").gameObject.SetActive(true);
             PlayerTurnAround();
             if (transform.rotation == Quaternion.Euler(0, -90, 0))
             {
@@ -765,7 +764,7 @@ public class Movement : MonoBehaviour
             //if kicking for too long, end it. or if on the ground
             if (m_fCurrentKickTime >= m_fMaxKickTime || Temp.isGrounded)
             {
-                transform.FindChild("Dive_Kick_Trail").gameObject.SetActive(false);
+                DetachTrail();
                 m_fMaxFallSpeed = m_fTempFallSpeed;
                 m_fMaxSpeedX = m_fTempMoveSpeedX;
                 m_bIsKicking = false;
@@ -931,5 +930,12 @@ public class Movement : MonoBehaviour
             TheAnimator.SetBool("IsDancing", false);
             TheAnimator.SetBool("IsWallGrab", false);
         }
+    }
+
+    public void DetachTrail()
+    {
+        GameObject go = new GameObject("Trail parent");
+        m_gTrailObject.transform.SetParent(go.transform);
+        go.AddComponent<TrailDestroyer>();
     }
 }

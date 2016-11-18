@@ -61,7 +61,7 @@ public class CharacterStates : MonoBehaviour
                 Movement hitTemp = other.GetComponent<Movement>();
                 m_refMovement.movementDirection.y = 0;
                 m_refMovement.movementDirection.y += m_refMovement.m_fHeadBounceForce;
-                m_refMovement.transform.FindChild("Dive_Kick_Trail").gameObject.SetActive(false);
+                m_refMovement.DetachTrail();
                 other.GetComponentInParent<Movement>().m_cState = CStates.Stunned;
                 m_refMovement.m_bIsKicking = false;
             }
@@ -93,6 +93,10 @@ public class CharacterStates : MonoBehaviour
             if (other.tag == "Wall" && this.tag == "WallCheck")
             {
                 m_bIsInWall = true;
+                if(m_refMovement.m_bIsKicking)
+                {
+                    m_refMovement.DetachTrail();
+                }
                 m_refMovement.m_cState = CStates.OnWall;
             }
         }
