@@ -937,5 +937,6 @@ public class Movement : MonoBehaviour
         GameObject go = new GameObject("Trail parent");
         m_gTrailObject.transform.SetParent(go.transform);
         go.AddComponent<TrailDestroyer>();
+        go.GetComponent<TrailDestroyer>().m_iPlayerNumber = this.playerNumber;
     }
 }

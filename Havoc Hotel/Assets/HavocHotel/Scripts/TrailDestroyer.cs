@@ -6,6 +6,7 @@ public class TrailDestroyer : MonoBehaviour
 {
 
     TrailRenderer m_tRenderer;
+    public int m_iPlayerNumber;
     // Use this for initialization
     void Start()
     {
@@ -20,7 +21,7 @@ public class TrailDestroyer : MonoBehaviour
         {
             //TrailRenderer temp = transform.FindChild("Dive_Kick_Trail(Clone)").GetComponent<TrailRenderer>();
             //Debug.Log(temp);
-            Destroy(this.transform.gameObject, transform.FindChild("Dive_Kick_Trail(Clone)").GetComponent<TrailRenderer>().time);
+            Destroy(this.transform.gameObject, transform.FindChild("Dive_Kick_Trail_Player00" + (m_iPlayerNumber +1 ) + "(Clone)").GetComponent<TrailRenderer>().time);
         }
         else
         {
