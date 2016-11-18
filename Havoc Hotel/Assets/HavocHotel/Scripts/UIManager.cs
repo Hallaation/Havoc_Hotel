@@ -128,6 +128,7 @@ public class UIManager : MonoBehaviour
                         if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && tempMovement.IsPlaying)
                         {
                             mainMenuPanel.SetActive(true);
+                            GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
                             refPlayerEnabler.DisablePlayers();
                         }
                         else if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && !tempMovement.IsPlaying)
