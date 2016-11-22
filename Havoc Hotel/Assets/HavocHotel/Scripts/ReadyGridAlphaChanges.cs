@@ -22,15 +22,29 @@ public class ReadyGridAlphaChanges : MonoBehaviour
 
     private Color GridBorderColour;
 
-    public Color32 GridColour { get { return m_cGridColour; } set { m_cGridColour = value; } }
+    public Color32 GridColour
+    {
+        get { return m_cGridColour; }
+        set
+        {
+            m_cGridColour.r = value.r;
+            m_cGridColour.g = value.g;
+            m_cGridColour.b = value.b;
+        }
+    }
     void Start()
     {
         m_srGridBorders[0] = (transform.FindChild("Ready_Zone_Grid_Front").GetComponent<SpriteRenderer>());
         m_srGridBorders[1] = (transform.FindChild("Ready_Zone_Grid_Right").GetComponent<SpriteRenderer>());
         m_srGridBorders[2] = (transform.FindChild("Ready_Zone_Grid_Left").GetComponent<SpriteRenderer>());
+        foreach (SpriteRenderer image in m_srGridBorders)
+        {
+            image.color = new Color32(GridColour.r , GridColour.g , GridColour.b , GridColour.a);
+        }
         GridBorderColour = m_srGridBorders[0].color;
         m_bStartFade = true;
         CurrentAlpha = m_byMinAlpha;
+        m_cGridColour = m_cDefaultColor;
     }
     void OnEnable()
     {
