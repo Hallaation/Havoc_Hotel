@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject refCountDownTimer;
     public GameObject refWinPanel;
+    private GameObject refCheatManger;
     public PlayerEnabler refPlayerEnabler;
     private BlockController ref_BlockController;
 
@@ -59,7 +60,10 @@ public class UIManager : MonoBehaviour
         {
             m_playerList.Add(item);
         }
-
+        if (GameObject.Find("CheatManager"))
+        {
+            refCheatManger = GameObject.Find("CheatManager");
+        }
 
     }
 
@@ -216,6 +220,10 @@ public class UIManager : MonoBehaviour
             refQuitPanel.SetActive(true);
             mainMenuPanel.SetActive(false);
             EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
+        }
+        if(refCheatManger)
+        {
+            DestroyImmediate(refCheatManger);
         }
     }
     /// <summary>

@@ -1,19 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
 
 public class CheatCodes : MonoBehaviour
 {
 
     private Text m_tButtonPressed; //replace with the effect you want.
-
+    public AudioClip m_aCheatAudio;
+    public AudioClip m_aOriginalAudio;
     public string[] CheatCode = { "W" , "i" , "l" , "l" }; //the cheat code you want. make this more robust
     private int m_iCheatIndex;
+
+    private bool m_bChangeAudio;
+
     // Use this for initialization
 
     void Start()
     {
-        m_tButtonPressed = GameObject.Find("Cheat_Activated").GetComponent<Text>();
+        DontDestroyOnLoad(this.gameObject);
         m_iCheatIndex = 0;
     }
 
@@ -43,7 +49,30 @@ public class CheatCodes : MonoBehaviour
             }
             else
             {
-                m_tButtonPressed.text = "Cheat Activated";
+                //this is where the cheat activates
+                m_bChangeAudio = true;
+            }
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += LookForObjects;
+    }
+
+    private void LookForObjects(Scene a_scene , LoadSceneMode a_sceneMode)
+    {
+        if (a_scene.buildIndex == 2)
+        {
+            if (m_bChangeAudio)
+            {
+                GameObject.Find("Music").GetComponent<AudioSource>().clip = m_aCheatAudio;
+                GameObject.Find("Music").GetComponent<AudioSource>().Play();
+            }
+            else
+            {
+                GameObject.Find("Music").GetComponent<AudioSource>().clip = m_aOriginalAudio;
+                GameObject.Find("Music").GetComponent<AudioSource>().Play();
             }
         }
     }
