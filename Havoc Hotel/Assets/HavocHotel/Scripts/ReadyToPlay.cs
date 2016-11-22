@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 public class ReadyToPlay : MonoBehaviour
 {
-
+    public Color32 m_cNoPlayers;
+    public Color32 m_cOneMorePlayer;
+    public Color32 m_cReadyToStart;
+    public ReadyGridAlphaChanges refReadyGrid;
     public GameObject refOneMorePlayer;
     public GameObject refreadyToPlay;
     public GameObject refEnterInstruction;
@@ -24,8 +27,10 @@ public class ReadyToPlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //when there is enough players to begin
         if (m_iCounter >= 2 || (Debug.isDebugBuild && m_iCounter >= 1))
         {
+            refReadyGrid.GridColour = m_cReadyToStart;
             refArrowsText.SetActive(false);
             refOneMorePlayer.SetActive(false);
             refEnterInstruction.SetActive(false);
@@ -48,6 +53,7 @@ public class ReadyToPlay : MonoBehaviour
         else if (m_iCounter == 1)
         {
             // refArrowsText.transform.position = new Vector3(refArrowsText.transform.position.x , 7, refArrowsText.transform.position.z);
+            refReadyGrid.GridColour = m_cOneMorePlayer;
             refArrowsText.SetActive(false);
             refOneMorePlayer.SetActive(true);
             refEnterInstruction.SetActive(false);
@@ -55,6 +61,8 @@ public class ReadyToPlay : MonoBehaviour
         }
         else
         {
+            //when there are no players.
+            refReadyGrid.GridColour = m_cNoPlayers;
             refArrowsText.SetActive(true);
             refEnterInstruction.SetActive(true);
             refOneMorePlayer.SetActive(false);
@@ -93,6 +101,15 @@ public class ReadyToPlay : MonoBehaviour
         }
     }
 
+    public void EnableGrid()
+    {
+        if (!refReadyGrid.gameObject.activeSelf)
+        {
+            refReadyGrid.GridColour = m_cOneMorePlayer;
+            refReadyGrid.gameObject.SetActive(true);
+        }
+
+    }
 
 
 }

@@ -1871,6 +1871,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d121ab34b6729459ff82f7cbb98b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_cNoPlayers:
+    serializedVersion: 2
+    rgba: 255
+  m_cOneMorePlayer:
+    serializedVersion: 2
+    rgba: 42239
+  m_cReadyToStart:
+    serializedVersion: 2
+    rgba: 44579
+  refReadyGrid: {fileID: 2119917311}
   refOneMorePlayer: {fileID: 969327314}
   refreadyToPlay: {fileID: 208025997}
   refEnterInstruction: {fileID: 329727788}
@@ -4929,7 +4939,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 700104436}
         m_MethodName: EnablePlayers
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4940,6 +4950,17 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1472170563}
         m_MethodName: CloseMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 700104435}
+        m_MethodName: EnableGrid
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5442,7 +5463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2119917310
 Transform:
   m_ObjectHideFlags: 0
@@ -5470,6 +5491,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0d2936e2f9b4549926561263ad92a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_cDefaultColor:
+    serializedVersion: 2
+    rgba: 255
+  m_byTransitionSpeed: 3
+  m_byMinAlpha: 25
+  m_byMaxAlpha: 155
   FadeTime: 5
   m_fTime: 5
   m_bStartFade: 0
