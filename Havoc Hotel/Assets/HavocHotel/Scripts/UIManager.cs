@@ -156,6 +156,7 @@ public class UIManager : MonoBehaviour
             if (m_fTimer >= m_fWaitTime)
             {
                 refWinPanel.SetActive(true);
+                EventSetSelected(GameObject.Find("EventSystem") , GameObject.Find("RestartButton"));
                 GameFinished = false;
             }
         }
@@ -251,6 +252,7 @@ public class UIManager : MonoBehaviour
         {
             refQuitPanel.SetActive(false);
             refWinPanel.SetActive(true);
+            StartCoroutine(WaitTime());
             EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RestartButton"));
         }
         else
@@ -401,7 +403,7 @@ public class UIManager : MonoBehaviour
     void EventSetSelected(GameObject a_eventSystem, GameObject a_selected)
     {
         a_eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
-        StartCoroutine(WaitForSeconds());
+        StartCoroutine(WaitTime());
         a_eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(a_selected);
     }
 

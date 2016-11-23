@@ -165,6 +165,7 @@ public class Movement : MonoBehaviour
     //txtPlayers[i].text = (refPlayers[i].m_bIsDead) ? txtPlayers[i].text = "Player " + (i + 1) + ": Dead" : txtPlayers[i].text = "Player " + (i + 1) + ":  Alive";
     void Start()
     {
+        m_bIsPlaying = true;
         m_iCounter = 0;
         #region
         m_fTempFallSpeed = m_fMaxFallSpeed;
@@ -933,6 +934,7 @@ public class Movement : MonoBehaviour
         m_bIsKicking = false;
         m_bIsPushed = false;
         m_bIsStunned = false;
+        m_cCharacterController.enabled = true;
         m_cState = CStates.OnFloor;
         if (TheAnimator)
         {
