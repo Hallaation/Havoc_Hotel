@@ -50,20 +50,19 @@ public class PlayerDeathCameraShake : MonoBehaviour
             if (m_fTimer < m_fShakeDuration)
             {
                 ref_camTransform.localPosition = m_vOriginalPos + Random.insideUnitSphere * m_fShakeAmount * Time.deltaTime;
-
-                m_fShakeDuration -= Time.deltaTime * m_fDecreaseFactor;
             }
             else
             {
-                m_fTimer = 0;
                 m_bShakeCamera = false;
                 ref_camTransform.localPosition = m_vOriginalPos;
+                m_fTimer = 0;
             }
         }
         else
         {
             ref_camTransform.localPosition = m_vOriginalPos;
         }
+
     }
 
     void CameraShake()
@@ -75,8 +74,10 @@ public class PlayerDeathCameraShake : MonoBehaviour
     {
         if (a_collider.tag == "Player")
         {
+            a_collider.GetComponent<CharacterController>().enabled = false;
             m_bShakeCamera = true;
         }
+
     }
 
 }
