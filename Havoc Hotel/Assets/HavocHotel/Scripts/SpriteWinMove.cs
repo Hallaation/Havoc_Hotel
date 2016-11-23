@@ -8,10 +8,12 @@ public class SpriteWinMove : MonoBehaviour
     private Vector3 m_vMoveTowards;
 
     public float m_fSpeed;
+    [Range(0.1f, 5.0f)]
+    public float m_fSpeedReduction;
     // Use this for initialization
     void Start()
     {
-		m_vMoveTowards = new Vector3(0.183f, 0.05f, 0.31f);
+		m_vMoveTowards = new Vector3(1.13f, 0.05f, 0.31f);
     }
 
     // Update is called once per frame
@@ -24,6 +26,14 @@ public class SpriteWinMove : MonoBehaviour
         }
         else
         {
+            if (m_fSpeed > 0.2f)
+            {
+                m_fSpeed -= m_fSpeedReduction * Time.deltaTime;
+            }
+            else if (m_fSpeed <= 0.2f)
+            {
+                m_fSpeed = 0.2f;
+            }
             this.transform.localPosition -= new Vector3(m_fSpeed * Time.deltaTime, 0, 0);
         }
     }
