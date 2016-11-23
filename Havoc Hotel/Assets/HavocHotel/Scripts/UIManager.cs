@@ -132,7 +132,8 @@ public class UIManager : MonoBehaviour
                         if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && tempMovement.IsPlaying)
                         {
                             mainMenuPanel.SetActive(true);
-                            GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
+                            GameObject go = GameObject.Find("EventSystem");
+                            GameObject button = GameObject.Find("PlayButton");
                             refPlayerEnabler.DisablePlayers();
                         }
                         else if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && !tempMovement.IsPlaying)
@@ -154,12 +155,15 @@ public class UIManager : MonoBehaviour
             if (m_fTimer >= m_fWaitTime)
             {
                 refWinPanel.SetActive(true);
-                GameFinished = false;   
+                GameFinished = false;
             }
         }
     }
 
-
+    IEnumerator WaitForSeconds()
+    {
+        yield return new WaitForEndOfFrame();
+    }
     public void LoadLevel()
     {
         SceneManager.LoadScene(0); // loads scene with index of zero (can find index of scene with the build settings)
@@ -204,7 +208,7 @@ public class UIManager : MonoBehaviour
             //If this is the game scene, load up the quit panel. close up the pause panel.
             refQuitPanel.SetActive(true);
             GameObject.Find("QuitText").GetComponent<Text>().text = "Are you sure you \nwant to return to main menu ? ";
-            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
+            EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RealQuitButton"));
             refPausePanel.SetActive(false);
         }
         else if (SceneManager.GetActiveScene().buildIndex == 4)
@@ -212,16 +216,17 @@ public class UIManager : MonoBehaviour
             refQuitPanel.SetActive(true);
             refWinPanel.SetActive(false);
             GameObject.Find("QuitText").GetComponent<Text>().text = "Are you sure you \nwant to return to main menu ? ";
-            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
+            EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RealQuitButton"));
+
         }
         else
         {
             //otherwise use the regular quit
             refQuitPanel.SetActive(true);
             mainMenuPanel.SetActive(false);
-            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RealQuitButton"));
+            EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RealQuitButton"));
         }
-        if(refCheatManger)
+        if (refCheatManger)
         {
             DestroyImmediate(refCheatManger);
         }
@@ -239,19 +244,19 @@ public class UIManager : MonoBehaviour
         {
             refQuitPanel.SetActive(false);
             refPausePanel.SetActive(true);
-            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeButton"));
+            EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("ResumeButton"));
         }
         else if (SceneManager.GetActiveScene().buildIndex == 4)
         {
             refQuitPanel.SetActive(false);
             refWinPanel.SetActive(true);
-            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("RestartButton"));
+            EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RestartButton"));
         }
         else
         {
             refQuitPanel.SetActive(false);
             mainMenuPanel.SetActive(true);
-            EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
+            EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("PlayButton"));
         }
 
     }
@@ -306,7 +311,7 @@ public class UIManager : MonoBehaviour
     public void Pause()
     {
         refPausePanel.SetActive(true);
-        GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("ResumeButton"));
+        EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("ResumeButton"));
         openPauseMenu = true;
         GameObject.Find("Music").GetComponent<AudioSource>().Pause();
         ref_BlockController.m_bIsPaused = false;
@@ -349,7 +354,7 @@ public class UIManager : MonoBehaviour
         //  Debug.Log("credits");
         refCreditsPanel.SetActive(true);
         mainMenuPanel.SetActive(false);
-        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("CreditsBackButton"));
+        EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("CreditsBackButton"));
     }
     /// <summary>
     /// used to return to main menu
@@ -359,7 +364,7 @@ public class UIManager : MonoBehaviour
         //  Debug.Log("cradits back");
         refCreditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
-        EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(GameObject.Find("PlayButton"));
+        EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("PlayButton"));
     }
 
     /// <summary>
@@ -392,6 +397,12 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    void EventSetSelected(GameObject a_eventSystem, GameObject a_selected)
+    {
+        a_eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
+        StartCoroutine(WaitForSeconds());
+        a_eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(a_selected);
+    }
 
 }
 
