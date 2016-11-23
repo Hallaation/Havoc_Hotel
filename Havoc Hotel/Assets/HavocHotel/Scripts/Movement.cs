@@ -931,10 +931,13 @@ public class Movement : MonoBehaviour
 
     void ResetPlayer()
     {
+        if (m_cCharacterController)
+        {
+            m_cCharacterController.enabled = true;
+        }
         m_bIsKicking = false;
         m_bIsPushed = false;
         m_bIsStunned = false;
-        m_cCharacterController.enabled = true;
         m_cState = CStates.OnFloor;
         if (TheAnimator)
         {
