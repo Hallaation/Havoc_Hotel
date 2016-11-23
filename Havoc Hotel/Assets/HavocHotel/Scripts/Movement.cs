@@ -321,6 +321,10 @@ public class Movement : MonoBehaviour
     //on floor movement
     void OnFloor()
     {
+      if (  m_aAnimator.GetBool("IsRunning") == false)
+        {
+            m_aAnimator.speed = 1;
+        }
         #region
         //ray cast head up to find if you are hitting something to pull you back down.
 
@@ -638,11 +642,21 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
                 m_aAnimator.SetBool("IsRunning", false);
+                m_aAnimator.speed = 1;
             }
-            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .2 || -Input.GetAxis(playerNumber + "_Horizontal") < -.2)
+            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .1 || -Input.GetAxis(playerNumber + "_Horizontal") < -.1)
             //else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
             {
                 m_aAnimator.SetBool("IsRunning", true);
+                m_aAnimator.speed = movementDirection.x / 10;
+                if (movementDirection.x < 0)
+                {
+                    m_aAnimator.speed = -movementDirection.x * .1f;
+                }
+                else
+                {
+                    m_aAnimator.speed = movementDirection.x * .1f;
+                }
             }
             m_aAnimator.SetBool("IsSliding", false);
         }
@@ -660,11 +674,11 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
-            if (-Input.GetAxis(playerNumber + "_Horizontal") < .8 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.8)
+            if (-Input.GetAxis(playerNumber + "_Horizontal") < .3 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.3)
             {
                 m_aAnimator.SetBool("IsSliding", true);
                 m_aAnimator.SetBool("IsRunning", false);
-
+                m_aAnimator.speed = 1;
             }
 
         }
