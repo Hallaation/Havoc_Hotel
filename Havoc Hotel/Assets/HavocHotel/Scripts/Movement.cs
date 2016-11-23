@@ -580,8 +580,8 @@ public class Movement : MonoBehaviour
                 }
                 if (!HasDoubleJumped && m_bJumpKeyReleased && Input.GetButtonDown(playerNumber + "_Fire")) // if the players jump button is down
                 {
-                    transform.FindChild("Particle_Right_001").GetComponent<ParticleSystem>().Play();
-                    transform.FindChild("Particle_Left_001").GetComponent<ParticleSystem>().Play();
+                    //transform.FindChild("Particle_Right_001").GetComponent<ParticleSystem>().Play();
+                    transform.FindChild("Particle_Boost_001").GetComponent<ParticleSystem>().Play();
                     movementDirection.y = m_fDoubleJumpMoveForce;
 
                     HasDoubleJumped = true;
