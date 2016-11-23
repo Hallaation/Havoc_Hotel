@@ -1771,6 +1771,16 @@ Prefab:
       propertyPath: ColorModule.gradient.maxGradient.key0.rgba
       value: 4289785343
       objectReference: {fileID: 0}
+    - target: {fileID: 198000014233252944, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: lengthInSec
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198000014233252944, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: InitialModule.maxNumParticles
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
   m_IsPrefabParent: 0
@@ -4153,12 +4163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_aCheatAudio: {fileID: 8300000, guid: d1c547858f77b064597bb418316aaa90, type: 3}
   m_aOriginalAudio: {fileID: 8300000, guid: c36807aef5264894b9b18f8e4e3dfc2f, type: 3}
-  CheatCode:
-  - k
-  - a
-  - p
-  - p
-  - a
+  CheatCode: 00000000000000000000
 --- !u!4 &1493414605
 Transform:
   m_ObjectHideFlags: 0
