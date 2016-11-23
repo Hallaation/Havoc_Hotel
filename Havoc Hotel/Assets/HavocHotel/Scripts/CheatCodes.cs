@@ -10,7 +10,7 @@ public class CheatCodes : MonoBehaviour
     private Text m_tButtonPressed; //replace with the effect you want.
     public AudioClip m_aCheatAudio;
     public AudioClip m_aOriginalAudio;
-    public string[] CheatCode = { "W" , "i" , "l" , "l" }; //the cheat code you want. make this more robust
+    public char[] CheatCode = { 'W' , 'i' , 'l' , 'l' }; //the cheat code you want. make this more robust
     private int m_iCheatIndex;
 
     private bool m_bChangeAudio;
@@ -38,7 +38,7 @@ public class CheatCodes : MonoBehaviour
         {
             if (m_iCheatIndex != (CheatCode.Length - 1))
             {
-                if (Input.inputString.ToLower() == CheatCode[m_iCheatIndex])
+                if (Input.inputString == CheatCode[m_iCheatIndex].ToString())
                 {
                     m_iCheatIndex++;
                 }
