@@ -134,6 +134,7 @@ public class UIManager : MonoBehaviour
                             mainMenuPanel.SetActive(true);
                             GameObject go = GameObject.Find("EventSystem");
                             GameObject button = GameObject.Find("PlayButton");
+                            EventSetSelected(go, button);
                             refPlayerEnabler.DisablePlayers();
                         }
                         else if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && !tempMovement.IsPlaying)
