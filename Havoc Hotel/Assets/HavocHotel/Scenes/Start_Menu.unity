@@ -164,7 +164,6 @@ GameObject:
   - 4: {fileID: 13470126}
   - 65: {fileID: 13470129}
   - 54: {fileID: 13470128}
-  - 114: {fileID: 13470127}
   m_Layer: 0
   m_Name: Back_Wall_Collider
   m_TagString: Level
@@ -186,18 +185,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1149473246}
   m_RootOrder: 2
---- !u!114 &13470127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114000012518774304, guid: 9e33e9dc4752c2e4cb138eeff06c2a78,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 13470125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &13470128
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -616,6 +603,11 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
+    - target: {fileID: 198000013512522014, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.key2.rgba
+      value: 2855167
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
   m_IsPrefabParent: 0
@@ -850,6 +842,11 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
+    - target: {fileID: 198000014103580882, guid: e95f0347379baa24584537374e7c861c,
+        type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.key2.rgba
+      value: 2743599
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
   m_IsPrefabParent: 0
@@ -2392,6 +2389,11 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
+    - target: {fileID: 198000011783634344, guid: 59992f00f53d7f04598978d0ed7a1cbe,
+        type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.ctime2
+      value: 26214
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
   m_IsPrefabParent: 0
@@ -4064,6 +4066,11 @@ Prefab:
       propertyPath: refBlockController
       value: 
       objectReference: {fileID: 1465540402}
+    - target: {fileID: 198000011435102180, guid: ad6f421983ce87041b4e9fdd86018b0e,
+        type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.key2.rgba
+      value: 6552055
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
   m_IsPrefabParent: 0
