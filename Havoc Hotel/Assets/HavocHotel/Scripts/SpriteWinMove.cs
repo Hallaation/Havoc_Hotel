@@ -5,8 +5,7 @@ public class SpriteWinMove : MonoBehaviour
 {
 
 
-    private Vector3 m_vMoveTowards;
-
+    public Vector3 m_vMoveTowards;
     public float m_fSpeed;
     [Range(0.1f, 5.0f)]
     public float m_fSpeedReduction;
