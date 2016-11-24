@@ -240,7 +240,7 @@ public class Movement : MonoBehaviour
             if (m_bIsPlaying)
             {
                 #region if IsPlaying
-
+                m_aAnimator.speed = 1;
                 if (!m_bIsDead)
                 {
                     //HeadCheck(); //check for head collisions
@@ -343,7 +343,7 @@ public class Movement : MonoBehaviour
 
         m_fJumpTimer += Time.deltaTime;
         timer += Time.deltaTime;
-        MovementCalculations();
+        MovementCalculations();             // movement
         m_cCharacterController.Move(new Vector3(Time.deltaTime * movementDirection.x * m_fMoveSpeed, Time.deltaTime * movementDirection.y));
 
         ref_KickHitBox.SetActive(false);
@@ -639,17 +639,23 @@ public class Movement : MonoBehaviour
 
         if (movementDirection.x > -8f && movementDirection.x < 8f)
         {
-            if (movementDirection.x > -0.26f && movementDirection.x < 0.26f)
+            if (Input.GetAxis(playerNumber + "_Horizontal") < .1 && Input.GetAxis(playerNumber + "_Horizontal") > -.1)  // if stick isnt being used.
             {
-                movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
-                m_aAnimator.SetBool("IsRunning", false);
-                m_aAnimator.speed = 1;
+                if (movementDirection.x > -0.42f && movementDirection.x < 0.42f)
+                {
+                    Debug.Log(Input.GetAxis(playerNumber + "_Horizontal"));
+
+                    movementDirection.x = 0.0f;                 // if momemntum within a range of .26 set it to 0;
+                    m_aAnimator.SetBool("IsRunning", false);
+                    m_aAnimator.speed = 1;
+
+                }
             }
-            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .1 || -Input.GetAxis(playerNumber + "_Horizontal") < -.1)
+            else if (-Input.GetAxis(playerNumber + "_Horizontal") > .1 || -Input.GetAxis(playerNumber + "_Horizontal") < -.1) // if stick is being used.
             //else if (movementDirection.x < -1.26f || movementDirection.x > 1.26f)
             {
                 m_aAnimator.SetBool("IsRunning", true);
-                m_aAnimator.speed = movementDirection.x / 10;
+                //m_aAnimator.speed = movementDirection.x / 10;
                 if (movementDirection.x < 0)
                 {
                     m_aAnimator.speed = -movementDirection.x * .1f;
@@ -675,13 +681,17 @@ public class Movement : MonoBehaviour
             {
                 movementDirection.x = -m_fMaxSpeedX;                   // Max speed settings
             }
-            if (-Input.GetAxis(playerNumber + "_Horizontal") < .3 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.3)
+            if (-Input.GetAxis(playerNumber + "_Horizontal") < .1 && -Input.GetAxis(playerNumber + "_Horizontal") > -0.1)
             {
                 m_aAnimator.SetBool("IsSliding", true);
                 m_aAnimator.SetBool("IsRunning", false);
                 m_aAnimator.speed = 1;
             }
 
+        }
+        if (m_aAnimator.GetBool("IsRunning") == false)
+        {
+            m_aAnimator.speed = 1;
         }
         #endregion
     }
@@ -694,12 +704,12 @@ public class Movement : MonoBehaviour
         #region
         if (m_bGameRunning)
         {
-            if (Input.GetAxis(playerNumber + "_Horizontal") > 0.5)
+            if (Input.GetAxis(playerNumber + "_Horizontal") > 0.3)
             {
                 //x y z
                 transform.rotation = Quaternion.Euler(0, -90, 0);
             }
-            else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.7)
+            else if (Input.GetAxis(playerNumber + "_Horizontal") < -0.3)
             {
                 transform.rotation = Quaternion.Euler(0, 90, 0);
             }

@@ -611,7 +611,7 @@ Prefab:
     - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
         type: 2}
       propertyPath: playerNumber
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
@@ -851,11 +851,6 @@ Prefab:
         type: 2}
       propertyPath: ColorModule.gradient.maxGradient.key2.rgba
       value: 2743599
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000011023843160, guid: e95f0347379baa24584537374e7c861c,
-        type: 2}
-      propertyPath: playerNumber
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e95f0347379baa24584537374e7c861c, type: 2}
@@ -2404,11 +2399,6 @@ Prefab:
       propertyPath: ColorModule.gradient.maxGradient.ctime2
       value: 26214
       objectReference: {fileID: 0}
-    - target: {fileID: 114000013705924112, guid: 59992f00f53d7f04598978d0ed7a1cbe,
-        type: 2}
-      propertyPath: playerNumber
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59992f00f53d7f04598978d0ed7a1cbe, type: 2}
   m_IsPrefabParent: 0
@@ -2945,6 +2935,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_gObjectToFollow: {fileID: 0}
   m_fDistanceSlider: 8.6
+  m_fUpDistance: 0
+  m_fHorizontalDistance: 0
+  m_fXTilt: 0
   m_bLookAt: 0
 --- !u!1 &843489253
 GameObject:
@@ -4085,11 +4078,6 @@ Prefab:
         type: 2}
       propertyPath: ColorModule.gradient.maxGradient.key2.rgba
       value: 6552055
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010501399198, guid: ad6f421983ce87041b4e9fdd86018b0e,
-        type: 2}
-      propertyPath: playerNumber
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad6f421983ce87041b4e9fdd86018b0e, type: 2}
