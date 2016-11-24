@@ -5,16 +5,14 @@ public class SpriteWinMove : MonoBehaviour
 {
 
 
-    private Vector3 m_vMoveTowards;
-
-    public float m_fSpeed;
+    public Vector3 m_vMoveTowards = new Vector3();
+    public float m_fAcceleration;
     [Range(0.1f, 5.0f)]
     public float m_fSpeedReduction;
     // Use this for initialization
     void Start()
     {
-		m_vMoveTowards = new Vector3(2.0f, 0.05f, 0.31f);
-        GetComponent<Rigidbody>().AddRelativeForce(new Vector3(-290, 0), ForceMode.Acceleration);
+        GetComponent<Rigidbody>().AddRelativeForce(new Vector3(-m_fAcceleration, 0), ForceMode.Acceleration);
     }
 
     // Update is called once per frame
