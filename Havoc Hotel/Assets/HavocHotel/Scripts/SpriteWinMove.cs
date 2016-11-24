@@ -13,7 +13,7 @@ public class SpriteWinMove : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-		m_vMoveTowards = new Vector3(1.13f, 0.05f, 0.31f);
+		m_vMoveTowards = new Vector3(2.0f, 0.05f, 0.31f);
         GetComponent<Rigidbody>().AddRelativeForce(new Vector3(-290, 0), ForceMode.Acceleration);
     }
 
