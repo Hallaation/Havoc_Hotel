@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraFollow : MonoBehaviour
 {
     public GameObject m_gObjectToFollow;
-    [Range(2.0f , 50.0f)]
+    [Range(0f , 50.0f)]
     public float m_fDistanceSlider;
 
     [Range(-10.0f , 10.0f)]
@@ -16,6 +16,9 @@ public class CameraFollow : MonoBehaviour
     [Range(-180 , 180)]
     public float m_fXTilt;
 
+
+    [Range(-180, 180)]
+    public float m_fYTilt;
     public bool m_bLookAt;
     private GameObject oldPosition;
     // Use this for initialization
@@ -38,7 +41,7 @@ public class CameraFollow : MonoBehaviour
             {
                 this.transform.rotation = Quaternion.Euler(new Vector3(0 , 180 , 0));
                 this.transform.position = new Vector3(m_gObjectToFollow.transform.position.x + m_fHorizontalDistance , m_gObjectToFollow.transform.position.y + m_fUpDistance , m_gObjectToFollow.transform.position.z + m_fDistanceSlider);
-                this.transform.localRotation = Quaternion.Euler(new Vector3(m_fXTilt , 180));
+                this.transform.localRotation = Quaternion.Euler(new Vector3(m_fXTilt , m_fYTilt));
             }
         }
         else
