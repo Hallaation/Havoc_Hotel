@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System;
 
 public class UIManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class UIManager : MonoBehaviour
     private GameObject refCheatManger;
     public PlayerEnabler refPlayerEnabler;
     private BlockController ref_BlockController;
-
+    private GameObject m_gLastSelctedObject;
     private List<GameObject> m_playerList = new List<GameObject>();
 
     private bool openPauseMenu; //bool to determin weather or not quit() was called from the pause menu or not
@@ -56,10 +57,15 @@ public class UIManager : MonoBehaviour
         {
             GameFinished = true;
         }
+        if(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            m_gLastSelctedObject = GameObject.Find("PlayButton");
+        }
         foreach (GameObject item in GameObject.FindGameObjectsWithTag("Player"))
         {
             m_playerList.Add(item);
         }
+
         if (GameObject.Find("CheatManager"))
         {
             refCheatManger = GameObject.Find("CheatManager");
@@ -84,6 +90,14 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameObject.Find("EventSystem").GetComponent<EventSystem>().currentSelectedGameObject == null)
+        {
+            EventSetSelected(GameObject.Find("EventSystem"), m_gLastSelctedObject);
+        }
+        else
+        {
+            m_gLastSelctedObject = (GameObject.Find("EventSystem").GetComponent<EventSystem>().currentSelectedGameObject);
+        }
         if (GameStarted && m_PlayersInGameScene)
         {
             if (Input.GetButtonDown("Cancel"))
@@ -95,8 +109,6 @@ public class UIManager : MonoBehaviour
                     Pause();
                 }
             }
-
-
             if (m_bResumeGame)
             {
                 #region
@@ -131,6 +143,8 @@ public class UIManager : MonoBehaviour
                     {
                         if (Input.GetButtonDown(tempMovement.playerNumber + "_Start") && tempMovement.IsPlaying)
                         {
+                            //open up the menu.
+                            m_gLastSelctedObject = GameObject.Find("PlayButton");
                             mainMenuPanel.SetActive(true);
                             GameObject go = GameObject.Find("EventSystem");
                             GameObject button = GameObject.Find("PlayButton");
@@ -156,10 +170,11 @@ public class UIManager : MonoBehaviour
             if (m_fTimer >= m_fWaitTime)
             {
                 refWinPanel.SetActive(true);
-                EventSetSelected(GameObject.Find("EventSystem") , GameObject.Find("RestartButton"));
+                EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RestartButton"));
                 GameFinished = false;
             }
         }
+
     }
 
     IEnumerator WaitForSeconds()
@@ -210,6 +225,7 @@ public class UIManager : MonoBehaviour
             //If this is the game scene, load up the quit panel. close up the pause panel.
             refQuitPanel.SetActive(true);
             GameObject.Find("QuitText").GetComponent<Text>().text = "Are you sure you \nwant to return to main menu ? ";
+            m_gLastSelctedObject = GameObject.Find("RealQuitButton");
             EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RealQuitButton"));
             refPausePanel.SetActive(false);
         }
@@ -218,6 +234,7 @@ public class UIManager : MonoBehaviour
             refQuitPanel.SetActive(true);
             refWinPanel.SetActive(false);
             GameObject.Find("QuitText").GetComponent<Text>().text = "Are you sure you \nwant to return to main menu ? ";
+            m_gLastSelctedObject = GameObject.Find("RealQuitButton");
             EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RealQuitButton"));
 
         }
@@ -226,6 +243,7 @@ public class UIManager : MonoBehaviour
             //otherwise use the regular quit
             refQuitPanel.SetActive(true);
             mainMenuPanel.SetActive(false);
+            m_gLastSelctedObject = GameObject.Find("RealQuitButton");
             EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RealQuitButton"));
         }
         if (refCheatManger)
@@ -246,6 +264,7 @@ public class UIManager : MonoBehaviour
         {
             refQuitPanel.SetActive(false);
             refPausePanel.SetActive(true);
+            m_gLastSelctedObject = GameObject.Find("ResumeButton");
             EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("ResumeButton"));
         }
         else if (SceneManager.GetActiveScene().buildIndex == 4)
@@ -253,12 +272,14 @@ public class UIManager : MonoBehaviour
             refQuitPanel.SetActive(false);
             refWinPanel.SetActive(true);
             StartCoroutine(WaitTime());
+            m_gLastSelctedObject = GameObject.Find("RestartButton");
             EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("RestartButton"));
         }
         else
         {
             refQuitPanel.SetActive(false);
             mainMenuPanel.SetActive(true);
+            m_gLastSelctedObject = GameObject.Find("PlayButton");
             EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("PlayButton"));
         }
 
@@ -314,6 +335,7 @@ public class UIManager : MonoBehaviour
     public void Pause()
     {
         refPausePanel.SetActive(true);
+        m_gLastSelctedObject = GameObject.Find("ResumeButton");
         EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("ResumeButton"));
         openPauseMenu = true;
         GameObject.Find("Music").GetComponent<AudioSource>().Pause();
@@ -357,6 +379,7 @@ public class UIManager : MonoBehaviour
         //  Debug.Log("credits");
         refCreditsPanel.SetActive(true);
         mainMenuPanel.SetActive(false);
+        m_gLastSelctedObject = GameObject.Find("CreditsBackButton");
         EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("CreditsBackButton"));
     }
     /// <summary>
@@ -367,6 +390,7 @@ public class UIManager : MonoBehaviour
         //  Debug.Log("cradits back");
         refCreditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
+        m_gLastSelctedObject = GameObject.Find("PlayButton");
         EventSetSelected(GameObject.Find("EventSystem"), GameObject.Find("PlayButton"));
     }
 
