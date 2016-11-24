@@ -608,6 +608,11 @@ Prefab:
       propertyPath: ColorModule.gradient.maxGradient.key2.rgba
       value: 2855167
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012768628688, guid: 5d23d997bda77b54a9c845682cba850c,
+        type: 2}
+      propertyPath: playerNumber
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d23d997bda77b54a9c845682cba850c, type: 2}
   m_IsPrefabParent: 0
@@ -2930,6 +2935,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_gObjectToFollow: {fileID: 0}
   m_fDistanceSlider: 8.6
+  m_fUpDistance: 0
+  m_fHorizontalDistance: 0
+  m_fXTilt: 0
   m_bLookAt: 0
 --- !u!1 &843489253
 GameObject:
