@@ -270,6 +270,10 @@ public class Movement : MonoBehaviour
                             {
                                 Push();
                             }
+                            if(m_bIsStunned)
+                            {
+                                PlayerStun();
+                            }
                             break;
 
                         case CStates.Kicking:
@@ -287,7 +291,10 @@ public class Movement : MonoBehaviour
                         case CStates.OnWall:
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             m_fAirBourneTime = 5;
-
+                            if (m_bIsStunned)
+                            {
+                                PlayerStun();
+                            }
                             if (!m_cCharacterController.isGrounded)
                             {
                                 m_aAnimator.SetBool("IsWallGrab", true);
