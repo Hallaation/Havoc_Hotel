@@ -323,6 +323,7 @@ public class UIManager : MonoBehaviour
         GameObject[] PlayerGos = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in PlayerGos)
         {
+            player.GetComponent<CharacterController>().enabled = true;
             player.GetComponent<Movement>().m_bIsDead = false;
             player.gameObject.SetActive(true);
         }

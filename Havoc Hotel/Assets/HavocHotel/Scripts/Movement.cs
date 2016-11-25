@@ -884,6 +884,10 @@ public class Movement : MonoBehaviour
                 ResetPlayer();
                 if (this)
                 {
+                    if(m_gTrailObject)
+                    {
+                        DetachTrail();
+                    }
                     m_bGameRunning = false;
                     if (!m_bIsDead)
                     {
