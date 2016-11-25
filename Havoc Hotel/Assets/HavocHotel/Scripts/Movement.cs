@@ -287,25 +287,20 @@ public class Movement : MonoBehaviour
                         case CStates.OnWall:
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             m_fAirBourneTime = 5;
-                            if (!m_bIsStunned)
-                            {
-                                if (!m_cCharacterController.isGrounded)
-                                {
-                                    m_aAnimator.SetBool("IsWallGrab", true);
-                                    WallSlide();
-                                }
 
-                                else if (m_cCharacterController.isGrounded)
-                                {
-
-                                    OnFloor();
-                                }
-                            }
-                            else
+                            if (!m_cCharacterController.isGrounded)
                             {
-                                StunRelease();
+                                m_aAnimator.SetBool("IsWallGrab", true);
+                                WallSlide(m_bIsStunned);
                             }
-                                break;
+
+                            else if (m_cCharacterController.isGrounded)
+                            {
+
+                                OnFloor();
+                            }
+
+                            break;
 
                     }
 
@@ -330,7 +325,7 @@ public class Movement : MonoBehaviour
     //on floor movement
     void OnFloor()
     {
-      if (  m_aAnimator.GetBool("IsRunning") == false)
+        if (m_aAnimator.GetBool("IsRunning") == false)
         {
             m_aAnimator.speed = 1;
         }
@@ -391,7 +386,7 @@ public class Movement : MonoBehaviour
     }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     //If the wall is hit, the character will slide slowly on the wall.
-    public void WallSlide()
+    public void WallSlide(bool a_isStunned)
     {
         #region
         m_bHitWall = true;
@@ -411,9 +406,11 @@ public class Movement : MonoBehaviour
             //    m_fWallSlideSpeed = -(refBlockController.m_fOverworldSpeed + m_fMaxWallSlideSpeed);
             //}
             //short delay when moving away from wall
-
-            bool horizontalActive = Input.GetAxis(playerNumber + "_Horizontal") != 0;
-            m_fButtonTimer += 0.05f * System.Convert.ToByte(horizontalActive);
+         
+            if(Input.GetAxis(playerNumber + "_Horizontal") != 0 && !a_isStunned)
+            {
+                m_fButtonTimer += 0.05f;
+            }
 
             if (m_fButtonTimer >= m_fTurnDelay)
             {
@@ -432,9 +429,14 @@ public class Movement : MonoBehaviour
             }
             m_cCharacterController.Move(new Vector3(0, Time.deltaTime * movementDirection.y));
 
-            if (Input.GetButtonDown(playerNumber + "_Fire"))
+
+            if (Input.GetButtonDown(playerNumber + "_Fire") && !a_isStunned)
             {
                 WallJump();
+            }
+            else if (Input.GetButtonDown(playerNumber + "_Fire") && !a_isStunned)
+            {
+                StunRelease();
             }
         }
 
@@ -893,7 +895,7 @@ public class Movement : MonoBehaviour
                 ResetPlayer();
                 if (this)
                 {
-                    if(m_gTrailObject)
+                    if (m_gTrailObject)
                     {
                         DetachTrail();
                     }
