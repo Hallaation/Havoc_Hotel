@@ -861,7 +861,6 @@ public class Movement : MonoBehaviour
                 this.IsPlaying = true;
 
 
-
                 if (playerNumber > 3)
                 {
                     this.transform.position = GameObject.Find("Player4_Spawn").transform.position;
@@ -875,9 +874,11 @@ public class Movement : MonoBehaviour
                     refPlayerStatus = GameObject.Find("Player" + (playerNumber + 1) + "_Status").GetComponent<SpriteRenderer>();
                 }
 
-
+                ResetPlayer();
                 GameObject.Find("UIManager").GetComponent<UIManager>().PlayersInScene = true;
                 GameObject.Find("UIManager").GetComponent<UIManager>().GameStarted = true;
+                m_cCharacterController.enabled = true;
+                m_bIsDead = false;
                 //m_aAnimator.SetBool("IsDancing", false);
             }
             //look for spawn points to find where to put the player at the win screen.
@@ -945,7 +946,7 @@ public class Movement : MonoBehaviour
         return m_aAnimator;
     }
 
-    void ResetPlayer()
+    public void ResetPlayer()
     {
         if (m_cCharacterController)
         {
