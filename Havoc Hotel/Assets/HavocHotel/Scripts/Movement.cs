@@ -272,7 +272,12 @@ public class Movement : MonoBehaviour
                             }
                             if(m_bIsStunned)
                             {
+                                transform.FindChild("Birdies_Flying_001").gameObject.SetActive(true);
                                 PlayerStun();
+                            }
+                            else
+                            {
+                                transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             }
                             break;
 
@@ -289,11 +294,15 @@ public class Movement : MonoBehaviour
                             break;
 
                         case CStates.OnWall:
-                            transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             m_fAirBourneTime = 5;
                             if (m_bIsStunned)
                             {
+                                transform.FindChild("Birdies_Flying_001").gameObject.SetActive(true);
                                 PlayerStun();
+                            }
+                            else
+                            {
+                                transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             }
                             if (!m_cCharacterController.isGrounded)
                             {
@@ -562,19 +571,21 @@ public class Movement : MonoBehaviour
             HasJumped = false;
             HasDoubleJumped = false;
             m_bShortHop = false;
-
-            if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
+            if (!m_bIsStunned)
             {
+                if (!HasJumped && Input.GetButtonDown(playerNumber + "_Fire"))// if the players jump button is down
+                {
 
-                movementDirection.y = m_fJumpForce;
+                    movementDirection.y = m_fJumpForce;
 
 
-                m_fJumpTimer = 0.0f;
-                m_fTimeSinceJump = 0f;
-                m_fAirBourneTime = m_fGroundBuffer + 1f;
-                HasJumped = true;
-                m_aAnimator.SetBool("IsJumping", true);
+                    m_fJumpTimer = 0.0f;
+                    m_fTimeSinceJump = 0f;
+                    m_fAirBourneTime = m_fGroundBuffer + 1f;
+                    HasJumped = true;
+                    m_aAnimator.SetBool("IsJumping", true);
 
+                }
             }
         }
 
