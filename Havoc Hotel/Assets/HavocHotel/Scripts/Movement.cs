@@ -224,7 +224,10 @@ public class Movement : MonoBehaviour
     //Lincoln's messy code
     void Update()
     {
-
+        if (!m_bIsStunned)
+        {
+            m_iQuickRelease = 0;
+        }
         //refPlayerStatus.sprite = mySprites[m_iCounter];
         #region
         m_fTimeSinceWallJump += Time.deltaTime;
@@ -348,6 +351,10 @@ public class Movement : MonoBehaviour
         #region
         //ray cast head up to find if you are hitting something to pull you back down.
 
+        if(m_bIsStunned)
+        {
+            StunRelease();
+        }
         m_fTimeSinceLastKick += Time.deltaTime;
         m_fCurrentKickTime = 0;
         PlayerTurnAround();
@@ -450,7 +457,7 @@ public class Movement : MonoBehaviour
             {
                 WallJump();
             }
-            else if (Input.GetButtonDown(playerNumber + "_Fire") && !a_isStunned)
+            else if (a_isStunned)
             {
                 StunRelease();
             }
