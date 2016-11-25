@@ -287,19 +287,26 @@ public class Movement : MonoBehaviour
                         case CStates.OnWall:
                             transform.FindChild("Birdies_Flying_001").gameObject.SetActive(false);
                             m_fAirBourneTime = 5;
-                            StunRelease();
-                            if (!m_cCharacterController.isGrounded)
+                            if (!m_bIsStunned)
                             {
-                                m_aAnimator.SetBool("IsWallGrab", true);
-                                WallSlide();
-                            }
+                                if (!m_cCharacterController.isGrounded)
+                                {
+                                    m_aAnimator.SetBool("IsWallGrab", true);
+                                    WallSlide();
+                                }
 
-                            else if (m_cCharacterController.isGrounded)
+                                else if (m_cCharacterController.isGrounded)
+                                {
+
+                                    OnFloor();
+                                }
+                            }
+                            else
                             {
-
-                                OnFloor();
+                                StunRelease();
                             }
-                            break;
+                                break;
+
                     }
 
                 }
@@ -955,6 +962,8 @@ public class Movement : MonoBehaviour
         m_bIsPushed = false;
         m_bIsStunned = false;
         m_cState = CStates.OnFloor;
+        m_aAnimator.speed = 1;
+        Time.timeScale = 1;
         if (TheAnimator)
         {
             TheAnimator.SetBool("IsSliding", false);
