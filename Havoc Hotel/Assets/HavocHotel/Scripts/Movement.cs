@@ -188,6 +188,11 @@ public class Movement : MonoBehaviour
 
         #endregion
     }
+
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
     //-------------------------------------------------------------------------------------------------------------------------------------//
     void OnTriggerEnter(Collider other)
     {
